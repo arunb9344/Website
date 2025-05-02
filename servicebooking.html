@@ -133,7 +133,6 @@
                             <option value="Only Mobile View Issue">Only Mobile View Issue</option>
                             <option value="Display & Monitor both View Issue">Display & Monitor both View Issue</option>
                             <option value="Cameras Blur">Cameras Blur</option>
-                            <option value="Cameras Blur">Other</option>
                         </select>
                     </div>
                     <!-- Comments -->
@@ -143,8 +142,9 @@
                     </div>
                     <!-- Attach Photo -->
                     <div class="mb-4">
-                        <label for="photo" class="block text-sm font-medium text-blue-600">Attach Photo of Issue</label>
+                        <label for="photo" class="block text-sm font-medium text-blue-600">Attach Photo of Issue (PNG/JPEG, max 10MB)</label>
                         <input type="file" id="photo" name="photo" accept="image/png,image/jpeg" class="w-full p-2 border border-gray-300 rounded" aria-label="Attach Photo of Issue">
+                        <p id="photo-error" class="text-red-600 text-sm mt-1 hidden">Please upload a PNG or JPEG image smaller than 10MB.</p>
                     </div>
                     <!-- Submit Button -->
                     <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">Submit Request</button>
@@ -162,10 +162,17 @@
         </div>
     </div>
 
+    <!-- WhatsApp Widget -->
+    <div class="fixed bottom-4 right-4 z-20">
+        <a href="https://wa.me/9962835944" target="_blank">
+            <img src="/images/whatsapp.svg" alt="WhatsApp" class="w-12 h-12 md:w-16 md:h-16">
+        </a>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-6">
         <div class="container mx-auto px-4 text-center">
-            <p class="text-sm md:text-base">© 2025 Eye Tech Securities. All rights reserved.</p>
+            <p>© 2025 Eye Tech Securities. All rights reserved.</p>
         </div>
     </footer>
 
@@ -179,35 +186,49 @@
         const modal = document.getElementById('response-modal');
         const responseMessage = document.getElementById('response-message');
         const closeModal = document.getElementById('close-modal');
+        const photoInput = document.getElementById('photo');
+        const photoError = document.getElementById('photo-error');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(form);
             const customerType = formData.get('customer_type');
+            const file = photoInput.files[0];
+
+            // Validate file
+            if (file) {
+                const maxSize = 10 * 1024 * 1024; // 10MB
+                const validTypes = ['image/png', 'image/jpeg'];
+                if (!validTypes.includes(file.type) || file.size > maxSize) {
+                    photoError.classList.remove('hidden');
+                    return;
+                }
+                photoError.classList.add('hidden');
+            }
 
             try {
                 const response = await fetch(form.action, {
                     method: 'POST',
                     body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
+                    // Remove Content-Type header to let browser set multipart/form-data
                 });
 
                 if (response.ok) {
                     form.reset();
                     modal.classList.remove('hidden');
-
-                    if (customerType === 'New Customer') {
-                        responseMessage.innerHTML = 'Minimum Visiting Charge is Rs.750 even if we come and switch ON the Switch and also if we say what is the issue(Troubleshoot) in which you may need to get some other\'s approval also. So, Request you to check once from your side and confirm with us. Any other Material Charges will be Extra.';
-                    } else {
+                    if (customerType === 'Existing Customer') {
                         responseMessage.innerHTML = 'Minimum Visiting Charge is Rs.650 <del>Rs.750</del> even if we come and switch ON the Switch and also if we say what is the issue(Troubleshoot) in which you may need to get some other\'s approval also. So, Request you to check once from your side and confirm with us. Any other Material Charges will be Extra.';
+                    } else {
+                        responseMessage.innerHTML = 'Minimum Visiting Charge is Rs.750 even if we come and switch ON the Switch and also if we say what is the issue(Troubleshoot) in which you may need to get some other\'s approval also. So, Request you to check once from your side and confirm with us. Any other Material Charges will be Extra.';
                     }
                 } else {
-                    alert('Error submitting the form. Please try again.');
+                    const errorText = await response.text();
+                    console.error('Formspree error:', response.status, errorText);
+                    alert(`Error submitting the form: ${response.status} ${response.statusText}. Please check the console for details or try again.`);
                 }
             } catch (error) {
-                alert('Error submitting the form. Please try again.');
+                console.error('Submission error:', error);
+                alert('Error submitting the form: Network or CORS issue. Please check the console for details or try again.');
             }
         });
 
