@@ -95,8 +95,8 @@
         <div class="container mx-auto px-4">
             <h2 class="text-2xl md:text-3xl font-bold text-center mb-6">Book a Service</h2>
             <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+                <!-- Replace YOUR_JOTFORM_ID with your actual Jotform ID (e.g., 123456789) -->
                 <form id="service-booking-form" action="https://form.jotform.com/251215961801048" method="POST" enctype="multipart/form-data">
-                    </form>
                     <!-- Name -->
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-blue-600">Name</label>
@@ -211,7 +211,7 @@
                 const response = await fetch(form.action, {
                     method: 'POST',
                     body: formData,
-                    // Remove Content-Type header to let browser set multipart/form-data
+                    // Let browser set Content-Type: multipart/form-data with boundary
                 });
 
                 if (response.ok) {
@@ -223,9 +223,12 @@
                         responseMessage.innerHTML = 'Minimum Visiting Charge is Rs.750 even if we come and switch ON the Switch and also if we say what is the issue(Troubleshoot) in which you may need to get some other\'s approval also. So, Request you to check once from your side and confirm with us. Any other Material Charges will be Extra.';
                     }
                 } else {
-                    const errorText = await response.text();
-                    console.error('Formspree error:', response.status, errorText);
-                    alert(`Error submitting the form: ${response.status} ${response.statusText}. Please check the console for details or try again.`);
+                    let errorDetails = await response.text();
+                    try {
+                        errorDetails = JSON.parse(errorDetails);
+                    } catch {}
+                    console.error('Jotform error:', response.status, errorDetails);
+                    alert(`Error submitting the form: ${response.status} ${response.statusText}. Details: ${JSON.stringify(errorDetails) || 'Check console for more info.'}`);
                 }
             } catch (error) {
                 console.error('Submission error:', error);
