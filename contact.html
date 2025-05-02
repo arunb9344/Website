@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Eye Tech Securities</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="font-sans">
+    <!-- Navigation -->
+    <nav class="bg-gray-800 text-white p-4 sticky top-0 z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Eye Tech Securities</h1>
+            <div class="space-x-4">
+                <a href="index.html" class="hover:text-gray-300">Home</a>
+                <a href="about.html" class="hover:text-gray-300">About</a>
+                <a href="index.html#packages" class="hover:text-gray-300">Packages</a>
+                <a href="contact.html" class="hover:text-gray-300">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-8">Contact Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Contact Info -->
+                <div class="text-center md:text-left">
+                    <h3 class="text-2xl font-semibold mb-4">Get in Touch</h3>
+                    <p class="text-lg mb-4"><strong>Address:</strong> Madipakkam, Chennai</p>
+                    <p class="text-lg mb-4"><strong>Phone:</strong> <a href="tel:9962835944" class="text-blue-600 hover:underline">9962835944</a></p>
+                    <p class="text-lg mb-4"><strong>Email:</strong> <a href="mailto:eyetechsecurities@gmail.com" class="text-blue-600 hover:underline">eyetechsecurities@gmail.com</a></p>
+                </div>
+                <!-- Lead Form -->
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4 text-center md:text-left">Request a Quote</h3>
+                    <form action="mailto:eyetechsecurities@gmail.com" method="post" enctype="text/plain" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-lg font-medium">Name</label>
+                            <input type="text" id="name" name="name" required class="w-full p-2 border border-gray-300 rounded">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-lg font-medium">Email</label>
+                            <input type="email" id="email" name="email" required class="w-full p-2 border border-gray-300 rounded">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-lg font-medium">Phone</label>
+                            <input type="tel" id="phone" name="phone" required class="w-full p-2 border border-gray-300 rounded">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-lg font-medium">Message</label>
+                            <textarea id="message" name="message" rows="4" class="w-full p-2 border border-gray-300 rounded"></textarea>
+                        </div>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Widget -->
+    <div class="fixed bottom-4 right-4 z-20">
+        <a href="https://wa.me/9962835944" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="w-12 h-12">
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2025 Eye Tech Securities. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

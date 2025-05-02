@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Eye Tech Securities</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="font-sans">
+    <!-- Navigation -->
+    <nav class="bg-gray-800 text-white p-4 sticky top-0 z-20">
+        <div class="container mx-auto flex items-center justify-between">
+            <h1 class="text-xl md:text-2xl font-bold">Eye Tech Securities</h1>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="hover:text-gray-300">Home</a>
+                <a href="index.html#packages" class="hover:text-gray-300">Packages</a>
+                <a href="about.html" class="hover:text-gray-300">About</a>
+                <a href="contact.html" class="hover:text-gray-300">Contact</a>
+            </div>
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden focus:outline-none" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-800 text-white p-4">
+            <a href="index.html" class="block py-2 hover:text-gray-300">Home</a>
+            <a href="index.html#packages" class="block py-2 hover:text-gray-300">Packages</a>
+            <a href="about.html" class="block py-2 hover:text-gray-300">About</a>
+            <a href="contact.html" class="block py-2 hover:text-gray-300">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Header Image -->
+    <section class="w-full h-48 md:h-64 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/1600x400/?cctv');">
+    </section>
+
+    <!-- Expanded About Section -->
+    <section class="py-12 md:py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <!-- Introduction -->
+            <div class="text-center mb-12 md:mb-16">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6">About Eye Tech Securities</h2>
+                <p class="text-sm md:text-lg max-w-3xl mx-auto">
+                    At Eye Tech Securities, we are dedicated to providing cutting-edge CCTV solutions to protect homes, businesses, and communities across Chennai. Since our inception in 2018, we have grown to become a trusted name in security, known for our expertise, reliability, and unwavering commitment to customer satisfaction.
+                </p>
+            </div>
+
+            <!-- Company History -->
+            <div class="mb-12 md:mb-16">
+                <h3 class="text-xl md:text-2xl font-semibold text-center mb-4 md:mb-6">Our Journey Since 2018</h3>
+                <p class="text-sm md:text-lg text-center max-w-3xl mx-auto">
+                    Founded in Madipakkam, Chennai, Eye Tech Securities began with a vision to enhance safety through advanced surveillance technology. Over the years, we have installed thousands of CCTV systems, serving a diverse range of clients, from small households to large commercial establishments. Our growth is a testament to our dedication to quality and trust, built one satisfied customer at a time.
+                </p>
+            </div>
+
+            <!-- Mission and Vision -->
+            <div class="mb-12 md:mb-16">
+                <h3 class="text-xl md:text-2xl font-semibold text-center mb-4 md:mb-6">Our Mission and Vision</h3>
+                <p class="text-sm md:text-lg text-center max-w-3xl mx-auto">
+                    <strong>Mission:</strong> To deliver state-of-the-art CCTV solutions that provide peace of mind, ensuring the safety and security of our clients’ properties.<br>
+                    <strong>Vision:</strong> To be the leading security solutions provider in Chennai, setting the standard for innovation, reliability, and customer-centric service in the industry.
+                </p>
+            </div>
+
+            <!-- Expertise -->
+            <div class="mb-12 md:mb-16">
+                <h3 class="text-xl md:text-2xl font-semibold text-center mb-4 md:mb-6">Our Expertise</h3>
+                <p class="text-sm md:text-lg text-center max-w-3xl mx-auto">
+                    With over six years of experience, our team of skilled technicians and security experts specializes in designing, installing, and maintaining high-quality CCTV systems. We stay updated with the latest advancements in surveillance technology to offer solutions that are both effective and future-proof. From 2MP cameras to advanced DVR systems, we ensure every component meets the highest standards of performance.
+                </p>
+            </div>
+
+            <!-- Unique Selling Points -->
+            <div class="mb-12 md:mb-16">
+                <h3 class="text-xl md:text-2xl font-semibold text-center mb-4 md:mb-6">What Sets Us Apart</h3>
+                <ul class="text-sm md:text-lg max-w-3xl mx-auto list-disc list-inside text-center">
+                    <li class="mb-2">Uncompromising Quality: We use only top-tier equipment, including 2MP cameras, reliable DVRs, and durable accessories.</li>
+                    <li class="mb-2">Tailored Solutions: Every installation is customized to meet the unique needs of our clients, ensuring optimal coverage and functionality.</li>
+                    <li class="mb-2">Prompt Service: Our team delivers on time, every time, with a focus on precision and professionalism.</li>
+                    <li class="mb-2">Affordable Packages: From single-camera setups to comprehensive multi-camera systems, our pricing is transparent and competitive.</li>
+                </ul>
+            </div>
+
+            <!-- Customer Commitment -->
+            <div class="mb-12 md:mb-16">
+                <h3 class="text-xl md:text-2xl font-semibold text-center mb-4 md:mb-6">Our Commitment to You</h3>
+                <p class="text-sm md:text-lg text-center max-w-3xl mx-auto">
+                    At Eye Tech Securities, our customers are at the heart of everything we do. We pride ourselves on delivering service that exceeds expectations, from the initial consultation to post-installation support. Our team is always available to address your concerns, provide maintenance, and ensure your CCTV system operates flawlessly. Your trust is our greatest asset, and we work tirelessly to maintain it.
+                </p>
+            </div>
+
+            <!-- Team Overview -->
+            <div class="mb-12 md:mb-16">
+                <h3 class="text-xl md:text-2xl font-semibold text-center mb-4 md:mb-6">Our Dedicated Team</h3>
+                <p class="text-sm md:text-lg text-center max-w-3xl mx-auto">
+                    Our success is driven by a passionate team of professionals who bring expertise, enthusiasm, and a customer-first mindset to every project. From certified technicians to friendly support staff, every member of Eye Tech Securities is committed to ensuring your security needs are met with the highest standards of care.
+                </p>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="text-center">
+                <h3 class="text-xl md:text-2xl font-semibold mb-4 md:mb-6">Ready to Secure Your Property?</h3>
+                <p class="text-sm md:text-lg mb-6 max-w-3xl mx-auto">
+                    Discover why Eye Tech Securities is the trusted choice for CCTV solutions in Chennai. Contact us today to learn more about our services or to schedule a consultation.
+                </p>
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 md:py-3 px-4 md:px-6 rounded text-base md:text-lg">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Widget -->
+    <div class="fixed bottom-4 right-4 z-20">
+        <a href="https://wa.me/9962835944" target="_blank">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="w-10 h-10 md:w-12 md:h-12">
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm md:text-base">© 2025 Eye Tech Securities. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
