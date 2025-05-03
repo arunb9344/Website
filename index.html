@@ -60,30 +60,36 @@
             z-index: 50;
             display: flex;
         }
-        /* Mobile: Frozen at bottom, two boxes filling full width */
+        /* Mobile: Full box like header, split into two */
         @media (max-width: 639px) {
             body {
-                padding-bottom: 80px; /* Prevent content from loading behind boxes */
+                padding-bottom: 90px; /* Prevent content from loading behind boxes */
             }
             .contact-icons {
                 bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
+                left: 0;
                 width: 100%;
-                justify-content: space-between;
+                background: linear-gradient(to right, #4b5563, #4b5563); /* Match header bg-gradient-to-r from-gray-600 to-gray-600 */
+                box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .contact-inner {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
                 gap: 0.5rem;
+                padding: 0 0.5rem;
             }
             .whatsapp-box, .phone-box {
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 flex: 1; /* Each box takes equal width */
-                padding: 0.75rem;
+                height: 80px;
+                padding: 1rem;
                 border: 1px solid #e5e7eb;
                 border-bottom: none;
                 border-top-left-radius: 0.5rem;
                 border-top-right-radius: 0.5rem;
-                box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
             }
             .whatsapp-box {
                 background-color: #e6f4ea; /* Light green for WhatsApp */
@@ -105,11 +111,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             transition: transform 0.2s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
@@ -548,7 +554,7 @@
 
     <!-- Contact Icons -->
     <div class="contact-icons">
-        <div class="sm:hidden flex flex-row gap-2">
+        <div class="sm:hidden contact-inner">
             <div class="whatsapp-box">
                 <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
                     <i class="fab fa-whatsapp"></i>
