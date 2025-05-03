@@ -60,33 +60,39 @@
             z-index: 50;
             display: flex;
         }
-        /* Mobile: Frozen at bottom, full-width box */
+        /* Mobile: Frozen at bottom, two boxes with different colors */
         @media (max-width: 639px) {
             body {
-                padding-bottom: 80px; /* Prevent content from loading behind the box */
+                padding-bottom: 80px; /* Prevent content from loading behind boxes */
             }
             .contact-icons {
                 bottom: 0;
                 left: 50%;
                 transform: translateX(-50%);
                 width: 100%;
+                justify-content: center;
+                gap: 0.5rem;
             }
-            .contact-icons-box {
+            .whatsapp-box, .phone-box {
                 display: flex;
                 justify-content: center;
-                flex-direction: row;
-                gap: 0.5rem;
-                background-color: #ffffff;
+                align-items: center;
+                flex: 1;
+                padding: 0.75rem;
                 border: 1px solid #e5e7eb;
                 border-bottom: none;
                 border-top-left-radius: 0.5rem;
                 border-top-right-radius: 0.5rem;
-                padding: 0.5rem;
                 box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-                width: 100%;
+            }
+            .whatsapp-box {
+                background-color: #e6f4ea; /* Light green to match WhatsApp */
+            }
+            .phone-box {
+                background-color: #e6f0ff; /* Light blue to match Phone */
             }
         }
-        /* Desktop: Bottom-right, vertical, no box */
+        /* Desktop: Bottom-right, vertical, no boxes */
         @media (min-width: 640px) {
             .contact-icons {
                 bottom: 16px;
@@ -115,6 +121,19 @@
         }
         .phone-icon {
             background-color: #2563eb;
+        }
+        /* Navigation Icons in Mobile Menu */
+        @media (max-width: 639px) {
+            #mobile-menu a {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                align-items: center;
+            }
+            #mobile-menu svg {
+                width: 1.5rem; /* w-6 */
+                height: 1.5rem; /* h-6 */
+                overflow: visible;
+            }
         }
     </style>
 </head>
@@ -161,28 +180,28 @@
         </div>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-gray-600 text-white p-4">
-            <a href="index.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            <a href="index.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 <span>Home</span>
             </a>
-            <a href="packages.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
+            <a href="packages.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
                 <span>Packages</span>
             </a>
-            <a href="about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <a href="about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <span>About Us</span>
             </a>
-            <a href="contact.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 0 00-2-2H5a2 0 00-2 2v10a2 0 002 2z"></path></svg>
+            <a href="contact.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 0 00-2-2H5a2 0 00-2 2v10a2 0 002 2z"></path></svg>
                 <span>Contact</span>
             </a>
-            <a href="calculator.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 0 00-2-2H5a2 0 00-2 2v10a2 0 002 2z"></path></svg>
+            <a href="calculator.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 0 00-2-2H5a2 0 00-2 2v10a2 0 002 2z"></path></svg>
                 <span>Storage Calculator</span>
             </a>
-            <a href="servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 0 00-2-2H5a2 0 00-2 2v12a2 0 002 2z"></path></svg>
+            <a href="servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 0 00-2-2H5a2 0 00-2 2v12a2 0 002 2z"></path></svg>
                 <span>Service Booking</span>
             </a>
         </div>
@@ -419,7 +438,7 @@
                     <p class="text-sm md:text-base mb-4">"Eye Tech’s biometric system for our office is reliable and easy to use. Their team provided great training and support."</p>
                     <p class="text-sm font-semibold">- Suresh V.</p>
                 </div>
-                <!-- Testimonial 5 (New) -->
+                <!-- Testimonial 5 -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex items-center mb-4">
                         <span class="text-yellow-500 text-lg">⭐⭐⭐⭐⭐</span>
@@ -427,7 +446,7 @@
                     <p class="text-sm md:text-base mb-4">"The intrusion alarm system installed by Eye Tech is top-quality. Their technicians were punctual and explained everything clearly."</p>
                     <p class="text-sm font-semibold">- Lakshmi R.</p>
                 </div>
-                <!-- Testimonial 6 (New) -->
+                <!-- Testimonial 6 -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
                     <div class="flex items-center mb-4">
                         <span class="text-yellow-500 text-lg">⭐⭐⭐⭐⭐</span>
@@ -525,13 +544,17 @@
 
     <!-- Contact Icons -->
     <div class="contact-icons">
-        <div class="contact-icons-box sm:hidden">
-            <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
-                <i class="fas fa-phone"></i>
-            </a>
+        <div class="sm:hidden flex flex-row gap-2">
+            <div class="whatsapp-box">
+                <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+            <div class="phone-box">
+                <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
         </div>
         <div class="hidden sm:flex flex-col gap-1">
             <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
