@@ -1,4 +1,11 @@
 {
+    "redirects": [
+      {
+        "source": "http://www.eyetechsecurities.in",
+        "destination": "https://www.eyetechsecurities.in",
+        "permanent": true
+      }
+    ],
     "rewrites": [
       { "source": "/", "destination": "/index.html" }
     ]
