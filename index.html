@@ -7,9 +7,7 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', “
-
-G-TH6HEYD5YK');
+      gtag('config', 'G-TH6HEYD5YK');
     </script>
 
     <!-- Meta Description for SEO Purpose -->
@@ -63,16 +61,28 @@ G-TH6HEYD5YK');
             display: flex;
             gap: 1rem;
         }
-        /* Mobile: Bottom-center, horizontal */
+        /* Mobile: Bottom-center, horizontal, inside a box */
         @media (max-width: 639px) {
+            body {
+                padding-bottom: 80px; /* Prevent content from loading behind the box */
+            }
             .contact-icons {
                 bottom: 16px;
                 left: 50%;
                 transform: translateX(-50%);
+            }
+            .contact-icons-box {
+                display: flex;
                 flex-direction: row;
+                gap: 0.5rem;
+                background-color: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+                padding: 0.5rem;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
         }
-        /* Desktop: Bottom-right, vertical */
+        /* Desktop: Bottom-right, vertical, no box */
         @media (min-width: 640px) {
             .contact-icons {
                 bottom: 16px;
@@ -454,9 +464,7 @@ G-TH6HEYD5YK');
                     <img src="honeywell logo.png" alt="Honeywell Logo" class="w-20 h-20 md:w-24 md:h-24 object-contain mb-2">
                     <p class="text-sm md:text-base font-semibold">Honeywell</p>
                 </div>
-                <!-- E」
-
-SSL -->
+                <!-- ESSL -->
                 <div class="bg-white border border-gray-200 rounded-lg shadow-md p-4 flex flex-col items-center">
                     <img src="essl logo.webp" alt="ESSL Logo" class="w-20 h-20 md:w-24 md:h-24 object-contain mb-2">
                     <p class="text-sm md:text-base font-semibold">ESSL</p>
@@ -512,12 +520,22 @@ SSL -->
 
     <!-- Contact Icons -->
     <div class="contact-icons">
-        <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-        <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
-            <i class="fas fa-phone"></i>
-        </a>
+        <div class="contact-icons-box hidden sm:block">
+            <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
+                <i class="fas fa-phone"></i>
+            </a>
+        </div>
+        <div class="sm:hidden flex flex-row gap-2">
+            <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
+                <i class="fas fa-phone"></i>
+            </a>
+        </div>
     </div>
 
     <!-- Footer -->
