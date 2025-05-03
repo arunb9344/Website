@@ -63,7 +63,7 @@
         /* Mobile: Full box like header, split into two */
         @media (max-width: 639px) {
             body {
-                padding-bottom: 90px; /* Prevent content from loading behind boxes */
+                padding-bottom: 80px; /* Reduced from 90px */
             }
             .contact-icons {
                 bottom: 0;
@@ -84,8 +84,8 @@
                 justify-content: center;
                 align-items: center;
                 flex: 1; /* Each box takes equal width */
-                height: 80px;
-                padding: 1rem;
+                height: 64px; /* Reduced from 80px */
+                padding: 0.75rem; /* Reduced from 1rem */
                 border: 1px solid #e5e7eb;
                 border-bottom: none;
                 border-top-left-radius: 0.5rem;
@@ -111,11 +111,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
+            width: 50px; /* Reduced from 60px */
+            height: 50px;
             border-radius: 50%;
             color: white;
-            font-size: 1.75rem;
+            font-size: 1.5rem; /* Reduced from 1.75rem */
             transition: transform 0.2s;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
@@ -134,14 +134,16 @@
                 overflow: visible; /* Prevent clipping */
             }
             #mobile-menu a {
-                padding-left: 0.75rem;
+                padding-left: 1rem; /* Increased from 0.75rem */
                 padding-right: 0.75rem;
                 align-items: center;
-                min-width: 150px; /* Ensure space for icon and text */
+                min-width: 160px; /* Increased from 150px */
+                display: flex; /* Ensure alignment */
             }
             #mobile-menu svg {
                 width: 1.75rem; /* w-7 */
                 height: 1.75rem; /* h-7 */
+                margin-left: 0.25rem; /* New */
                 overflow: visible;
             }
         }
@@ -249,7 +251,7 @@
                 <!-- Access Control -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
                     <img src="access-control.jpg" alt="Access Control Service" class="w-full h-80 object-cover rounded-md mb-4">
-                    <h3 class="text-lg md:text-xl font-semibold mb-2">Access Control</h3>
+                    <h3 class="text-lg md:text-xl font-semibold mb-2 obnoxious">Access Control</h3>
                     <p class="text-sm md:text-base">Secure access control systems to manage entry and enhance property security.</p>
                 </div>
                 <!-- Video Door Bell -->
