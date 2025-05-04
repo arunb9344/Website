@@ -1,0 +1,15 @@
+{
+    "redirects": [
+      {
+        "source": "/index.html",
+        "destination": "/",
+        "permanent": true
+      },
+      {
+        "source": "/:path*",
+        "has": [{ "type": "host", "value": "eyetechsecurities.in" }],
+        "destination": "https://www.eyetechsecurities.in/:path*",
+        "permanent": true
+      }
+    ]
+  }
