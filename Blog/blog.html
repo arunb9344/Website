@@ -1,93 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Blog | EyeTech Securities</title>
-  <meta name="description" content="Explore security tips, CCTV installation guides, and the latest in surveillance technology from EyeTech Securities.">
-  <meta name="keywords" content="CCTV blog, security system tips, EyeTech blog, India surveillance news, CCTV technology updates">
-  <meta name="author" content="EyeTech Securities">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background-color: #f7f7f7;
-      color: #333;
-    }
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TH6HEYD5YK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TH6HEYD5YK');
+    </script>
 
-    header {
-      background-color: #212529;
-      color: white;
-      text-align: center;
-      padding: 20px 0;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #0056b3;
-      margin-bottom: 40px;
-    }
-
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .blog-card {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      transition: transform 0.2s;
-    }
-
-    .blog-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .blog-card h3 {
-      color: #0056b3;
-      margin-top: 0;
-    }
-
-    .blog-card p {
-      font-size: 15px;
-    }
-
-    .read-more {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 15px;
-      background-color: #0056b3;
-      color: white;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .read-more:hover {
-      background-color: #003d80;
-    }
-
-    footer {
-      background-color: #212529;
-      color: #ccc;
-      text-align: center;
-      padding: 15px 0;
-      margin-top: 40px;
-    }
-  </style>
+    <!-- Meta Description for SEO Purpose -->
+    <meta name="description" content="EyeTech Securities is Leading CCTV camera authorized supplier in Chennai. We are Expert in installation & Service. Contact us today!">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hikvision Authorized Dealer | CCTV Camera Dealer in Chennai</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="eyetech logo jpg.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .hero-section {
+            position: relative;
+            height: 80vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 60vh;
+            }
+            .hero-overlay h2 {
+                font-size: 1.5rem;
+            }
+            .hero-overlay p {
+                font-size: 1rem;
+            }
+        }
+        /* Contact Icons */
+        .contact-icons {
+            position: fixed;
+            z-index: 50;
+            display: flex;
+        }
+        /* Mobile: Full box like header, split into two */
+        @media (max-width: 639px) {
+            body {
+                padding-bottom: 80px; /* Reduced from 90px */
+            }
+            .contact-icons {
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(to right, #4b5563, #4b5563); /* Match header bg-gradient-to-r from-gray-600 to-gray-600 */
+                box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .contact-inner {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+            .whatsapp-box, .phone-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex: 1; /* Each box takes equal width */
+                height: 64px; /* Reduced from 80px */
+                padding: 0.75rem; /* Reduced from 1rem */
+                border: 1px solid #e5e7eb;
+                border-bottom: none;
+                border-top-left-radius: 0.5rem;
+                border-top-right-radius: 0.5rem;
+            }
+            .whatsapp-box {
+                background-color: #e6f4ea; /* Light green for WhatsApp */
+            }
+            .phone-box {
+                background-color: #e6f0ff; /* Light blue for Phone */
+            }
+        }
+        /* Desktop: Bottom-right, vertical, no boxes */
+        @media (min-width: 640px) {
+            .contact-icons {
+                bottom: 16px;
+                right: 16px;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        .contact-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px; /* Reduced from 60px */
+            height: 50px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem; /* Reduced from 1.75rem */
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .contact-icon:hover {
+            transform: scale(1.1);
+        }
+        .whatsapp-icon {
+            background-color: #25D366;
+        }
+        .phone-icon {
+            background-color: #2563eb;
+        }
+        /* Navigation Icons in Mobile Menu */
+        @media (max-width: 639px) {
+            #mobile-menu {
+                overflow: visible; /* Prevent clipping */
+            }
+            #mobile-menu a {
+                padding-left: 1rem; /* Increased from 0.75rem */
+                padding-right: 0.75rem;
+                align-items: center;
+                min-width: 160px; /* Increased from 150px */
+                display: flex; /* Ensure alignment */
+            }
+            #mobile-menu svg {
+                width: 1.75rem; /* w-7 */
+                height: 1.75rem; /* h-7 */
+                margin-left: 0.25rem; /* New */
+                overflow: visible;
+            }
+        }
+    </style>
 </head>
-<body>
-
-  <!-- Navigation -->
+<body class="font-sans">
+    <!-- Navigation -->
 <nav class="bg-gradient-to-r from-gray-600 to-gray-600 text-white p-4 sticky top-0 z-20 shadow-lg">
     <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center space-x-2">
@@ -133,89 +196,132 @@
     </div>
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-gray-600 text-white p-4">
-        <a href="/index.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+        <a href="index.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
             <span>Home</span>
         </a>
-        <a href="/packages.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+        <a href="packages.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
             <span>Packages</span>
         </a>
-        <a href="blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+        <a href="Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
             <span>Blog</span>
         </a>
-        <a href="/about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+        <a href="about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <span>About Us</span>
         </a>
-        <a href="/contact.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+        <a href="contact.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
             <span>Contact</span>
         </a>
-        <a href="/calculator.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+        <a href="calculator.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
             <span>Storage Calculator</span>
         </a>
-        <a href="/servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+        <a href="servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             <span>Service Booking</span>
         </a>
     </div>
 </nav>
 
-  <div class="container">
-    <h1>Recent Posts</h1>
-    <div class="blog-grid">
-      
-      <!-- Blog Card 1 -->
-      <div class="blog-card">
-        <h3>Why CCTV Security is Crucial in 2025</h3>
-        <p>Explore how surveillance technology is becoming a necessity in homes and businesses across India in 2025.</p>
-        <a href="cctv crucial in 2025.html" class="read-more">Read More</a>
-      </div>
+    <!-- Hero Section with Full-Stretch Image -->
+    <section id="home" class="hero-section">
+        <img src="Poster.jpg" alt="Eye Tech Securities Hero" class="hero-image">
+        <div class="hero-overlay">
+            <div class="text-center text-white p-6 md:p-8 rounded-lg">
+                <h2 class="text-2xl md:text-4xl font-bold mb-4">Secure Your World with Eye Tech Securities</h2>
+                <p class="text-lg md:text-xl mb-6">Trusted CCTV Solutions in Chennai Since 2018</p>
+                <a href="contact.html" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded text-base md:text-lg">Get a Quote</a>
+            </div>
+        </div>
+    </section>
 
-      <!-- Blog Card 2 -->
-      <div class="blog-card">
-        <h3>Top 5 Mistakes in CCTV Installation</h3>
-        <p>Many users face issues due to poor installation. Here’s how to avoid common mistakes and get optimal results.</p>
-        <a href="cctv-installation-mistakes.html" class="read-more">Read More</a>
+    <!--Blog Section -->
+    <div class="container">
+      <h1>Recent Posts</h1>
+      <div class="blog-grid">
+        
+        <!-- Blog Card 1 -->
+        <div class="blog-card">
+          <h3>Why CCTV Security is Crucial in 2025</h3>
+          <p>Explore how surveillance technology is becoming a necessity in homes and businesses across India in 2025.</p>
+          <a href="cctv crucial in 2025.html" class="read-more">Read More</a>
+        </div>
+  
+        <!-- Blog Card 2 -->
+        <div class="blog-card">
+          <h3>Top 5 Mistakes in CCTV Installation</h3>
+          <p>Many users face issues due to poor installation. Here’s how to avoid common mistakes and get optimal results.</p>
+          <a href="cctv-installation-mistakes.html" class="read-more">Read More</a>
+        </div>
+  
+        <!-- Blog Card 3 -->
+        <div class="blog-card">
+          <h3>5 Essential Tips for Enhancing Your Home Security Camera in Chennai in 2025</h3>
+          <p>Enhance your CCTV Cameras for better protection of your Premise.</p>
+          <a href="5 Essential Tips.html" class="read-more">Read More</a>
+        </div>
+  
+        <!-- Blog Card 4 -->
+        <div class="blog-card">
+          <h3>Choosing the Right Camera for Your Space</h3>
+          <p>IP vs Analog, Dome vs Bullet—find out which camera fits your property best.</p>
+          <a href="camera-comparison.html" class="read-more">Read More</a>
+        </div>
+  
+        <!-- Blog Card 5 -->
+        <div class="blog-card">
+          <h3>Why Your Business Needs an Access Control System in Chennai</h3>
+          <p>Securing your business in Chennai’s fast-paced commercial landscape requires more than just a surveillance camera in Chennai. An access control system, combined with expert CCTV camera installation in Chennai, provides robust protection for your assets, employees, and data.</p>
+          <a href="access control benefits.html" class="read-more">Read More</a>
+        </div>
+  
       </div>
-
-      <!-- Blog Card 3 -->
-      <div class="blog-card">
-        <h3>5 Essential Tips for Enhancing Your Home Security Camera in Chennai in 2025</h3>
-        <p>Enhance your CCTV Cameras for better protection of your Premise.</p>
-        <a href="5 Essential Tips.html" class="read-more">Read More</a>
-      </div>
-
-      <!-- Blog Card 4 -->
-      <div class="blog-card">
-        <h3>Choosing the Right Camera for Your Space</h3>
-        <p>IP vs Analog, Dome vs Bullet—find out which camera fits your property best.</p>
-        <a href="camera-comparison.html" class="read-more">Read More</a>
-      </div>
-
-      <!-- Blog Card 5 -->
-      <div class="blog-card">
-        <h3>Why Your Business Needs an Access Control System in Chennai</h3>
-        <p>Securing your business in Chennai’s fast-paced commercial landscape requires more than just a surveillance camera in Chennai. An access control system, combined with expert CCTV camera installation in Chennai, provides robust protection for your assets, employees, and data.</p>
-        <a href="access control benefits.html" class="read-more">Read More</a>
-      </div>
-
     </div>
-  </div>
 
-  <!-- JavaScript for Mobile Menu -->
-  <script>
-    function toggleMenu() {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-    }
-</script>
+    <!-- Contact Icons -->
+    <div class="contact-icons">
+        <div class="sm:hidden contact-inner">
+            <div class="whatsapp-box">
+                <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+            <div class="phone-box">
+                <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
+        </div>
+        <div class="hidden sm:flex flex-col gap-1">
+            <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
+                <i class="fas fa-phone"></i>
+            </a>
+        </div>
+    </div>
 
-  <footer>
-    &copy; 2025 EyeTech Securities. All rights reserved.
-  </footer>
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm md:text-base">© 2025 Eye Tech Securities. All rights reserved.</p>
+        </div>
+    </footer>
 
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
 </body>
 </html>
+
+  
+
