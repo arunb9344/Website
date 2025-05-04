@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TH6HEYD5YK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TH6HEYD5YK');
+    </script>
+
+    <!-- Meta Tags for SEO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Top 5 Mistakes in CCTV Installation in Chennai | EyeTech Securities</title>
@@ -8,11 +18,11 @@
     <meta name="keywords" content="CCTV Camera in Chennai, CCTV camera installation in Chennai, authorized CCTV dealer in Chennai, Hikvision dealer in Chennai, CCTV camera service provider in Chennai, home security camera in Chennai, surveillance camera in Chennai">
     <meta name="author" content="EyeTech Securities">
     <meta name="robots" content="index, follow">
-    <!-- Open Graph Meta Tags for Social Sharing -->
+    <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Top 5 Mistakes in CCTV Installation in Chennai | EyeTech Securities">
     <meta property="og:description" content="Ensure your CCTV system works effectively with tips from EyeTech Securities, a trusted CCTV camera service provider in Chennai.">
     <meta property="og:image" content="https://www.eyetechsecurities.in/images/cctv-installation-mistakes.jpg">
-    <meta property="og:url" content="https://www.eyetechsecurities.in/blog/cctv-installation-mistakes.html">
+    <meta property="og:url" content="https://www.eyetechsecurities.in/Blog/cctv-installation-mistakes.html">
     <meta property="og:type" content="article">
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
@@ -20,96 +30,128 @@
     <meta name="twitter:description" content="Ensure your CCTV system works effectively with tips from EyeTech Securities.">
     <meta name="twitter:image" content="https://www.eyetechsecurities.in/images/cctv-installation-mistakes.jpg">
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.eyetechsecurities.in/blog/cctv-installation-mistakes.html">
+    <link rel="canonical" href="https://www.eyetechsecurities.in/Blog/cctv-installation-mistakes.html">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f9f9f9;
-            margin: 0;
-            padding: 0;
-            color: #333;
+        /* Contact Icons */
+        .contact-icons {
+            position: fixed;
+            z-index: 50;
+            display: flex;
         }
-        header, footer {
-            background: #212529;
+        @media (max-width: 639px) {
+            body {
+                padding-bottom: 80px;
+            }
+            .contact-icons {
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(to right, #4b5563, #4b5563);
+                box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .contact-inner {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                gap: 0.5rem;
+                padding: 0 0.5rem;
+            }
+            .whatsapp-box, .phone-box {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+                height: 64px;
+                padding: 0.75rem;
+                border: 1px solid #e5e7eb;
+                border-bottom: none;
+                border-top-left-radius: 0.5rem;
+                border-top-right-radius: 0.5rem;
+            }
+            .whatsapp-box {
+                background-color: #e6f4ea;
+            }
+            .phone-box {
+                background-color: #e6f0ff;
+            }
+        }
+        @media (min-width: 640px) {
+            .contact-icons {
+                bottom: 16px;
+                right: 16px;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+        .contact-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             color: white;
-            padding: 20px;
-            text-align: center;
+            font-size: 1.5rem;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        nav {
-            background: #f4f4f4;
-            padding: 1rem;
-            text-align: center;
+        .contact-icon:hover {
+            transform: scale(1.1);
         }
-        nav a {
-            margin: 0 1rem;
-            text-decoration: none;
-            color: #0056b3;
-            font-weight: bold;
+        .whatsapp-icon {
+            background-color: #25D366;
         }
-        nav a:hover {
-            color: #ff6200;
+        .phone-icon {
+            background-color: #2563eb;
         }
-        main {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        @media (max-width: 639px) {
+            #mobile-menu {
+                overflow: visible;
+            }
+            #mobile-menu a {
+                padding-left: 1rem;
+                padding-right: 0.75rem;
+                align-items: center;
+                min-width: 160px;
+                display: flex;
+            }
+            #mobile-menu svg {
+                width: 1.75rem;
+                height: 1.75rem;
+                margin-left: 0.25rem;
+                overflow: visible;
+            }
         }
-        h1, h2 {
-            color: #0056b3;
-        }
-        ul {
-            padding-left: 20px;
-        }
-        img {
-            max-width: 100%;
+        /* Blog Post Styles */
+        .blog-post img {
+            width: 100%;
             height: auto;
-            border-radius: 8px;
-            margin: 1rem 0;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 0.5rem;
         }
         .meta {
-            color: #666;
-            font-size: 0.9rem;
+            color: #6b7280;
+            font-size: 0.875rem;
             margin-bottom: 1rem;
         }
-        a.cta-button {
+        .cta-button {
             display: inline-block;
-            padding: 0.8rem 1.5rem;
+            padding: 0.75rem 1.5rem;
             background: #ff6200;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            margin-top: 1rem;
+            border-radius: 0.25rem;
+            transition: background 0.2s;
         }
-        a.cta-button:hover {
+        .cta-button:hover {
             background: #e55a00;
-        }
-        footer a {
-            color: white;
-            text-decoration: none;
-            margin: 0 0.5rem;
-        }
-        footer a:hover {
-            color: #ff6200;
-        }
-        @media (max-width: 768px) {
-            main {
-                margin: 15px;
-                padding: 15px;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-            h2 {
-                font-size: 1.5rem;
-            }
-            nav a {
-                display: block;
-                margin: 0.5rem 0;
-            }
         }
     </style>
     <script type="application/ld+json">
@@ -117,7 +159,7 @@
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": "Top 5 Mistakes in CCTV Installation in Chennai",
-        "datePublished": "2025-05-04",
+        "datePublished": "2025-01-25",
         "author": {
             "@type": "Organization",
             "name": "EyeTech Securities"
@@ -132,74 +174,184 @@
         },
         "description": "Learn how to avoid common mistakes in CCTV camera installation in Chennai with expert tips from EyeTech Securities, an authorized CCTV dealer and Hikvision dealer in Chennai.",
         "image": "https://www.eyetechsecurities.in/images/cctv-installation-mistakes.jpg",
-        "url": "https://www.eyetechsecurities.in/blog/cctv-installation-mistakes.html"
+        "url": "https://www.eyetechsecurities.in/Blog/cctv-installation-mistakes.html"
     }
     </script>
 </head>
-<body>
-    <header>
-        <h1>EyeTech Securities Blog</h1>
-        <p>Expert Advice on CCTV Camera Installation in Chennai</p>
-    </header>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/products.html">Products</a>
-        <a href="/services.html">Services</a>
-        <a href="/blog.html">Blog</a>
-        <a href="/contact.html">Contact</a>
+<body class="font-sans bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-gradient-to-r from-gray-600 to-gray-600 text-white p-4 sticky top-0 z-20 shadow-lg">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <img src="/images/logo.png" alt="Eye Tech Securities Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain">
+                <h1 class="text-xl md:text-2xl font-bold">Eye Tech Securities</h1>
+            </div>
+            <div class="hidden md:flex space-x-4">
+                <a href="/index.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span>Home</span>
+                </a>
+                <a href="/packages.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
+                    <span>Packages</span>
+                </a>
+                <a href="/Blog/blog.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Blog</span>
+                </a>
+                <a href="/about.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>About Us</span>
+                </a>
+                <a href="/contact.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span>Contact</span>
+                </a>
+                <a href="/calculator.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span>Storage Calculator</span>
+                </a>
+                <a href="/servicebooking.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>Service Booking</span>
+                </a>
+            </div>
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden focus:outline-none" onclick="toggleMenu()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-600 text-white p-4">
+            <a href="/index.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span>Home</span>
+            </a>
+            <a href="/packages.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
+                <span>Packages</span>
+            </a>
+            <a href="/Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <span>Blog</span>
+            </a>
+            <a href="/about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>About Us</span>
+            </a>
+            <a href="/contact.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                <span>Contact</span>
+            </a>
+            <a href="/calculator.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                <span>Storage Calculator</span>
+            </a>
+            <a href="/servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span>Service Booking</span>
+            </a>
+        </div>
     </nav>
-    <main>
-        <h1>Top 5 Mistakes in CCTV Camera Installation in Chennai</h1>
-        <div class="meta">Posted on May 4, 2025 | By EyeTech Securities Team</div>
-        <img src="/images/cctv-installation-mistakes.jpg" alt="CCTV camera installation in Chennai">
-        <p>Setting up a CCTV camera in Chennai for your home or business is a smart investment in security. However, mistakes during CCTV camera installation in Chennai can lead to gaps in coverage or system failures. EyeTech Securities, an authorized CCTV dealer in Chennai and Hikvision dealer in Chennai, has extensive experience helping clients avoid these pitfalls. In this guide, we outline the top five mistakes to watch out for when installing a home security camera in Chennai or a surveillance camera in Chennai, and how our expertise as a CCTV camera service provider in Chennai can ensure a flawless setup.</p>
 
-        <h2>1. Incorrect Camera Placement</h2>
-        <p>Placing cameras in the wrong locations is a common error during CCTV camera installation in Chennai. Cameras that are too high, too low, or obstructed by objects like plants or signs fail to capture critical footage. In Chennai’s urban settings, factors like streetlights or reflective surfaces can also cause glare, reducing visibility.</p>
-        <ul>
-            <li><strong>Solution</strong>: Conduct a thorough site assessment with a professional CCTV camera service provider in Chennai. EyeTech Securities ensures cameras are strategically placed at entry points, parking areas, and key zones, optimizing coverage and minimizing blind spots.</li>
-        </ul>
+    <!-- Main Content -->
+    <main class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Top 5 Mistakes in CCTV Camera Installation in Chennai</h1>
+                <div class="meta">Posted on January 25, 2025 | By EyeTech Securities Team</div>
+                <img src="/images/cctv-installation-mistakes.jpg" alt="CCTV camera installation in Chennai" class="blog-post mb-6">
+                <p class="text-gray-600 leading-relaxed mb-6">Setting up a CCTV camera in Chennai for your home or business is a smart investment in security. However, mistakes during CCTV camera installation in Chennai can lead to gaps in coverage or system failures. EyeTech Securities, an authorized CCTV dealer in Chennai and Hikvision dealer in Chennai, has extensive experience helping clients avoid these pitfalls. In this guide, we outline the top five mistakes to watch out for when installing a home security camera in Chennai or a surveillance camera in Chennai, and how our expertise as a CCTV camera service provider in Chennai can ensure a flawless setup.</p>
 
-        <h2>2. Selecting Inappropriate Camera Types</h2>
-        <p>Choosing the wrong type of CCTV camera in Chennai for your environment can compromise performance. For instance, installing a dome camera in an outdoor area exposed to rain or a bullet camera in a discreet indoor setting may lead to suboptimal results.</p>
-        <ul>
-            <li><strong>Solution</strong>: Partner with an authorized CCTV dealer in Chennai, like EyeTech Securities, a trusted Hikvision dealer in Chennai. We recommend weatherproof bullet cameras for outdoor surveillance, discreet dome cameras for indoor use, and PTZ cameras for large areas requiring flexible monitoring.</li>
-        </ul>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. Incorrect Camera Placement</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">Placing cameras in the wrong locations is a common error during CCTV camera installation in Chennai. Cameras that are too high, too low, or obstructed by objects like plants or signs fail to capture critical footage. In Chennai’s urban settings, factors like streetlights or reflective surfaces can also cause glare, reducing visibility.</p>
+                <ul class="list-disc pl-6 mb-6 text-gray-600">
+                    <li><strong>Solution</strong>: Conduct a thorough site assessment with a professional CCTV camera service provider in Chennai. EyeTech Securities ensures cameras are strategically placed at entry points, parking areas, and key zones, optimizing coverage and minimizing blind spots.</li>
+                </ul>
 
-        <h2>3. Underestimating Storage Needs</h2>
-        <p>Failing to plan for adequate storage is a frequent mistake when installing a surveillance camera in Chennai. High-resolution cameras and continuous recording require significant storage capacity, and insufficient space can lead to lost footage.</p>
-        <ul>
-            <li><strong>Solution</strong>: Estimate storage requirements based on resolution, frame rate, and desired recording duration. EyeTech Securities offers Hikvision DVR/NVR systems tailored to your needs, ensuring your footage is securely stored for as long as you need it.</li>
-        </ul>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">2. Selecting Inappropriate Camera Types</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">Choosing the wrong type of CCTV camera in Chennai for your environment can compromise performance. For instance, installing a dome camera in an outdoor area exposed to rain or a bullet camera in a discreet indoor setting may lead to suboptimal results.</p>
+                <ul class="list-disc pl-6 mb-6 text-gray-600">
+                    <li><strong>Solution</strong>: Partner with an authorized CCTV dealer in Chennai, like EyeTech Securities, a trusted Hikvision dealer in Chennai. We recommend weatherproof bullet cameras for outdoor surveillance, discreet dome cameras for indoor use, and PTZ cameras for large areas requiring flexible monitoring.</li>
+                </ul>
 
-        <h2>4. Neglecting Remote Access Configuration</h2>
-        <p>A modern home security camera in Chennai should provide remote access via mobile apps or web browsers for real-time monitoring. Skipping this setup limits your ability to check your property on the go, especially in a dynamic city like Chennai.</p>
-        <ul>
-            <li><strong>Solution</strong>: Opt for IP cameras with remote access features and ensure proper network configuration during CCTV camera installation in Chennai. EyeTech Securities sets up seamless mobile access, allowing you to monitor your system from anywhere.</li>
-        </ul>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">3. Underestimating Storage Needs</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">Failing to plan for adequate storage is a frequent mistake when installing a surveillance camera in Chennai. High-resolution cameras and continuous recording require significant storage capacity, and insufficient space can lead to lost footage.</p>
+                <ul class="list-disc pl-6 mb-6 text-gray-600">
+                    <li><strong>Solution</strong>: Estimate storage requirements based on resolution, frame rate, and desired recording duration. EyeTech Securities offers Hikvision DVR/NVR systems tailored to your needs, ensuring your footage is securely stored for as long as you need it.</li>
+                </ul>
 
-        <h2>5. Omitting Power Backup</h2>
-        <p>Power outages can disrupt your surveillance camera in Chennai, leaving your property vulnerable. Without a backup power source, your CCTV system may fail during critical moments.</p>
-        <ul>
-            <li><strong>Solution</strong>: Install an Uninterruptible Power Supply (UPS) to keep your system running during outages. EyeTech Securities, a leading CCTV camera service provider in Chennai, includes power backup solutions in our installation plans for uninterrupted security.</li>
-        </ul>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">4. Neglecting Remote Access Configuration</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">A modern home security camera in Chennai should provide remote access via mobile apps or web browsers for real-time monitoring. Skipping this setup limits your ability to check your property on the go, especially in a dynamic city like Chennai.</p>
+                <ul class="list-disc pl-6 mb-6 text-gray-600">
+                    <li><strong>Solution</strong>: Opt for IP cameras with remote access features and ensure proper network configuration during CCTV camera installation in Chennai. EyeTech Securities sets up seamless mobile access, allowing you to monitor your system from anywhere.</li>
+                </ul>
 
-        <h2>Why Trust EyeTech Securities for Your CCTV Needs?</h2>
-        <p>Avoiding these installation mistakes requires expertise and reliable equipment. As an authorized CCTV dealer in Chennai and Hikvision dealer in Chennai, EyeTech Securities offers:</p>
-        <ul>
-            <li>Expert CCTV camera installation in Chennai, customized to your property’s layout.</li>
-            <li>High-quality Hikvision cameras for dependable home security cameras in Chennai and commercial surveillance.</li>
-            <li>Comprehensive maintenance and support from a trusted CCTV camera service provider in Chennai.</li>
-            <li>Local knowledge of Chennai’s security challenges, from residential neighborhoods to commercial hubs.</li>
-        </ul>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">5. Omitting Power Backup</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">Power outages can disrupt your surveillance camera in Chennai, leaving your property vulnerable. Without a backup power source, your CCTV system may fail during critical moments.</p>
+                <ul class="list-disc pl-6 mb-6 text-gray-600">
+                    <li><strong>Solution</strong>: Install an Uninterruptible Power Supply (UPS) to keep your system running during outages. EyeTech Securities, a leading CCTV camera service provider in Chennai, includes power backup solutions in our installation plans for uninterrupted security.</li>
+                </ul>
 
-        <h2>Secure Your Property with EyeTech Securities</h2>
-        <p>Don’t let installation errors undermine your CCTV camera in Chennai. EyeTech Securities ensures your surveillance camera in Chennai is installed correctly for maximum protection. Book a free consultation today to get started with a robust CCTV system tailored to your needs.</p>
-        <a href="/contact.html" class="cta-button">Contact Us Now</a>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Why Trust EyeTech Securities for Your CCTV Needs?</h2>
+                <p class="text-gray-600 leading-relaxed mb-4">Avoiding these installation mistakes requires expertise and reliable equipment. As an authorized CCTV dealer in Chennai and Hikvision dealer in Chennai, EyeTech Securities offers:</p>
+                <ul class="list-disc pl-6 mb-6 text-gray-600">
+                    <li>Expert CCTV camera installation in Chennai, customized to your property’s layout.</li>
+                    <li>High-quality Hikvision cameras for dependable home security cameras in Chennai and commercial surveillance.</li>
+                    <li>Comprehensive maintenance and support from a trusted CCTV camera service provider in Chennai.</li>
+                    <li>Local knowledge of Chennai’s security challenges, from residential neighborhoods to commercial hubs.</li>
+                </ul>
+
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Secure Your Property with EyeTech Securities</h2>
+                <p class="text-gray-600 leading-relaxed mb-6">Don’t let installation errors undermine your CCTV camera in Chennai. EyeTech Securities ensures your surveillance camera in Chennai is installed correctly for maximum protection. Book a free consultation today to get started with a robust CCTV system tailored to your needs.</p>
+                <a href="/contact.html" class="cta-button">Contact Us Now</a>
+            </div>
+        </div>
     </main>
-    <footer>
-        <p>© 2025 EyeTech Securities. All rights reserved.</p>
-        <p><a href="/privacy-policy.html">Privacy Policy</a> | <a href="/terms-of-service.html">Terms of Service</a></p>
+
+    <!-- Contact Icons -->
+    <div class="contact-icons">
+        <div class="sm:hidden contact-inner">
+            <div class="whatsapp-box">
+                <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+            <div class="phone-box">
+                <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
+        </div>
+        <div class="hidden sm:flex flex-col gap-1">
+            <a href="https://wa.me/+919962835944" class="contact-icon whatsapp-icon" title="Chat on WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="tel:+919962835944" class="contact-icon phone-icon" title="Call Us">
+                <i class="fas fa-phone"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-sm md:text-base">© 2025 Eye Tech Securities. All rights reserved.</p>
+            <p class="mt-2">
+                <a href="/privacy-policy.html" class="text-white hover:text-orange-500">Privacy Policy</a> | 
+                <a href="/terms-of-service.html" class="text-white hover:text-orange-500">Terms of Service</a>
+            </p>
+        </div>
     </footer>
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
 </body>
 </html>
