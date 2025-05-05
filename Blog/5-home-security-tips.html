@@ -32,7 +32,7 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.eyetechsecurities.in/Blog/5-home-security-tips.html">
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/eyetech logo jpg.jpg">
+    <link rel="icon" type="image/x-icon" href="eyetech logo jpg.jpg">
     <!-- Tailwind CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -153,6 +153,35 @@
         .cta-button:hover {
             background: #e55a00;
         }
+        /* Read More Section */
+        .read-more-card {
+            transition: transform 0.2s;
+        }
+        .read-more-card:hover {
+            transform: scale(1.05);
+        }
+        .read-more-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #f97316;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.25rem;
+            transition: background 0.2s;
+        }
+        .read-more-button:hover {
+            background: #ea580c;
+        }
+        /* Footer Sections */
+        .footer-section h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .footer-section a {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
     </style>
     <script type="application/ld+json">
     {
@@ -183,35 +212,35 @@
     <nav class="bg-gradient-to-r from-gray-600 to-gray-600 text-white p-4 sticky top-0 z-20 shadow-lg">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-2">
-                <img src="/eyetech logo png.png" alt="Eye Tech Securities Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain">
+                <img src="eyetech logo png.png" alt="Eye Tech Securities Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain">
                 <h1 class="text-xl md:text-2xl font-bold">Eye Tech Securities</h1>
             </div>
             <div class="hidden md:flex space-x-4">
-                <a href="/index.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                <a href="../index.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     <span>Home</span>
                 </a>
-                <a href="/packages.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                <a href="../packages.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
                     <span>Packages</span>
                 </a>
-                <a href="blog.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                <a href="blog.html" class="flex items-center space-x-1 px-3 py-2 rounded-md bg-blue-600 scale-105 transition transform">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     <span>Blog</span>
                 </a>
-                <a href="/about.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                <a href="../about.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <span>About Us</span>
                 </a>
-                <a href="/contact.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                <a href="../contact.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     <span>Contact</span>
                 </a>
-                <a href="/calculator.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                <a href="../calculator.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     <span>Storage Calculator</span>
                 </a>
-                <a href="/servicebooking.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                <a href="../servicebooking.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     <span>Service Booking</span>
                 </a>
@@ -225,31 +254,31 @@
         </div>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-gray-600 text-white p-4">
-            <a href="/index.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="../index.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                 <span>Home</span>
             </a>
-            <a href="/packages.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="../packages.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
                 <span>Packages</span>
             </a>
-            <a href="/Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="blog.html" class="flex items-center space-x-2 py-2 bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 <span>Blog</span>
             </a>
-            <a href="/about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="../about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <span>About Us</span>
             </a>
-            <a href="/contact.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="../contact.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 <span>Contact</span>
             </a>
-            <a href="/calculator.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="../calculator.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 <span>Storage Calculator</span>
             </a>
-            <a href="/servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="../servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span>Service Booking</span>
             </a>
@@ -262,7 +291,7 @@
             <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">5 Essential Tips for Enhancing Your Home Security Camera in Chennai in 2025</h1>
                 <div class="meta">Posted on May 4, 2025 | By EyeTech Securities Team</div>
-                <img src="/5 Essential Tips.jpg" alt="Home security camera in Chennai" class="blog-post mb-6">
+                <img src="5 Essential Tips.jpg" alt="Home security camera in Chennai" class="blog-post mb-6">
                 <p class="text-gray-600 leading-relaxed mb-6">With rising security concerns in urban areas, enhancing your home security camera in Chennai is more important than ever. In 2025, advanced technology and strategic planning can make your home safer. EyeTech Securities, an authorized CCTV dealer in Chennai and Hikvision dealer in Chennai, shares five essential tips to strengthen your home security camera in Chennai, ensuring peace of mind with expert CCTV camera installation in Chennai.</p>
 
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. Invest in High-Resolution CCTV Cameras</h2>
@@ -306,7 +335,7 @@
 
                 <h2 class="text-2xl font-semibold text-gray-800 mb-4">Secure Your Home with EyeTech Securities</h2>
                 <p class="text-gray-600 leading-relaxed mb-6">Enhance your home security camera in Chennai in 2025 with these essential tips. EyeTech Securities, an authorized CCTV dealer in Chennai, is here to help you build a robust security system. Book a free consultation today to protect your home.</p>
-                <a href="/contact.html" class="cta-button">Contact Us Now</a>
+                <a href="../contact.html" class="cta-button">Contact Us Now</a>
             </div>
         </div>
     </main>
@@ -315,38 +344,50 @@
     <section class="py-12 bg-gray-100">
         <div class="container mx-auto px-4">
             <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-8">More Blog Posts</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Blog Post 1 -->
-                <div class="bg-white rounded-lg shadow-lg p-6 read-more-card">
-                    <i class="fas fa-camera read-more-icon"></i>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">
-                        <a href="camera-comparison.html" class="hover:underline">How to Choose the Right CCTV Camera for Your Home</a>
-                    </h3>
-                    <p class="text-gray-600 text-sm">Learn key factors to consider when selecting a CCTV camera for your home, tailored for Chennai residents.</p>
+                <div class="bg-white rounded-lg shadow-lg read-more-card overflow-hidden">
+                    <img src="/CCTV Types.jpg" alt="Choosing the right CCTV camera" class="w-full h-48 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                            <a href="camera-comparison.html" class="hover:underline">How to Choose the Right CCTV Camera for Your Home</a>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">Learn key factors to consider when selecting a CCTV camera for your home, tailored for Chennai residents.</p>
+                        <a href="camera-comparison.html" class="read-more-button">Read More</a>
+                    </div>
                 </div>
                 <!-- Blog Post 2 -->
-                <div class="bg-white rounded-lg shadow-lg p-6 read-more-card">
-                    <i class="fas fa-tools read-more-icon"></i>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">
-                        <a href="access-control-benefits.html" class="hover:underline">Why your Business needs an Access Control System in Chennai</a>
-                    </h3>
-                    <p class="text-gray-600 text-sm">Securing your business in Chennai’s fast-paced commercial landscape requires more than just a surveillance camera in Chennai. An access control system, combined with expert CCTV camera installation in Chennai, provides robust protection.</p>
+                <div class="bg-white rounded-lg shadow-lg read-more-card overflow-hidden">
+                    <img src="/access-control.jpg" alt="Access control system benefits" class="w-full h-48 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                            <a href="access-control-benefits.html" class="hover:underline">Why your Business needs an Access Control System in Chennai</a>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">Securing your business in Chennai’s fast-paced commercial landscape requires more than just a surveillance camera in Chennai. An access control system, combined with expert CCTV camera installation in Chennai, provides robust protection.</p>
+                        <a href="access-control-benefits.html" class="read-more-button">Read More</a>
+                    </div>
                 </div>
                 <!-- Blog Post 3 -->
-                <div class="bg-white rounded-lg shadow-lg p-6 read-more-card">
-                    <i class="fas fa-wifi read-more-icon"></i>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">
-                        <a href="cctv-crucial-2025.html" class="hover:underline">Why CCTV Security is Crucial in 2025</a>
-                    </h3>
-                    <p class="text-gray-600 text-sm">Discover why a CCTV camera in Chennai is essential for security in 2025 with insights from EyeTech Securities, an authorized CCTV dealer in Chennai.</p>
+                <div class="bg-white rounded-lg shadow-lg read-more-card overflow-hidden">
+                    <img src="/cctv-square-comp.png" alt="CCTV security in 2025" class="w-full h-48 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                            <a href="cctv-crucial-2025.html" class="hover:underline">Why CCTV Security is Crucial in 2025</a>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">Discover why a CCTV camera in Chennai is essential for security in 2025 with insights from EyeTech Securities, an authorized CCTV dealer in Chennai.</p>
+                        <a href="cctv-crucial-2025.html" class="read-more-button">Read More</a>
+                    </div>
                 </div>
                 <!-- Blog Post 4 -->
-                <div class="bg-white rounded-lg shadow-lg p-6 read-more-card">
-                    <i class="fas fa-wifi read-more-icon"></i>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">
-                        <a href="cctv-installation-mistakes.html" class="hover:underline">Top 5 Mistakes in CCTV Installation</a>
-                    </h3>
-                    <p class="text-gray-600 text-sm">Many users face issues due to poor installation. Here’s how to avoid common mistakes with CCTV camera installation in Chennai.</p>
+                <div class="bg-white rounded-lg shadow-lg read-more-card overflow-hidden">
+                    <img src="/5 CCTV Mistakes.png" alt="CCTV installation mistakes" class="w-full h-48 object-cover rounded-t-lg">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                            <a href="cctv-installation-mistakes.html" class="hover:underline">Top 5 Mistakes in CCTV Installation</a>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-4">Many users face issues due to poor installation. Here’s how to avoid common mistakes with CCTV camera installation in Chennai.</p>
+                        <a href="cctv-installation-mistakes.html" class="read-more-button">Read More</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -392,6 +433,7 @@
         function toggleMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
+            console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
         }
     </script>
 </body>
