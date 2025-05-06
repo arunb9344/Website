@@ -319,8 +319,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
                 <span>Packages</span>
             </a>
-            <a href="Blog/blog.html" class="flex items-center space-x-2 py-#pragma once
-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 <span>Blog</span>
             </a>
@@ -344,13 +343,13 @@
     </nav>
 
     <!-- Service Booking Form -->
-    <section id="booking-form" class="py-12 md:py-16">
+    <section id="booking-section" class="py-12 md:py-16">
         <div class="container mx-auto px-4">
             <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Service Booking Form</h2>
             <div class="form-container">
-                <p id="success-message" class="success-message"></p>
-                <form id="booking-form" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                <p id="result" class="success-message"></p>
+                <form id="service-form" method="POST">
+                    <input type="hidden" name="access_key" value="87574eae-83a5-4d24-827d-b2dd10240938">
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
@@ -408,14 +407,14 @@
                         <label for="photo" class="block text-sm font-medium text-gray-700">Attach Photo of Issue (Optional)</label>
                         <input type="file" id="photo" name="photo" accept="image/*" class="mt-1 p-2 w-full border rounded-md">
                     </div>
-                    <button type="button" id="preview-button" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
+                    <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
                 </form>
-                <div id="confirmation-message" class="confirmation-message">
+                <div id="confirmation-box" class="confirmation-message">
                     <p id="charge-text"></p>
                     <p>Any other Material Charges will be Extra.</p>
                     <div class="confirmation-buttons">
-                        <button id="agree-button" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
-                        <button id="cancel-button" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
+                        <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
+                        <button id="cancel-btn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
                     </div>
                 </div>
             </div>
@@ -457,44 +456,50 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu and Form Handling -->
+    <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM fully loaded');
 
             // Mobile menu toggle
-            function toggleMenu() {
+            window.toggleMenu = function() {
                 const menu = document.getElementById('mobile-menu');
-                menu.classList.toggle('hidden');
-                console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
-            }
+                if (menu) {
+                    menu.classList.toggle('hidden');
+                    console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
+                } else {
+                    console.error('Mobile menu not found');
+                }
+            };
 
             // Form elements
-            const form = document.getElementById('booking-form');
-            const confirmationMessage = document.getElementById('confirmation-message');
+            const form = document.getElementById('service-form');
+            const result = document.getElementById('result');
+            const previewBtn = document.getElementById('preview-btn');
+            const agreeBtn = document.getElementById('agree-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const confirmationBox = document.getElementById('confirmation-box');
             const chargeText = document.getElementById('charge-text');
-            const previewButton = document.getElementById('preview-button');
-            const agreeButton = document.getElementById('agree-button');
-            const cancelButton = document.getElementById('cancel-button');
-            const successMessage = document.getElementById('success-message');
 
-            // Verify elements exist
+            // Verify elements
             console.log('Form:', form);
-            console.log('Preview button:', previewButton);
-            console.log('Agree button:', agreeButton);
-            console.log('Cancel button:', cancelButton);
-            console.log('Success message:', successMessage);
+            console.log('Result:', result);
+            console.log('Preview button:', previewBtn);
+            console.log('Agree button:', agreeBtn);
+            console.log('Cancel button:', cancelBtn);
+            console.log('Confirmation box:', confirmationBox);
+            console.log('Charge text:', chargeText);
 
-            if (!form || !previewButton || !agreeButton || !cancelButton || !successMessage) {
+            if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationBox || !chargeText) {
                 console.error('One or more elements not found');
                 return;
             }
 
-            previewButton.addEventListener('click', () => {
+            // Preview button
+            previewBtn.addEventListener('click', () => {
                 console.log('Preview button clicked');
-                // Reset error messages
                 document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-                successMessage.classList.remove('active');
+                result.classList.remove('active');
 
                 // Validate inputs
                 let hasError = false;
@@ -540,57 +545,72 @@
                     return;
                 }
 
-                // Show confirmation message
+                // Show confirmation
                 const isExistingCustomer = customerType === 'Existing Customer';
                 chargeText.innerHTML = `
                     Minimum Visiting Charge is Rs.${isExistingCustomer ? '650 <span class="strikethrough">Rs.750</span>' : '750'} 
                     even if we come and switch ON the Switch and also if we say what is the issue (Troubleshoot) in which
                     you may need to get some other's approval also. So, Request you to check once from your side and confirm with us.
                 `;
-                confirmationMessage.classList.add('active');
-                console.log('Confirmation message displayed');
+                confirmationBox.classList.add('active');
+                console.log('Confirmation box displayed');
             });
 
-            agreeButton.addEventListener('click', () => {
-                console.log('Agree & Proceed button clicked');
+            // Agree button (Web3Forms submission)
+            agreeBtn.addEventListener('click', () => {
+                console.log('Agree button clicked');
                 const formData = new FormData(form);
-                console.log('Form data:', Object.fromEntries(formData));
+                const object = Object.fromEntries(formData);
+                delete object.photo; // JSON API doesn't support files
+                const json = JSON.stringify(object);
+                console.log('Form data (JSON):', object);
+
+                result.innerHTML = 'Please wait...';
+                result.style.color = '#16a34a';
+                result.classList.add('active');
 
                 fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
                 })
-                .then(response => {
+                .then(async (response) => {
                     console.log('Web3Forms response status:', response.status, response.statusText);
-                    if (response.ok) {
-                        return response.json();
+                    let json = await response.json();
+                    if (response.status === 200) {
+                        result.innerHTML = json.message || 'Thank you! Your booking request has been submitted successfully.';
+                        result.style.color = '#16a34a';
+                        console.log('Web3Forms response data:', json);
                     } else {
-                        throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+                        console.log('Web3Forms error response:', json);
+                        result.innerHTML = json.message || 'Error submitting form. Please try again.';
+                        result.style.color = '#dc2626';
                     }
                 })
-                .then(data => {
-                    console.log('Web3Forms response data:', data);
-                    successMessage.textContent = 'Thank you! Your booking request has been submitted successfully.';
-                    successMessage.style.color = '#16a34a';
-                    successMessage.classList.add('active');
-                    confirmationMessage.classList.remove('active');
-                    form.reset();
-                    console.log('Form submitted successfully, reset');
-                })
                 .catch(error => {
-                    console.error('Form submission error:', error);
-                    successMessage.textContent = 'Error submitting form. Please try again.';
-                    successMessage.style.color = '#dc2626';
-                    successMessage.classList.add('active');
-                    console.log('Form submission failed');
+                    console.error('Submission error:', error);
+                    result.innerHTML = 'Something went wrong!';
+                    result.style.color = '#dc2626';
+                })
+                .then(() => {
+                    form.reset();
+                    confirmationBox.classList.remove('active');
+                    setTimeout(() => {
+                        result.classList.remove('active');
+                    }, 3000);
+                    console.log('Form submitted, reset');
                 });
             });
 
-            cancelButton.addEventListener('click', () => {
-                console.log('No Need button clicked');
+            // Cancel button
+            cancelBtn.addEventListener('click', () => {
+                console.log('Cancel button clicked');
                 form.reset();
-                confirmationMessage.classList.remove('active');
-                successMessage.classList.remove('active');
+                confirmationBox.classList.remove('active');
+                result.classList.remove('active');
                 alert('Thanks, we will work later');
                 console.log('Form reset, alert shown');
             });
