@@ -353,8 +353,7 @@
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
-                        <p id="name-error栏目
-                        " class="error-message">Please enter your name.</p>
+                        <p id="name-error" class="error-message">Please enter your name.</p>
                     </div>
                     <div class="mb-4">
                         <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
@@ -414,8 +413,8 @@
                     <p id="charge-text"></p>
                     <p>Any other Material Charges will be Extra.</p>
                     <div class="confirmation-buttons">
-                        <button id="agreeButton" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
-                        <button id="cancelButton" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
+                        <button id="agree-button" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
+                        <button id="cancel-button" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
                     </div>
                 </div>
             </div>
@@ -474,6 +473,7 @@
         const successMessage = document.getElementById('success-message');
 
         previewButton.addEventListener('click', () => {
+            console.log('Preview button clicked');
             // Reset error messages
             document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
             successMessage.classList.remove('active');
@@ -517,7 +517,10 @@
                 hasError = true;
             }
 
-            if (hasError) return;
+            if (hasError) {
+                console.log('Validation errors detected');
+                return;
+            }
 
             // Show confirmation message
             const isExistingCustomer = customerType === 'Existing Customer';
@@ -527,37 +530,51 @@
                 you may need to get some other's approval also. So, Request you to check once from your side and confirm with us.
             `;
             confirmationMessage.classList.add('active');
+            console.log('Confirmation message displayed');
         });
 
         agreeButton.addEventListener('click', () => {
+            console.log('Agree & Proceed button clicked');
             const formData = new FormData(form);
-            fetch(form.action, {
+            console.log('Form data:', Object.fromEntries(formData));
+
+            fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 body: formData
-            }).then(response => {
+            })
+            .then(response => {
+                console.log('Web3Forms response status:', response.status);
                 if (response.ok) {
-                    successMessage.textContent = 'Thank you! Your booking request has been submitted successfully.';
-                    successMessage.classList.add('active');
-                    confirmationMessage.classList.remove('active');
-                    form.reset();
+                    return response.json();
                 } else {
-                    successMessage.textContent = 'Error submitting form. Please try again.';
-                    successMessage.style.color = '#dc2626';
-                    successMessage.classList.add('active');
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-            }).catch(error => {
+            })
+            .then(data => {
+                console.log('Web3Forms response data:', data);
+                successMessage.textContent = 'Thank you! Your booking request has been submitted successfully.';
+                successMessage.style.color = '#16a34a';
+                successMessage.classList.add('active');
+                confirmationMessage.classList.remove('active');
+                form.reset();
+                console.log('Form submitted successfully, reset');
+            })
+            .catch(error => {
                 console.error('Form submission error:', error);
                 successMessage.textContent = 'Error submitting form. Please try again.';
                 successMessage.style.color = '#dc2626';
                 successMessage.classList.add('active');
+                console.log('Form submission failed');
             });
         });
 
         cancelButton.addEventListener('click', () => {
+            console.log('No Need button clicked');
             form.reset();
             confirmationMessage.classList.remove('active');
             successMessage.classList.remove('active');
             alert('Thanks, we will work later');
+            console.log('Form reset, alert shown');
         });
     </script>
 </body>
