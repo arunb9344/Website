@@ -319,7 +319,8 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
                 <span>Packages</span>
             </a>
-            <a href="Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="Blog/blog.html" class="flex items-center space-x-2 py-#pragma once
+2 hover:bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 <span>Blog</span>
             </a>
@@ -349,7 +350,7 @@
             <div class="form-container">
                 <p id="success-message" class="success-message"></p>
                 <form id="booking-form" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="access_key" value="87574eae-83a5-4d24-827d-b2dd10240938">
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
@@ -458,123 +459,141 @@
 
     <!-- JavaScript for Mobile Menu and Form Handling -->
     <script>
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-            console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded');
 
-        const form = document.getElementById('booking-form');
-        const confirmationMessage = document.getElementById('confirmation-message');
-        const chargeText = document.getElementById('charge-text');
-        const previewButton = document.getElementById('preview-button');
-        const agreeButton = document.getElementById('agree-button');
-        const cancelButton = document.getElementById('cancel-button');
-        const successMessage = document.getElementById('success-message');
-
-        previewButton.addEventListener('click', () => {
-            console.log('Preview button clicked');
-            // Reset error messages
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-            successMessage.classList.remove('active');
-
-            // Validate inputs
-            let hasError = false;
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const customerType = form.querySelector('input[name="customerType"]:checked')?.value;
-            const issue = document.getElementById('issue').value;
-            const comments = document.getElementById('comments').value.trim();
-
-            if (!name) {
-                document.getElementById('name-error').classList.add('active');
-                hasError = true;
-            }
-            if (!phone || !/^[0-9]{10}$/.test(phone)) {
-                document.getElementById('phone-error').classList.add('active');
-                hasError = true;
-            }
-            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                document.getElementById('email-error').classList.add('active');
-                hasError = true;
-            }
-            if (!address) {
-                document.getElementById('address-error').classList.add('active');
-                hasError = true;
-            }
-            if (!customerType) {
-                document.getElementById('customerType-error').classList.add('active');
-                hasError = true;
-            }
-            if (!issue) {
-                document.getElementById('issue-error').classList.add('active');
-                hasError = true;
-            }
-            if (!comments) {
-                document.getElementById('comments-error').classList.add('active');
-                hasError = true;
+            // Mobile menu toggle
+            function toggleMenu() {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+                console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
             }
 
-            if (hasError) {
-                console.log('Validation errors detected');
+            // Form elements
+            const form = document.getElementById('booking-form');
+            const confirmationMessage = document.getElementById('confirmation-message');
+            const chargeText = document.getElementById('charge-text');
+            const previewButton = document.getElementById('preview-button');
+            const agreeButton = document.getElementById('agree-button');
+            const cancelButton = document.getElementById('cancel-button');
+            const successMessage = document.getElementById('success-message');
+
+            // Verify elements exist
+            console.log('Form:', form);
+            console.log('Preview button:', previewButton);
+            console.log('Agree button:', agreeButton);
+            console.log('Cancel button:', cancelButton);
+            console.log('Success message:', successMessage);
+
+            if (!form || !previewButton || !agreeButton || !cancelButton || !successMessage) {
+                console.error('One or more elements not found');
                 return;
             }
 
-            // Show confirmation message
-            const isExistingCustomer = customerType === 'Existing Customer';
-            chargeText.innerHTML = `
-                Minimum Visiting Charge is Rs.${isExistingCustomer ? '650 <span class="strikethrough">Rs.750</span>' : '750'} 
-                even if we come and switch ON the Switch and also if we say what is the issue (Troubleshoot) in which
-                you may need to get some other's approval also. So, Request you to check once from your side and confirm with us.
-            `;
-            confirmationMessage.classList.add('active');
-            console.log('Confirmation message displayed');
-        });
+            previewButton.addEventListener('click', () => {
+                console.log('Preview button clicked');
+                // Reset error messages
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                successMessage.classList.remove('active');
 
-        agreeButton.addEventListener('click', () => {
-            console.log('Agree & Proceed button clicked');
-            const formData = new FormData(form);
-            console.log('Form data:', Object.fromEntries(formData));
+                // Validate inputs
+                let hasError = false;
+                const name = document.getElementById('name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const customerType = form.querySelector('input[name="customerType"]:checked')?.value;
+                const issue = document.getElementById('issue').value;
+                const comments = document.getElementById('comments').value.trim();
 
-            fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                console.log('Web3Forms response status:', response.status);
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                if (!name) {
+                    document.getElementById('name-error').classList.add('active');
+                    hasError = true;
                 }
-            })
-            .then(data => {
-                console.log('Web3Forms response data:', data);
-                successMessage.textContent = 'Thank you! Your booking request has been submitted successfully.';
-                successMessage.style.color = '#16a34a';
-                successMessage.classList.add('active');
-                confirmationMessage.classList.remove('active');
-                form.reset();
-                console.log('Form submitted successfully, reset');
-            })
-            .catch(error => {
-                console.error('Form submission error:', error);
-                successMessage.textContent = 'Error submitting form. Please try again.';
-                successMessage.style.color = '#dc2626';
-                successMessage.classList.add('active');
-                console.log('Form submission failed');
-            });
-        });
+                if (!phone || !/^[0-9]{10}$/.test(phone)) {
+                    document.getElementById('phone-error').classList.add('active');
+                    hasError = true;
+                }
+                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    document.getElementById('email-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!address) {
+                    document.getElementById('address-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!customerType) {
+                    document.getElementById('customerType-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!issue) {
+                    document.getElementById('issue-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!comments) {
+                    document.getElementById('comments-error').classList.add('active');
+                    hasError = true;
+                }
 
-        cancelButton.addEventListener('click', () => {
-            console.log('No Need button clicked');
-            form.reset();
-            confirmationMessage.classList.remove('active');
-            successMessage.classList.remove('active');
-            alert('Thanks, we will work later');
-            console.log('Form reset, alert shown');
+                if (hasError) {
+                    console.log('Validation errors detected');
+                    return;
+                }
+
+                // Show confirmation message
+                const isExistingCustomer = customerType === 'Existing Customer';
+                chargeText.innerHTML = `
+                    Minimum Visiting Charge is Rs.${isExistingCustomer ? '650 <span class="strikethrough">Rs.750</span>' : '750'} 
+                    even if we come and switch ON the Switch and also if we say what is the issue (Troubleshoot) in which
+                    you may need to get some other's approval also. So, Request you to check once from your side and confirm with us.
+                `;
+                confirmationMessage.classList.add('active');
+                console.log('Confirmation message displayed');
+            });
+
+            agreeButton.addEventListener('click', () => {
+                console.log('Agree & Proceed button clicked');
+                const formData = new FormData(form);
+                console.log('Form data:', Object.fromEntries(formData));
+
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    console.log('Web3Forms response status:', response.status, response.statusText);
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
+                    }
+                })
+                .then(data => {
+                    console.log('Web3Forms response data:', data);
+                    successMessage.textContent = 'Thank you! Your booking request has been submitted successfully.';
+                    successMessage.style.color = '#16a34a';
+                    successMessage.classList.add('active');
+                    confirmationMessage.classList.remove('active');
+                    form.reset();
+                    console.log('Form submitted successfully, reset');
+                })
+                .catch(error => {
+                    console.error('Form submission error:', error);
+                    successMessage.textContent = 'Error submitting form. Please try again.';
+                    successMessage.style.color = '#dc2626';
+                    successMessage.classList.add('active');
+                    console.log('Form submission failed');
+                });
+            });
+
+            cancelButton.addEventListener('click', () => {
+                console.log('No Need button clicked');
+                form.reset();
+                confirmationMessage.classList.remove('active');
+                successMessage.classList.remove('active');
+                alert('Thanks, we will work later');
+                console.log('Form reset, alert shown');
+            });
         });
     </script>
 </body>
