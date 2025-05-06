@@ -332,7 +332,7 @@
         <div class="container mx-auto px-4">
             <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Service Booking Form</h2>
             <div class="form-container">
-                <p id="success-message" class="success-message">Thank you! Your booking request has been submitted successfully.</p>
+                <p id="success-message" class="success-message"></p>
                 <form id="booking-form" action="https://api.web3forms.com/submit" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="access_key" value="87574eae-83a5-4d24-827d-b2dd10240938">
                     <div class="mb-4">
@@ -455,11 +455,12 @@
         const previewButton = document.getElementById('preview-button');
         const agreeButton = document.getElementById('agree-button');
         const cancelButton = document.getElementById('cancel-button');
+        const successMessage = document.getElementById('success-message');
 
         previewButton.addEventListener('click', () => {
             // Reset error messages
             document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-            document.getElementById('success-message').classList.remove('active');
+            successMessage.classList.remove('active');
 
             // Validate inputs
             let hasError = false;
@@ -514,18 +515,40 @@
         });
 
         agreeButton.addEventListener('click', () => {
+            // Submit the form to Web3Forms
             form.submit();
         });
 
         cancelButton.addEventListener('click', () => {
+            // Reset the form and show cancellation message
             form.reset();
             confirmationMessage.classList.remove('active');
+            successMessage.textContent = 'Thanks, we will work later';
+            successMessage.classList.add('active');
         });
 
         form.addEventListener('submit', (e) => {
+            // Prevent default submission to handle it manually
+            e.preventDefault();
             // Show success message after submission
-            document.getElementById('success-message').classList.add('active');
+            successMessage.textContent = 'Thank you! Your booking request has been submitted successfully.';
+            successMessage.classList.add('active');
             confirmationMessage.classList.remove('active');
+            // Actually submit the form to Web3Forms
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form)
+            }).then(response => {
+                if (!response.ok) {
+                    console.error('Form submission failed:', response.statusText);
+                    successMessage.textContent = 'Error submitting form. Please try again.';
+                    successMessage.style.color = '#dc2626';
+                }
+            }).catch(error => {
+                console.error('Form submission error:', error);
+                successMessage.textContent = 'Error submitting form. Please try again.';
+                successMessage.style.color = '#dc2626';
+            });
         });
     </script>
 </body>
