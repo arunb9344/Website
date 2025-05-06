@@ -143,6 +143,26 @@
                 background: linear-gradient(to right, #4B5563, #4B5563) !important;
             }
         }
+/* Navigation Icons in Mobile Menu */
+@media (max-width: 639px) {
+            #mobile-menu {
+                overflow: visible; /* Prevent clipping */
+            }
+            #mobile-menu a {
+                padding-left: 1rem; /* Increased from 0.75rem */
+                padding-right: 0.75rem;
+                align-items: center;
+                min-width: 160px; /* Increased from 150px */
+                display: flex; /* Ensure alignment */
+            }
+            #mobile-menu svg {
+                width: 1.75rem; /* w-7 */
+                height: 1.75rem; /* h-7 */
+                margin-left: 0.25rem; /* New */
+                overflow: visible;
+            }
+        }
+
         /* Scope Jotform styles to avoid global overrides */
         .jotform-container form.jotform-form * {
             box-sizing: border-box;
