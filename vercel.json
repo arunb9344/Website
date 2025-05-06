@@ -1,15 +1,36 @@
 {
-    "redirects": [
-      {
-        "source": "/index.html",
-        "destination": "/",
-        "permanent": true
-      },
-      {
-        "source": "/:path*",
-        "has": [{ "type": "host", "value": "eyetechsecurities.in" }],
-        "destination": "https://www.eyetechsecurities.in/:path*",
-        "permanent": true
-      }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/send-email.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "*.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "eyetechsecurities.in" }],
+      "destination": "https://www.eyetechsecurities.in/:path*",
+      "permanent": true
+    }
+  ]
+}
