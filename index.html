@@ -840,11 +840,19 @@
         </div>
     </footer>
 
-    <!-- JavaScript for Mobile Menu Toggle -->
+    <!-- JavaScript for Mobile Menu Toggle & Warranty Info for Packages-->
     <script>
         function toggleMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
+        }
+
+        function toggleInfo(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            content.classList.toggle('active');
+            element.classList.toggle('active');
+            console.log('Additional info toggled:', content.classList.contains('active') ? 'Visible' : 'Hidden');
         }
     </script>
 </body>
