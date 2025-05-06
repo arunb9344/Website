@@ -403,10 +403,6 @@
                         <textarea id="comments" name="comments" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
                         <p id="comments-error" class="error-message">Please enter your comments.</p>
                     </div>
-                    <div class="mb-4">
-                        <label for="photo" class="block text-sm font-medium text-gray-700">Attach Photo of Issue (Optional)</label>
-                        <input type="file" id="photo" name="photo" accept="image/*" class="mt-1 p-2 w-full border rounded-md">
-                    </div>
                     <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
                 </form>
                 <div id="confirmation-box" class="confirmation-message">
@@ -561,7 +557,6 @@
                 console.log('Agree button clicked');
                 const formData = new FormData(form);
                 const object = Object.fromEntries(formData);
-                delete object.photo; // JSON API doesn't support files
                 const json = JSON.stringify(object);
                 console.log('Form data (JSON):', object);
 
@@ -584,6 +579,11 @@
                         result.innerHTML = json.message || 'Thank you! Your booking request has been submitted successfully.';
                         result.style.color = '#16a34a';
                         console.log('Web3Forms response data:', json);
+                        form.reset();
+                        confirmationBox.classList.remove('active');
+                        setTimeout(() => {
+                            window.location.href = 'thankyou.html';
+                        }, 1000); // Redirect after 1 second
                     } else {
                         console.log('Web3Forms error response:', json);
                         result.innerHTML = json.message || 'Error submitting form. Please try again.';
@@ -594,14 +594,6 @@
                     console.error('Submission error:', error);
                     result.innerHTML = 'Something went wrong!';
                     result.style.color = '#dc2626';
-                })
-                .then(() => {
-                    form.reset();
-                    confirmationBox.classList.remove('active');
-                    setTimeout(() => {
-                        result.classList.remove('active');
-                    }, 3000);
-                    console.log('Form submitted, reset');
                 });
             });
 
