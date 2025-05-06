@@ -229,6 +229,54 @@
             background-color: #2563eb;
             transform: scale(1.05);
         }
+
+        /* Styling for additional info box */
+        .additional-info-box {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background-color: #f8f0f0;
+            border: 2px solid #dc2626;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .additional-info-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .additional-info-content {
+            display: none;
+        }
+        .additional-info-content.active {
+            display: block;
+        }
+        .additional-info-toggle {
+            cursor: pointer;
+            color: #dc2626;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background-color: #ffe6e6;
+            border-radius: 0.25rem;
+        }
+        .additional-info-toggle:hover {
+            background-color: #ffd4d4;
+        }
+        .additional-info-toggle i {
+            transition: transform 0.3s ease;
+        }
+        .additional-info-toggle.active i {
+            transform: rotate(180deg);
+        }
+        .additional-info-content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            color: #1f2937;
+        }
+        .additional-info-content li {
+            margin-bottom: 0.5rem;
+        }
     </style>
 </head>
 
@@ -374,6 +422,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- 1 Camera -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <i class="fas fa-camera package-icon"></i>
                     <h3 class="text-lg md:text-xl text-blue-600 font-bold mb-2">1 Camera</h3>
                     <p class="text-xl md:text-2xl font-bold mb-4">Rs.10,000</p>
                     <p class="text-sm md:text-base mb-4">Ideal for small spaces</p>
@@ -385,14 +434,25 @@
                         <li>Connectors</li>
                         <li>PVC Box</li>
                         <li>20m Cable</li>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>Including Installation</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Camera, DVR, SMPS.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Hard Disk.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>1 Year Free Service</li></ul>
                     </ul>
+                    <div class="additional-info-box">
+                        <div class="additional-info-toggle" onclick="toggleInfo(this)">
+                            <span>View Warranty & Service Details</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="additional-info-content">
+                            <ul>
+                                <li>Including Installation</li>
+                                <li>2 Years Manufacturer Warranty for Camera, DVR, SMPS</li>
+                                <li>2 Years Manufacturer Warranty for Hard Disk</li>
+                                <li>1 Year Free Service</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <!-- 2 Cameras -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <i class="fas fa-camera package-icon"></i>
                     <h3 class="text-lg md:text-xl text-blue-600 font-bold mb-2">2 Cameras</h3>
                     <p class="text-xl md:text-2xl font-bold mb-4">Rs.13,000</p>
                     <p class="text-sm md:text-base mb-4">Perfect for homes</p>
@@ -404,14 +464,25 @@
                         <li>Connectors</li>
                         <li>PVC Box</li>
                         <li>40m Cable (20m per camera)</li>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>Including Installation</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Camera, DVR, SMPS.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Hard Disk.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>1 Year Free Service</li></ul>
                     </ul>
+                    <div class="additional-info-box">
+                        <div class="additional-info-toggle" onclick="toggleInfo(this)">
+                            <span>View Warranty & Service Details</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="additional-info-content">
+                            <ul>
+                                <li>Including Installation</li>
+                                <li>2 Years Manufacturer Warranty for Camera, DVR, SMPS</li>
+                                <li>2 Years Manufacturer Warranty for Hard Disk</li>
+                                <li>1 Year Free Service</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <!-- 3 Cameras -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <i class="fas fa-camera package-icon"></i>
                     <h3 class="text-lg md:text-xl text-blue-600 font-bold mb-2">3 Cameras</h3>
                     <p class="text-xl md:text-2xl font-bold mb-4">Rs.16,500</p>
                     <p class="text-sm md:text-base mb-4">Great for small offices</p>
@@ -423,14 +494,25 @@
                         <li>Connectors</li>
                         <li>PVC Box</li>
                         <li>60m Cable (20m per camera)</li>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>Including Installation</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Camera, DVR, SMPS.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Hard Disk.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>1 Year Free Service</li></ul>
                     </ul>
+                    <div class="additional-info-box">
+                        <div class="additional-info-toggle" onclick="toggleInfo(this)">
+                            <span>View Warranty & Service Details</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="additional-info-content">
+                            <ul>
+                                <li>Including Installation</li>
+                                <li>2 Years Manufacturer Warranty for Camera, DVR, SMPS</li>
+                                <li>2 Years Manufacturer Warranty for Hard Disk</li>
+                                <li>1 Year Free Service</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <!-- 4 Cameras -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <i class="fas fa-camera package-icon"></i>
                     <h3 class="text-lg md:text-xl text-blue-600 font-bold mb-2">4 Cameras</h3>
                     <p class="text-xl md:text-2xl font-bold mb-4">Rs.21,000</p>
                     <p class="text-sm md:text-base mb-4">Enhanced coverage</p>
@@ -442,14 +524,25 @@
                         <li>Connectors</li>
                         <li>PVC Box</li>
                         <li>80m Cable (20m per camera)</li>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>Including Installation</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Camera, DVR, SMPS.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>3 Years Manufacturer Warranty for Hard Disk.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>1 Year Free Service</li></ul>
                     </ul>
+                    <div class="additional-info-box">
+                        <div class="additional-info-toggle" onclick="toggleInfo(this)">
+                            <span>View Warranty & Service Details</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="additional-info-content">
+                            <ul>
+                                <li>Including Installation</li>
+                                <li>2 Years Manufacturer Warranty for Camera, DVR, SMPS</li>
+                                <li>3 Years Manufacturer Warranty for Hard Disk</li>
+                                <li>1 Year Free Service</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <!-- 5 Cameras -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <i class="fas fa-camera package-icon"></i>
                     <h3 class="text-lg md:text-xl text-blue-600 font-bold mb-2">5 Cameras</h3>
                     <p class="text-xl md:text-2xl font-bold mb-4">Rs.26,000</p>
                     <p class="text-sm md:text-base mb-4">For larger properties</p>
@@ -461,14 +554,25 @@
                         <li>Connectors</li>
                         <li>PVC Box</li>
                         <li>100m Cable (20m per camera)</li>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>Including Installation</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Camera, DVR, SMPS.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>3 Years Manufacturer Warranty for Hard Disk.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>1 Year Free Service</li></ul>
                     </ul>
+                    <div class="additional-info-box">
+                        <div class="additional-info-toggle" onclick="toggleInfo(this)">
+                            <span>View Warranty & Service Details</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="additional-info-content">
+                            <ul>
+                                <li>Including Installation</li>
+                                <li>2 Years Manufacturer Warranty for Camera, DVR, SMPS</li>
+                                <li>3 Years Manufacturer Warranty for Hard Disk</li>
+                                <li>1 Year Free Service</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <!-- 6 Cameras -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <i class="fas fa-camera package-icon"></i>
                     <h3 class="text-lg md:text-xl text-blue-600 font-bold mb-2">6 Cameras</h3>
                     <p class="text-xl md:text-2xl font-bold mb-4">Rs.30,000</p>
                     <p class="text-sm md:text-base mb-4">Comprehensive security</p>
@@ -480,14 +584,25 @@
                         <li>Connectors</li>
                         <li>PVC Box</li>
                         <li>120m Cable (20m per camera)</li>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>Including Installation</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Camera, DVR, SMPS.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>3 Years Manufacturer Warranty for Hard Disk.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>1 Year Free Service</li></ul>
                     </ul>
+                    <div class="additional-info-box">
+                        <div class="additional-info-toggle" onclick="toggleInfo(this)">
+                            <span>View Warranty & Service Details</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="additional-info-content">
+                            <ul>
+                                <li>Including Installation</li>
+                                <li>2 Years Manufacturer Warranty for Camera, DVR, SMPS</li>
+                                <li>3 Years Manufacturer Warranty for Hard Disk</li>
+                                <li>1 Year Free Service</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <!-- 7 Cameras -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <i class="fas fa-camera package-icon"></i>
                     <h3 class="text-lg md:text-xl text-blue-600 font-bold mb-2">7 Cameras</h3>
                     <p class="text-xl md:text-2xl font-bold mb-4">Rs.33,000</p>
                     <p class="text-sm md:text-base mb-4">Advanced monitoring</p>
@@ -499,14 +614,25 @@
                         <li>Connectors</li>
                         <li>PVC Box</li>
                         <li>140m Cable (20m per camera)</li>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>Including Installation</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Camera, DVR, SMPS.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>3 Years Manufacturer Warranty for Hard Disk.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>1 Year Free Service</li></ul>
                     </ul>
+                    <div class="additional-info-box">
+                        <div class="additional-info-toggle" onclick="toggleInfo(this)">
+                            <span>View Warranty & Service Details</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="additional-info-content">
+                            <ul>
+                                <li>Including Installation</li>
+                                <li>2 Years Manufacturer Warranty for Camera, DVR, SMPS</li>
+                                <li>3 Years Manufacturer Warranty for Hard Disk</li>
+                                <li>1 Year Free Service</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <!-- 8 Cameras -->
                 <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <i class="fas fa-camera package-icon"></i>
                     <h3 class="text-lg md:text-xl text-blue-600 font-bold mb-2">8 Cameras</h3>
                     <p class="text-xl md:text-2xl font-bold mb-4">Rs.36,000</p>
                     <p class="text-sm md:text-base mb-4">Maximum protection</p>
@@ -518,11 +644,21 @@
                         <li>Connectors</li>
                         <li>PVC Box</li>
                         <li>160m Cable (20m per camera)</li>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>Including Installation</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>2 Years Manufacturer Warranty for Camera, DVR, SMPS.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>3 Years Manufacturer Warranty for Hard Disk.</li></ul>
-                        <ul class="list-disc pl-5 font-bold text-red-600"><li>1 Year Free Service</li></ul>
                     </ul>
+                    <div class="additional-info-box">
+                        <div class="additional-info-toggle" onclick="toggleInfo(this)">
+                            <span>View Warranty & Service Details</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="additional-info-content">
+                            <ul>
+                                <li>Including Installation</li>
+                                <li>2 Years Manufacturer Warranty for Camera, DVR, SMPS</li>
+                                <li>3 Years Manufacturer Warranty for Hard Disk</li>
+                                <li>1 Year Free Service</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
