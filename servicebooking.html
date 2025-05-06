@@ -146,6 +146,15 @@
             .phone-box {
                 background-color: #e6f0ff;
             }
+            /* Customer Type Alignment for Mobile */
+            .customer-type-container {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .customer-type-container label {
+                margin-left: 0;
+            }
         }
         @media (min-width: 640px) {
             .contact-icons {
@@ -153,6 +162,12 @@
                 right: 16px;
                 flex-direction: column;
                 gap: 1rem;
+            }
+            /* Customer Type Alignment for Desktop */
+            .customer-type-container {
+                display: flex;
+                flex-direction: row;
+                gap: 1.5rem;
             }
         }
         .contact-icon {
@@ -357,12 +372,12 @@
                     </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Customer Type</label>
-                        <div class="mt-1">
+                        <div class="mt-1 customer-type-container">
                             <label class="inline-flex items-center">
                                 <input type="radio" name="customerType" value="New Customer" class="form-radio" required>
                                 <span class="ml-2">New Customer</span>
                             </label>
-                            <label class="inline-flex items-center ml-6">
+                            <label class="inline-flex items-center">
                                 <input type="radio" name="customerType" value="Existing Customer" class="form-radio">
                                 <span class="ml-2">Existing Customer (We Done Full Installation)</span>
                             </label>
@@ -398,7 +413,7 @@
                     <p id="charge-text"></p>
                     <p>Any other Material Charges will be Extra.</p>
                     <div class="confirmation-buttons">
-                        <button id="agree-button" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree</button>
+                        <button id="agree-button" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
                         <button id="cancel-button" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
                     </div>
                 </div>
@@ -471,7 +486,6 @@
             const customerType = form.querySelector('input[name="customerType"]:checked')?.value;
             const issue = document.getElementById('issue').value;
             const comments = document.getElementById('comments').value.trim();
-            const photo = document.getElementById('photo').files[0];
 
             if (!name) {
                 document.getElementById('name-error').classList.add('active');
@@ -515,12 +529,12 @@
         });
 
         agreeButton.addEventListener('click', () => {
-            // Submit the form to Web3Forms
+            // Submit the form
             form.submit();
         });
 
         cancelButton.addEventListener('click', () => {
-            // Reset the form and show cancellation message
+            // Reset form and show cancellation message
             form.reset();
             confirmationMessage.classList.remove('active');
             successMessage.textContent = 'Thanks, we will work later';
@@ -528,26 +542,27 @@
         });
 
         form.addEventListener('submit', (e) => {
-            // Prevent default submission to handle it manually
-            e.preventDefault();
-            // Show success message after submission
-            successMessage.textContent = 'Thank you! Your booking request has been submitted successfully.';
-            successMessage.classList.add('active');
-            confirmationMessage.classList.remove('active');
-            // Actually submit the form to Web3Forms
+            e.preventDefault(); // Prevent default to handle submission manually
+            const formData = new FormData(form);
             fetch(form.action, {
                 method: 'POST',
-                body: new FormData(form)
+                body: formData
             }).then(response => {
-                if (!response.ok) {
-                    console.error('Form submission failed:', response.statusText);
+                if (response.ok) {
+                    successMessage.textContent = 'Thank you! Your booking request has been submitted successfully.';
+                    successMessage.classList.add('active');
+                    confirmationMessage.classList.remove('active');
+                    form.reset();
+                } else {
                     successMessage.textContent = 'Error submitting form. Please try again.';
                     successMessage.style.color = '#dc2626';
+                    successMessage.classList.add('active');
                 }
             }).catch(error => {
                 console.error('Form submission error:', error);
                 successMessage.textContent = 'Error submitting form. Please try again.';
                 successMessage.style.color = '#dc2626';
+                successMessage.classList.add('active');
             });
         });
     </script>
