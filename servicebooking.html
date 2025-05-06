@@ -353,7 +353,8 @@
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
-                        <p id="name-error" class="error-message">Please enter your name.</p>
+                        <p id="name-error栏目
+                        " class="error-message">Please enter your name.</p>
                     </div>
                     <div class="mb-4">
                         <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
@@ -529,20 +530,6 @@
         });
 
         agreeButton.addEventListener('click', () => {
-            // Submit the form
-            form.submit();
-        });
-
-        cancelButton.addEventListener('click', () => {
-            // Reset form and show cancellation message
-            form.reset();
-            confirmationMessage.classList.remove('active');
-            successMessage.textContent = 'Thanks, we will work later';
-            successMessage.classList.add('active');
-        });
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent default to handle submission manually
             const formData = new FormData(form);
             fetch(form.action, {
                 method: 'POST',
@@ -564,6 +551,13 @@
                 successMessage.style.color = '#dc2626';
                 successMessage.classList.add('active');
             });
+        });
+
+        cancelButton.addEventListener('click', () => {
+            form.reset();
+            confirmationMessage.classList.remove('active');
+            successMessage.classList.remove('active');
+            alert('Thanks, we will work later');
         });
     </script>
 </body>
