@@ -1,15 +1,4 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/send-email.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "*.html",
-      "use": "@vercel/static"
-    }
-  ],
   "redirects": [
     {
       "source": "/index.html",
