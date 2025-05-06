@@ -130,9 +130,21 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/payment/payment_feature.css?3.3.62584" />
 
     <style>
-        
-/* Navigation Icons in Mobile Menu */
-@media (max-width: 639px) {
+        /* Ensure navigation background persists in mobile view */
+        nav.bg-gradient-to-r.from-gray-600.to-gray-600 {
+            background: linear-gradient(to right, #4B5563, #4B5563) !important;
+        }
+        #mobile-menu.bg-gray-600 {
+            background: #4B5563 !important;
+        }
+        @media (max-width: 639px) {
+            nav.bg-gradient-to-r.from-gray-600.to-gray-600,
+            #mobile-menu.bg-gray-600 {
+                background: linear-gradient(to right, #4B5563, #4B5563) !important;
+            }
+        }
+     /* Navigation Icons in Mobile Menu */
+        @media (max-width: 639px) {
             #mobile-menu {
                 overflow: visible; /* Prevent clipping */
             }
