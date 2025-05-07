@@ -731,7 +731,7 @@
                 return;
             }
 
-            // Admin UID
+            // Admin UIDs
             const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o1'];
 
             // Store bookings and current tab
@@ -754,7 +754,8 @@
 
             // Authentication State
             onAuthStateChanged(auth, user => {
-                if (user && user.uid === ADMIN_UID) {
+                if (user && ADMIN_UIDS.includes(user.uid)) {
+                    // Admin user
                     console.log('Admin signed in:', user.email);
                     authBtn.classList.add('hidden');
                     signoutBtn.classList.remove('hidden');
@@ -762,13 +763,24 @@
                     adminContent.classList.remove('hidden');
                     errorMessage.classList.remove('active');
                     loadBookings();
+                } else if (user) {
+                    // Non-admin user
+                    console.log('Non-admin user signed in:', user.email);
+                    authBtn.classList.add('hidden');
+                    signoutBtn.classList.remove('hidden');
+                    userEmail.textContent = user.email;
+                    adminContent.classList.add('hidden');
+                    errorMessage.textContent = 'Unauthorized access. Admin privileges required.';
+                    errorMessage.classList.add('active');
+                    adminTable.innerHTML = '';
                 } else {
-                    console.log('No admin user signed in or unauthorized');
+                    // No user signed in
+                    console.log('No user signed in');
                     authBtn.classList.remove('hidden');
                     signoutBtn.classList.add('hidden');
                     userEmail.textContent = '';
                     adminContent.classList.add('hidden');
-                    errorMessage.textContent = user ? 'Unauthorized access. Admin privileges required.' : 'Please sign in as admin to access the panel.';
+                    errorMessage.textContent = 'Please sign in as admin to access the panel.';
                     errorMessage.classList.add('active');
                     adminTable.innerHTML = '';
                 }
