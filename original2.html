@@ -151,6 +151,7 @@
     </script>
 
     <style>
+        /* Existing Styles */
         @media (max-width: 639px) {
             .customer-type-container {
                 display: flex;
@@ -160,18 +161,12 @@
             .customer-type-container label {
                 margin-left: 0;
             }
-            .signin-container {
-                padding: 1rem;
-            }
         }
         @media (min-width: 640px) {
             .customer-type-container {
                 display: flex;
                 flex-direction: row;
                 gap: 1.5rem;
-            }
-            .signin-container {
-                padding: 2rem;
             }
         }
         @media (max-width: 639px) {
@@ -235,18 +230,26 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0,0,0,0.5);
-        }
-        .modal-content {
-            background-color: #f8f0f0;
-            margin: 15% auto;
-            padding: 20px;
-            border: 2px solid #dc2626;
-            border-radius: 0.5rem;
-            width: 80%;
-            max-width: 500px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         .modal.active {
             display: block;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
         }
         .confirmation-buttons {
             display: flex;
@@ -254,27 +257,95 @@
             justify-content: center;
             margin-top: 1rem;
         }
-        .signin-container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: #ffffff;
+
+        /* Professional Sign-In Modal Styles */
+        .auth-modal-content {
+            background: linear-gradient(145deg, #ffffff, #f0f4f8);
+            border: 1px solid #e5e7eb;
+        }
+        .auth-button {
+            transition: all 0.3s ease;
             border-radius: 0.5rem;
+            font-weight: 500;
+        }
+        .auth-button:hover {
+            transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .history-container {
-            max-width: 600px;
-            margin: 2rem auto;
+        .google-button {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .google-button:hover {
+            background-color: #f3f4f6;
+        }
+        .toggle-auth {
+            cursor: pointer;
+            color: #2563eb;
+            transition: color 0.2s ease;
+        }
+        .toggle-auth:hover {
+            color: #1d4ed8;
+        }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            color: #6b7280;
+            transition: color 0.2s ease;
+        }
+        .close-modal:hover {
+            color: #374151;
+        }
+
+        /* Tabular Booking History Styles */
+        .history-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
             background: #ffffff;
-            padding: 2rem;
             border-radius: 0.5rem;
+            overflow: hidden;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .history-item {
+        .history-table th,
+        .history-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
             border-bottom: 1px solid #e5e7eb;
-            padding: 1rem 0;
         }
-        .history-item:last-child {
+        .history-table th {
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .history-table tr:last-child td {
             border-bottom: none;
+        }
+        .history-table tr:hover {
+            background: #f9fafb;
+        }
+        .history-table td {
+            font-size: 0.875rem;
+            color: #374151;
+        }
+        @media (max-width: 640px) {
+            .history-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .history-table th,
+            .history-table td {
+                min-width: 120px;
+            }
         }
     </style>
 </head>
@@ -356,41 +427,66 @@
         </div>
     </nav>
 
-    <!-- Sign-in Section -->
-    <section id="signin-section" class="py-8 md:py-12">
-        <div class="container mx-auto px-4">
-            <div class="signin-container">
-                <h2 class="text-xl md:text-2xl font-bold text-center mb-4">Sign In</h2>
-                <div id="signin-form">
-                    <div class="mb-4">
-                        <label for="signin-email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" id="signin-email" class="mt-1 p-2 w-full border rounded-md" required>
-                        <p id="signin-email-error" class="error-message">Please enter a valid email.</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="signin-password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" id="signin-password" class="mt-1 p-2 w-full border rounded-md" required>
-                        <p id="signin-password-error" class="error-message">Please enter your password.</p>
-                    </div>
-                    <button type="button" id="signin-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full mb-2">Sign In</button>
-                    <button type="button" id="google-signin-btn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded w-full mb-2">Sign In with Google</button>
-                    <button type="button" id="signup-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded w-full">Sign Up</button>
-                </div>
-                <div id="signout-form" class="hidden">
-                    <p class="text-center text-gray-700 mb-4">Signed in as <span id="user-email"></span></p>
-                    <button type="button" id="signout-btn" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded w-full">Sign Out</button>
-                </div>
-                <p id="signin-result" class="text-center mt-4"></p>
+    <!-- Authentication Section -->
+    <section id="auth-section" class="py-4">
+        <div class="container mx-auto px-4 text-right">
+            <div id="auth-status" class="inline-flex items-center space-x-2">
+                <span id="user-email" class="text-gray-700"></span>
+                <button id="auth-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded auth-button hidden">Sign In</button>
+                <button id="signout-btn" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded auth-button hidden">Sign Out</button>
             </div>
         </div>
     </section>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content auth-modal-content relative">
+            <span class="close-modal" onclick="closeAuthModal()">&times;</span>
+            <div id="signin-form" class="hidden">
+                <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+                <div class="mb-4">
+                    <label for="signin-email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="signin-email" class="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500" required>
+                    <p id="signin-email-error" class="error-message">Please enter a valid email.</p>
+                </div>
+                <div class="mb-4">
+                    <label for="signin-password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="signin-password" class="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500" required>
+                    <p id="signin-password-error" class="error-message">Please enter your password.</p>
+                </div>
+                <button type="button" id="signin-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full auth-button mb-2">Sign In</button>
+                <button type="button" id="google-signin-btn" class="google-button py-2 px-4 rounded w-full auth-button mb-2">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.51h5.84c-.25 1.34-.98 2.47-2.07 3.23v2.68h3.34c1.95-1.8 3.07-4.45 3.07-7.17z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.34-2.68c-1.01.68-2.3 1.08-3.94 1.08-3.02 0-5.58-2.04-6.5-4.78l-3.28 2.53C4.54 20.99 7.97 23 12 23z"/><path fill="#FBBC05" d="M5.5 14.25c-.23-.67-.36-1.39-.36-2.14s.13-1.47.36-2.14l-3.28-2.53C.99 8.76.5 10.38.5 12s.49 3.24 1.72 4.56l3.28-2.53z"/><path fill="#EA4335" d="M12 4.75c1.64 0 3.11.55 4.27 1.62l3.2-3.2C17.46 1.01 14.97 0 12 0 7.97 0 4.54 2.01 2.72 4.73l3.28 2.53c.92-2.74 3.48-4.76 6.5-4.76z"/></svg>
+                    Sign In with Google
+                </button>
+                <p class="text-center text-sm">Don't have an account? <span class="toggle-auth" onclick="toggleAuthForm('signup')">Sign Up</span></p>
+                <p id="signin-result" class="text-center mt-4"></p>
+            </div>
+            <div id="signup-form" class="hidden">
+                <h2 class="text-2xl font-bold text-center mb-6">Sign Up</h2>
+                <div class="mb-4">
+                    <label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="signup-email" class="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500" required>
+                    <p id="signup-email-error" class="error-message">Please enter a valid email.</p>
+                </div>
+                <div class="mb-4">
+                    <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="signup-password" class="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500" required>
+                    <p id="signup-password-error" class="error-message">Please enter a password (min 6 characters).</p>
+                </div>
+                <button type="button" id="signup-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded w-full auth-button mb-2">Sign Up</button>
+                <p class="text-center text-sm">Already have an account? <span class="toggle-auth" onclick="toggleAuthForm('signin')">Sign In</span></p>
+                <p id="signup-result" class="text-center mt-4"></p>
+            </div>
+        </div>
+    </div>
 
     <!-- Booking History Section -->
     <section id="history-section" class="py-8 md:py-12 hidden">
         <div class="container mx-auto px-4">
             <h2 class="text-xl md:text-2xl font-bold text-center mb-6">Your Booking History</h2>
             <div class="history-container">
-                <div id="booking-history"></div>
+                <table id="booking-history" class="history-table"></table>
             </div>
         </div>
     </section>
@@ -400,8 +496,9 @@
         <div class="container mx-auto px-4">
             <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Service Booking Form</h2>
             <div class="form-container">
+                <p id="login-prompt" class="text-center text-red-600 hidden">Please sign in to submit a booking.</p>
                 <p id="result" class="success-message"></p>
-                <form id="service-form" method="POST">
+                <form id="service-form" method="POST" class="hidden">
                     <input type="hidden" name="access_key" value="87574eae-83a5-4d24-827d-b2dd10240938">
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
@@ -476,7 +573,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-6">
         <div class="container mx-auto px-4 text-center">
-            <p class="text-sm md.thread-base">© 2025 Eye Tech Securities. All rights reserved.</p>
+            <p class="text-sm md:text-base">© 2025 Eye Tech Securities. All rights reserved.</p>
             <p class="text-sm md:text-base mt-2">
                 <a href="Blog/privacy-policy.html" class="hover:underline">Privacy Policy</a> | 
                 <a href="Blog/terms-of-service.html" class="hover:underline">Terms of Service</a>
@@ -508,17 +605,23 @@
             const cancelBtn = document.getElementById('cancel-btn');
             const confirmationModal = document.getElementById('confirmation-modal');
             const chargeText = document.getElementById('charge-text');
+            const loginPrompt = document.getElementById('login-prompt');
 
-            // Sign-in elements
+            // Auth elements
+            const authModal = document.getElementById('auth-modal');
+            const authBtn = document.getElementById('auth-btn');
+            const signoutBtn = document.getElementById('signout-btn');
             const signinForm = document.getElementById('signin-form');
-            const signoutForm = document.getElementById('signout-form');
+            const signupForm = document.getElementById('signup-form');
             const signinBtn = document.getElementById('signin-btn');
             const googleSigninBtn = document.getElementById('google-signin-btn');
             const signupBtn = document.getElementById('signup-btn');
-            const signoutBtn = document.getElementById('signout-btn');
             const signinEmail = document.getElementById('signin-email');
             const signinPassword = document.getElementById('signin-password');
+            const signupEmail = document.getElementById('signup-email');
+            const signupPassword = document.getElementById('signup-password');
             const signinResult = document.getElementById('signin-result');
+            const signupResult = document.getElementById('signup-result');
             const userEmail = document.getElementById('user-email');
             const historySection = document.getElementById('history-section');
             const bookingHistory = document.getElementById('booking-history');
@@ -531,18 +634,18 @@
             console.log('Cancel button:', cancelBtn);
             console.log('Confirmation modal:', confirmationModal);
             console.log('Charge text:', chargeText);
-            console.log('Sign-in form:', signinForm);
-            console.log('Sign-out form:', signoutForm);
-            console.log('Sign-in button:', signinBtn);
-            console.log('Google Sign-in button:', googleSigninBtn);
-            console.log('Sign-up button:', signupBtn);
-            console.log('Sign-out button:', signoutBtn);
+            console.log('Login prompt:', loginPrompt);
+            console.log('Auth modal:', authModal);
+            console.log('Auth button:', authBtn);
+            console.log('Signout button:', signoutBtn);
+            console.log('Signin form:', signinForm);
+            console.log('Signup form:', signupForm);
             console.log('History section:', historySection);
             console.log('Booking history:', bookingHistory);
 
             if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationModal || !chargeText ||
-                !signinForm || !signoutForm || !signinBtn || !googleSigninBtn || !signupBtn || !signoutBtn ||
-                !historySection || !bookingHistory) {
+                !loginPrompt || !authModal || !authBtn || !signoutBtn || !signinForm || !signupForm ||
+                !signinBtn || !googleSigninBtn || !signupBtn || !historySection || !bookingHistory) {
                 console.error('One or more elements not found');
                 return;
             }
@@ -557,23 +660,60 @@
                 return;
             }
 
+            // Auth Modal Functions
+            window.openAuthModal = function(mode = 'signin') {
+                signinForm.classList.toggle('hidden', mode !== 'signin');
+                signupForm.classList.toggle('hidden', mode !== 'signup');
+                authModal.classList.add('active');
+                signinResult.textContent = '';
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                console.log('Auth modal opened in', mode, 'mode');
+            };
+
+            window.closeAuthModal = function() {
+                authModal.classList.remove('active');
+                signinEmail.value = '';
+                signinPassword.value = '';
+                signupEmail.value = '';
+                signupPassword.value = '';
+                console.log('Auth modal closed');
+            };
+
+            window.toggleAuthForm = function(mode) {
+                signinForm.classList.toggle('hidden', mode !== 'signin');
+                signupForm.classList.toggle('hidden', mode !== 'signup');
+                signinResult.textContent = '';
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                console.log('Toggled to', mode, 'form');
+            };
+
             // Firebase Authentication State
             onAuthStateChanged(auth, user => {
                 if (user) {
                     console.log('User signed in:', user.email);
-                    signinForm.classList.add('hidden');
-                    signoutForm.classList.remove('hidden');
+                    authBtn.classList.add('hidden');
+                    signoutBtn.classList.remove('hidden');
                     userEmail.textContent = user.email;
                     historySection.classList.remove('hidden');
+                    form.classList.remove('hidden');
+                    loginPrompt.classList.add('hidden');
                     loadBookingHistory(user.uid);
                 } else {
                     console.log('No user signed in');
-                    signinForm.classList.remove('hidden');
-                    signoutForm.classList.add('hidden');
+                    authBtn.classList.remove('hidden');
+                    signoutBtn.classList.add('hidden');
+                    userEmail.textContent = '';
                     historySection.classList.add('hidden');
+                    form.classList.add('hidden');
+                    loginPrompt.classList.remove('hidden');
                     bookingHistory.innerHTML = '';
                 }
             });
+
+            // Open Sign-In Modal
+            authBtn.addEventListener('click', () => openAuthModal('signin'));
 
             // Sign In
             signinBtn.addEventListener('click', () => {
@@ -595,8 +735,7 @@
                     .then(() => {
                         signinResult.textContent = 'Signed in successfully!';
                         signinResult.style.color = '#16a34a';
-                        signinEmail.value = '';
-                        signinPassword.value = '';
+                        closeAuthModal();
                     })
                     .catch(error => {
                         console.error('Sign-in error:', error.code, error.message);
@@ -612,6 +751,7 @@
                     .then(() => {
                         signinResult.textContent = 'Signed in with Google successfully!';
                         signinResult.style.color = '#16a34a';
+                        closeAuthModal();
                     })
                     .catch(error => {
                         console.error('Google Sign-in error:', error.code, error.message);
@@ -622,31 +762,30 @@
 
             // Sign Up
             signupBtn.addEventListener('click', () => {
-                const email = signinEmail.value.trim();
-                const password = signinPassword.value.trim();
-                signinResult.textContent = '';
+                const email = signupEmail.value.trim();
+                const password = signupPassword.value.trim();
+                signupResult.textContent = '';
                 document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
 
                 if (!email) {
-                    document.getElementById('signin-email-error').classList.add('active');
+                    document.getElementById('signup-email-error').classList.add('active');
                     return;
                 }
-                if (!password) {
-                    document.getElementById('signin-password-error').classList.add('active');
+                if (!password || password.length < 6) {
+                    document.getElementById('signup-password-error').classList.add('active');
                     return;
                 }
 
                 createUserWithEmailAndPassword(auth, email, password)
                     .then(() => {
-                        signinResult.textContent = 'Account created successfully! Please sign in.';
-                        signinResult.style.color = '#16a34a';
-                        signinEmail.value = '';
-                        signinPassword.value = '';
+                        signupResult.textContent = 'Account created successfully!';
+                        signupResult.style.color = '#16a34a';
+                        closeAuthModal();
                     })
                     .catch(error => {
                         console.error('Sign-up error:', error.code, error.message);
-                        signinResult.textContent = error.message;
-                        signinResult.style.color = '#dc2626';
+                        signupResult.textContent = error.message;
+                        signupResult.style.color = '#dc2626';
                     });
             });
 
@@ -654,13 +793,11 @@
             signoutBtn.addEventListener('click', () => {
                 signOut(auth)
                     .then(() => {
-                        signinResult.textContent = 'Signed out successfully!';
-                        signinResult.style.color = '#16a34a';
+                        console.log('User signed out');
                     })
                     .catch(error => {
                         console.error('Sign-out error:', error.code, error.message);
-                        signinResult.textContent = error.message;
-                        signinResult.style.color = '#dc2626';
+                        alert('Error signing out: ' + error.message);
                     });
             });
 
@@ -669,7 +806,7 @@
                 console.log('Loading booking history for user:', uid);
                 if (!uid) {
                     console.error('No user ID provided');
-                    bookingHistory.innerHTML = '<p class="text-center text-red-600">Error: Please sign in to view history.</p>';
+                    bookingHistory.innerHTML = '<tr><td colspan="6" class="text-center text-red-600">Error: Please sign in to view history.</td></tr>';
                     return;
                 }
 
@@ -677,31 +814,43 @@
                 getDocs(q)
                     .then(querySnapshot => {
                         console.log('Firestore query returned', querySnapshot.size, 'documents');
-                        bookingHistory.innerHTML = '';
+                        bookingHistory.innerHTML = `
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Issue</th>
+                                    <th>Customer Type</th>
+                                    <th>Comments</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        `;
                         if (querySnapshot.empty) {
-                            bookingHistory.innerHTML = '<p class="text-center text-gray-700">No bookings found.</p>';
+                            bookingHistory.innerHTML += '<tr><td colspan="6" class="text-center text-gray-700">No bookings found.</td></tr>';
                             return;
                         }
                         querySnapshot.forEach(doc => {
                             const booking = doc.data();
                             console.log('Booking document:', booking);
                             const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
-                            const div = document.createElement('div');
-                            div.className = 'history-item';
-                            div.innerHTML = `
-                                <p><strong>Date:</strong> ${date}</p>
-                                <p><strong>Name:</strong> ${booking.name || 'N/A'}</p>
-                                <p><strong>Phone:</strong> ${booking.phone || 'N/A'}</p>
-                                <p><strong>Issue:</strong> ${booking.issue || 'N/A'}</p>
-                                <p><strong>Customer Type:</strong> ${booking.customerType || 'N/A'}</p>
-                                <p><strong>Comments:</strong> ${booking.comments || 'N/A'}</p>
+                            bookingHistory.innerHTML += `
+                                <tr>
+                                    <td>${date}</td>
+                                    <td>${booking.name || 'N/A'}</td>
+                                    <td>${booking.phone || 'N/A'}</td>
+                                    <td>${booking.issue || 'N/A'}</td>
+                                    <td>${booking.customerType || 'N/A'}</td>
+                                    <td>${booking.comments || 'N/A'}</td>
+                                </tr>
                             `;
-                            bookingHistory.appendChild(div);
                         });
+                        bookingHistory.innerHTML += '</tbody>';
                     })
                     .catch(error => {
                         console.error('Firestore query error:', error.code, error.message);
-                        bookingHistory.innerHTML = `<p class="text-center text-red-600">Error loading history: ${error.message}</p>`;
+                        bookingHistory.innerHTML = `<tr><td colspan="6" class="text-center text-red-600">Error loading history: ${error.message}</td></tr>`;
                     });
             }
 
@@ -770,6 +919,16 @@
             agreeBtn.addEventListener('click', async () => {
                 console.log('Agree & Proceed button clicked');
                 const user = auth.currentUser;
+                if (!user) {
+                    console.error('No user signed in');
+                    result.textContent = 'Error: Please sign in to submit a booking.';
+                    result.style.color = '#dc2626';
+                    result.classList.add('active');
+                    confirmationModal.classList.remove('active');
+                    openAuthModal('signin');
+                    return;
+                }
+
                 const object = {
                     name: document.getElementById('name').value.trim(),
                     phone: document.getElementById('phone').value.trim(),
@@ -783,22 +942,18 @@
 
                 try {
                     // Store in Firestore
-                    if (user) {
-                        await addDoc(collection(db, 'bookings'), {
-                            userId: user.uid,
-                            name: object.name,
-                            phone: object.phone,
-                            email: object.email || '',
-                            address: object.address,
-                            customerType: object.customerType,
-                            issue: object.issue,
-                            comments: object.comments,
-                            timestamp: new Date()
-                        });
-                        console.log('Booking stored in Firestore for user:', user.uid);
-                    } else {
-                        console.warn('No user signed in, skipping Firestore storage');
-                    }
+                    await addDoc(collection(db, 'bookings'), {
+                        userId: user.uid,
+                        name: object.name,
+                        phone: object.phone,
+                        email: object.email || '',
+                        address: object.address,
+                        customerType: object.customerType,
+                        issue: object.issue,
+                        comments: object.comments,
+                        timestamp: new Date()
+                    });
+                    console.log('Booking stored in Firestore for user:', user.uid);
 
                     // Submit to Web3Forms
                     const formData = new FormData(form);
