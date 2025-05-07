@@ -386,6 +386,8 @@
             resize: vertical;
             width: 100%;
             box-sizing: border-box;
+            touch-action: manipulation; /* Ensure touch scrolling is enabled */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
         }
         .admin-table select.status-select {
             appearance: none;
