@@ -146,9 +146,35 @@
     </script>
 
     <style>
+        @media (max-width: 639px) {
+            #mobile-menu {
+                overflow: visible;
+            }
+            #mobile-menu a {
+                padding-left: 1rem;
+                padding-right: 0.75rem;
+                align-items: center;
+                min-width: 160px;
+                display: flex;
+            }
+            #mobile-menu svg {
+                margin-left: 0.25rem;
+                width: 1.75rem;
+                height: 1.75rem;
+                overflow: visible;
+            }
+        }
+        .nav-active {
+            background-color: #2563eb;
+            transform: scale(1.05);
+        }
         .error-message {
             color: #dc2626;
             font-size: 0.875rem;
+            background: #fef2f2;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            margin-top: 0.25rem;
             display: none;
         }
         .error-message.active {
@@ -156,15 +182,132 @@
         }
         .success-message {
             color: #16a34a;
-            font-size: 0.875rem;
+            font-size: 1rem;
+            text-align: center;
+            background: #ecfdf5;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
             display: none;
         }
         .success-message.active {
             display: block;
         }
-        .nav-active {
-            background-color: #2563eb;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            display: block;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        .auth-modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .auth-button {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: #ffffff;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+        }
+        .auth-button:hover {
             transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .google-button {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .google-button:hover {
+            background-color: #f3f4f6;
+            transform: scale(1.05);
+        }
+        .toggle-auth {
+            cursor: pointer;
+            color: #2563eb;
+            transition: color 0.2s ease;
+        }
+        .toggle-auth:hover {
+            color: #1d4ed8;
+        }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 1.5rem;
+            transition: color 0.2s ease;
+        }
+        .close-modal:hover {
+            color: #374151;
+        }
+        .floating-label-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .floating-label {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+        .floating-label-group input:not(:placeholder-shown) + .floating-label,
+        .floating-label-group input:focus + .floating-label {
+            top: -0.75rem;
+            left: 0.5rem;
+            font-size: 0.75rem;
+            color: #2563eb;
+            background: #ffffff;
+            padding: 0 0.25rem;
+        }
+        .floating-label-group input {
+            border: none;
+            border-bottom: 2px solid #d1d5db;
+            border-radius: 0;
+            padding: 0.75rem;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+        .floating-label-group input:focus {
+            outline: none;
+            border-bottom: 2px solid #2563eb;
         }
         .tab {
             cursor: pointer;
@@ -193,12 +336,15 @@
             flex-wrap: wrap;
             overflow-x: auto;
             gap: 1rem;
+            margin-bottom: 1rem;
         }
         .table-container {
             background: #ffffff;
             border-radius: 0.5rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            border: 1px solid transparent;
+            border-image: linear-gradient(to right, #2563eb, #4f46e5) 1;
         }
         .admin-table {
             width: 100%;
@@ -230,11 +376,10 @@
         }
         .admin-table select,
         .admin-table textarea {
-            width: 100%;
-            padding: 0.5rem;
-            border: 2px solid #d1d5db;
+            transition: all 0.3s ease;
+            border: 1px solid #d1d5db;
             border-radius: 0.375rem;
-            font-size: 0.875rem;
+            padding: 0.75rem;
         }
         .admin-table textarea.solution-textarea {
             min-height: 80px;
@@ -284,20 +429,27 @@
             color: #000;
             border-color: #dc2626;
         }
+        .admin-table select.status-select:hover,
+        .admin-table textarea.solution-textarea:hover {
+            transform: scale(1.02);
+        }
         .admin-table button {
-            background-color: #16a34a;
+            background: linear-gradient(to right, #2563eb, #4f46e5);
             color: #ffffff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
             font-size: 0.875rem;
-            transition: background-color 0.2s ease;
+            transition: all 0.3s ease;
         }
         .admin-table button:hover {
-            background-color: #15803d;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         .admin-table button:disabled {
-            background-color: #9ca3af;
+            background: #9ca3af;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         .search-container {
             display: flex;
@@ -306,89 +458,62 @@
             margin-bottom: 1rem;
         }
         .search-container input {
-            padding: 0.5rem 0.75rem;
+            padding: 0.75rem;
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             width: 100%;
             max-width: 300px;
             font-size: 0.875rem;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: all 0.3s ease;
         }
         .search-container input:focus {
             outline: none;
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
+        .search-container input:hover {
+            transform: scale(1.02);
+        }
         .search-container button {
-            background-color: #2563eb;
+            background: linear-gradient(to right, #2563eb, #4f46e5);
             color: #ffffff;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
             font-size: 0.875rem;
-            transition: background-color 0.2s ease;
+            transition: all 0.3s ease;
         }
         .search-container button:hover {
-            background-color: #1d4ed8;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-        /* Modal Styles */
-        .modal {
-            @apply fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm transition-opacity duration-300;
-            display: none;
+        .booking-header {
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .modal.active {
-            @apply opacity-100;
-            display: flex;
+        .login-prompt {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #dc2626;
+            background: #fef2f2;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid transparent;
+            border-image: linear-gradient(to right, #dc2626, #f87171) 1;
+            text-align: center;
+            margin-bottom: 1rem;
         }
-        .modal-content {
-            @apply relative bg-white bg-opacity-95 backdrop-blur-lg rounded-2xl p-8 w-full max-w-md shadow-2xl border border-gray-100 transform transition-all duration-300;
+        .centered-auth-button {
+            text-align: center;
+            max-width: 200px;
+            margin: 0 auto;
         }
-        .modal.active .modal-content {
-            @apply scale-100;
-        }
-        .auth-modal-content {
-            @apply bg-gradient-to-br from-blue-50 to-white;
-        }
-        .auth-button {
-            @apply w-3/4 mx-auto py-3 rounded-xl font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg;
-        }
-        .auth-button:hover {
-            @apply transform scale-105;
-        }
-        .signin-button {
-            @apply bg-gradient-to-r from-blue-600 to-blue-700 text-white;
-        }
-        .signin-button:hover {
-            @apply from-blue-700 to-blue-800;
-        }
-        .google-button {
-            @apply bg-white border border-gray-200 text-gray-800 flex items-center justify-center gap-3 hover:bg-gray-50;
-        }
-        .toggle-auth {
-            @apply text-blue-600 hover:text-blue-800 font-medium transition-colors;
-        }
-        .close-modal {
-            @apply absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl font-bold rounded-full w-8 h-8 flex items-center justify-center transition-all hover:bg-gray-100;
-        }
-        .auth-input {
-            @apply w-full p-3 border border-gray-200 rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all;
-        }
-        .auth-label {
-            @apply block text-sm font-semibold text-gray-700 mb-2;
-        }
-        .auth-logo {
-            @apply mx-auto mb-4 rounded-full shadow-md;
-        }
-        .auth-heading {
-            @apply text-2xl md:text-3xl font-bold text-gray-800 text-center mb-6;
-        }
-        .auth-error {
-            @apply text-red-500 text-xs mt-1;
-        }
-        .auth-footer {
-            @apply text-center text-sm text-gray-600 mt-4;
-        }
-        /* Responsive Adjustments */
         @media (max-width: 640px) {
             .admin-table {
                 display: block;
@@ -398,27 +523,19 @@
             .admin-table td {
                 min-width: 120px;
             }
-            #mobile-menu {
-                overflow: visible;
-            }
-            #mobile-menu a {
-                padding-left: 1rem;
-                padding-right: 0.75rem;
-                align-items: center;
-                min-width: 160px;
-                display: flex;
-            }
-            #mobile-menu svg {
-                margin-left: 0.25rem;
-                width: 1.75rem;
-                height: 1.75rem;
-                overflow: visible;
+            .booking-header {
+                padding: 1.5rem;
             }
             .modal-content {
-                @apply w-11/12 p-6;
+                padding: 1.5rem;
             }
             .auth-button {
-                @apply w-full;
+                padding: 0.5rem 1.5rem;
+                font-size: 0.875rem;
+            }
+            .login-prompt {
+                font-size: 1rem;
+                padding: 0.75rem;
             }
         }
     </style>
@@ -461,7 +578,7 @@
                     <span>Service Booking</span>
                 </a>
                 <a href="admin.html" class="flex items-center space-x-1 px-3 py-2 rounded-md nav-active">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3 juventus.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     <span>Admin Panel</span>
                 </a>
             </div>
@@ -514,7 +631,6 @@
         <div class="container mx-auto px-4 text-right">
             <div id="auth-status" class="inline-flex items-center space-x-2">
                 <span id="user-email" class="text-gray-700"></span>
-                <button id="auth-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded auth-button hidden">Sign In</button>
                 <button id="signout-btn" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded auth-button hidden">Sign Out</button>
             </div>
         </div>
@@ -523,43 +639,40 @@
     <!-- Authentication Modal -->
     <div id="auth-modal" class="modal">
         <div class="modal-content auth-modal-content relative">
-            <span class="close-modal" onclick="closeAuthModal()">×</span>
-            <div id="signin-form" class="space-y-6">
-                <img src="eyetech logo png.webp" alt="EyeTech Securities Logo" class="auth-logo w-16 h-16">
-                <h2 class="auth-heading">Admin Sign In</h2>
-                <div>
-                    <label for="signin-email" class="auth-label">Email Address</label>
-                    <input type="email" id="signin-email" class="auth-input" required>
-                    <p id="signin-email-error" class="auth-error">Please enter a valid email.</p>
+            <i class="fas fa-times-circle close-modal" onclick="closeAuthModal()"></i>
+            <div id="signin-form" class="hidden">
+                <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
+                <div class="floating-label-group">
+                    <input type="email" id="signin-email" class="mt-1 w-full" required placeholder=" ">
+                    <label class="floating-label">Email</label>
+                    <p id="signin-email-error" class="error-message">Please enter a valid email.</p>
                 </div>
-                <div>
-                    <label for="signin-password" class="auth-label">Password</label>
-                    <input type="password" id="signin-password" class="auth-input" required>
-                    <p id="signin-password-error" class="auth-error">Please enter your password.</p>
+                <div class="floating-label-group">
+                    <input type="password" id="signin-password" class="mt-1 w-full" required placeholder=" ">
+                    <label class="floating-label">Password</label>
+                    <p id="signin-password-error" class="error-message">Please enter your password.</p>
                 </div>
-                <div class="flex flex-col items-center space-y-4">
-                    <button type="button" id="signin-btn" class="auth-button signin-button">Sign In</button>
-                    <button type="button" id="google-signin-btn" class="auth-button google-button">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.20-2.25H12v4.51h5.84c-.25 1.34-.98 2.47-2.07 3.23v2.68h3.34c1.95-1.80 3.07-4.45 3.07-7.17z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.34-2.68c-1.01.68-2.30 1.08-3.94 1.08-3.02 0-5.58-2.04-6.50-4.78l-3.28 2.53C4.54 20.99 7.97 23 12 23z"/><path fill="#FBBC05" d="M5.50 14.25c-.23-.67-.36-1.39-.36-2.14s.13-1.47.36-2.14l-3.28-2.53C.99 8.76.50 10.38.50 12s.49 3.24 1.72 4.56l3.28-2.53z"/><path fill="#EA4335" d="M12 4.75c1.64 0 3.11.55 4.27 1.62l3.20-3.20C17.46 1.01 14.97 0 12 0 7.97 0 4.54 2.01 2.72 4.73l3.28 2.53c.92-2.74 3.48-4.76 6.50-4.76z"/></svg>
-                        Sign In with Google
-                    </button>
-                </div>
-                <p class="auth-footer">Don't have an account? <span class="toggle-auth" onclick="toggleAuthForm('signup')">Sign Up</span></p>
-                <p id="signin-result" class="auth-footer"></p>
+                <button type="button" id="signin-btn" class="auth-button py-2 px-4 w-full mb-2">Sign In</button>
+                <button type="button" id="google-signin-btn" class="google-button py-2 px-4 w-full mb-2">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.20-2.25H12v4.51h5.84c-.25 1.34-.98 2.47-2.07 3.23v2.68h3.34c1.95-1.80 3.07-4.45 3.07-7.17z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.34-2.68c-1.01.68-2.30 1.08-3.94 1.08-3.02 0-5.58-2.04-6.50-4.78l-3.28 2.53C4.54 20.99 7.97 23 12 23z"/><path fill="#FBBC05" d="M5.50 14.25c-.23-.67-.36-1.39-.36-2.14s.13-1.47.36-2.14l-3.28-2.53C.99 8.76.50 10.38.50 12s.49 3.24 1.72 4.56l3.28-2.53z"/><path fill="#EA4335" d="M12 4.75c1.64 0 3.11.55 4.27 1.62l3.20-3.20C17.46 1.01 14.97 0 12 0 7.97 0 4.54 2.01 2.72 4.73l3.28 2.53c.92-2.74 3.48-4.76 6.50-4.76z"/></svg>
+                    Sign In with Google
+                </button>
+                <p class="text-center text-sm">Don't have an account? <span class="toggle-auth" onclick="toggleAuthForm('signup')">Sign Up</span></p>
+                <p id="signin-result" class="text-center mt-4"></p>
             </div>
             <div id="signup-form" class="hidden">
                 <h2 class="text-2xl font-bold text-center mb-6">Sign Up</h2>
-                <div class="mb-4">
-                    <label for="signup-email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="signup-email" class="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500" required>
+                <div class="floating-label-group">
+                    <input type="email" id="signup-email" class="mt-1 w-full" required placeholder=" ">
+                    <label class="floating-label">Email</label>
                     <p id="signup-email-error" class="error-message">Please enter a valid email.</p>
                 </div>
-                <div class="mb-4">
-                    <label for="signup-password" class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="signup-password" class="mt-1 p-2 w-full border rounded-md focus:ring-2 focus:ring-blue-500" required>
+                <div class="floating-label-group">
+                    <input type="password" id="signup-password" class="mt-1 w-full" required placeholder=" ">
+                    <label class="floating-label">Password</label>
                     <p id="signup-password-error" class="error-message">Please enter a password (min 6 characters).</p>
                 </div>
-                <button type="button" id="signup-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded w-full auth-button mb-2">Sign Up</button>
+                <button type="button" id="signup-btn" class="auth-button py-2 px-4 w-full mb-2">Sign Up</button>
                 <p class="text-center text-sm">Already have an account? <span class="toggle-auth" onclick="toggleAuthForm('signin')">Sign In</span></p>
                 <p id="signup-result" class="text-center mt-4"></p>
             </div>
@@ -567,9 +680,16 @@
     </div>
 
     <!-- Admin Section -->
-    <section id="admin-section" class="py-8 md:py-12">
+    <section id="admin-section" class="py-12 md:py-16 bg-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-xl md:text-2xl font-bold mb-6">Admin Panel - Booking Management</h2>
+            <div class="booking-header">
+                <h2 class="text-2xl md:text-3xl font-bold">Admin Panel - Booking Management</h2>
+                <p class="mt-2 text-sm md:text-base">Manage CCTV service bookings for EyeTech Securities</p>
+            </div>
+            <p id="login-prompt" class="login-prompt hidden">Please sign in as admin to access the panel.</p>
+            <div class="centered-auth-button">
+                <button id="auth-btn" class="auth-button hidden" onclick="openAuthModal('signin')">Sign In</button>
+            </div>
             <p id="error-message" class="error-message text-center mb-4"></p>
             <p id="success-message" class="success-message text-center mb-4"></p>
             <div id="admin-content" class="hidden">
@@ -580,7 +700,7 @@
                         Search
                     </button>
                 </div>
-                <div class="tab-container mb-4">
+                <div class="tab-container">
                     <div class="tab active" data-tab="pending">Pending</div>
                     <div class="tab" data-tab="cancelled">Cancelled</div>
                     <div class="tab" data-tab="completed">Completed</div>
@@ -690,6 +810,7 @@
             const signupPassword = document.getElementById('signup-password');
             const signinResult = document.getElementById('signin-result');
             const signupResult = document.getElementById('signup-result');
+            const loginPrompt = document.getElementById('login-prompt');
 
             // Verify elements
             console.log('Auth button:', authBtn);
@@ -705,8 +826,9 @@
             console.log('Signin button:', signinBtn);
             console.log('Google Signin button:', googleSigninBtn);
             console.log('Signup button:', signupBtn);
+            console.log('Login prompt:', loginPrompt);
 
-            if (!authBtn || !signoutBtn || !userEmail || !adminContent || !errorMessage || !successMessage || !adminTable || !phoneSearch || !searchBtn || !tabs.length || !signinBtn || !googleSigninBtn || !signupBtn) {
+            if (!authBtn || !signoutBtn || !userEmail || !adminContent || !errorMessage || !successMessage || !adminTable || !phoneSearch || !searchBtn || !tabs.length || !signinBtn || !googleSigninBtn || !signupBtn || !loginPrompt) {
                 console.error('One or more elements not found');
                 errorMessage.textContent = 'Error: Page elements missing. Please reload.';
                 errorMessage.classList.add('active');
@@ -753,6 +875,7 @@
                     signoutBtn.classList.remove('hidden');
                     userEmail.textContent = user.email;
                     adminContent.classList.remove('hidden');
+                    loginPrompt.classList.add('hidden');
                     errorMessage.classList.remove('active');
                     loadBookings();
                 } else if (user) {
@@ -762,6 +885,7 @@
                     signoutBtn.classList.remove('hidden');
                     userEmail.textContent = user.email;
                     adminContent.classList.add('hidden');
+                    loginPrompt.classList.remove('hidden');
                     errorMessage.textContent = 'Unauthorized access. Admin privileges required.';
                     errorMessage.classList.add('active');
                     adminTable.innerHTML = '';
@@ -772,6 +896,7 @@
                     signoutBtn.classList.add('hidden');
                     userEmail.textContent = '';
                     adminContent.classList.add('hidden');
+                    loginPrompt.classList.remove('hidden');
                     errorMessage.textContent = 'Please sign in as admin to access the panel.';
                     errorMessage.classList.add('active');
                     adminTable.innerHTML = '';
@@ -942,18 +1067,13 @@
                                 status
                             });
                             console.log(`Booking ${bookingId} updated: solution=${solution}, status=${status}`);
-                            // Update local data
-                            const booking = allBookings.find(b => b.id === bookingId);
-                            if (booking) {
-                                booking.solution = solution || 'Awaiting Solution';
-                                booking.status = status;
-                            }
-                            // Refresh bookings
-                            await loadBookings();
                             successMessage.textContent = 'Booking updated successfully!';
                             successMessage.classList.add('active');
                             errorMessage.classList.remove('active');
-                            setTimeout(() => successMessage.classList.remove('active'), 3000);
+                            setTimeout(() => {
+                                successMessage.classList.remove('active');
+                                window.location.reload(); // Refresh page after save
+                            }, 1000);
                         } catch (error) {
                             console.error('Update error:', error.code, error.message);
                             errorMessage.textContent = `Error updating booking: ${error.message}`;
