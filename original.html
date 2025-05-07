@@ -241,15 +241,32 @@
         .success-message.active {
             display: block;
         }
-        .confirmation-message {
+        .strikethrough {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+        /* Modal Styling */
+        .modal {
             display: none;
-            background: #f8f0f0;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #f8f0f0;
+            margin: 15% auto;
+            padding: 20px;
             border: 2px solid #dc2626;
             border-radius: 0.5rem;
-            padding: 1rem;
-            margin-top: 1rem;
+            width: 80%;
+            max-width: 500px;
         }
-        .confirmation-message.active {
+        .modal.active {
             display: block;
         }
         .confirmation-buttons {
@@ -257,10 +274,6 @@
             gap: 1rem;
             justify-content: center;
             margin-top: 1rem;
-        }
-        .strikethrough {
-            text-decoration: line-through;
-            color: #6b7280;
         }
     </style>
 </head>
@@ -403,18 +416,17 @@
                         <textarea id="comments" name="comments" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
                         <p id="comments-error" class="error-message">Please enter your comments.</p>
                     </div>
-                    <div class="mb-4">
-                        <label for="photo" class="block text-sm font-medium text-gray-700">Attach Photo of Issue (Optional)</label>
-                        <input type="file" id="photo" name="photo" accept="image/*" class="mt-1 p-2 w-full border rounded-md">
-                    </div>
                     <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
                 </form>
-                <div id="confirmation-box" class="confirmation-message">
-                    <p id="charge-text"></p>
-                    <p>Any other Material Charges will be Extra.</p>
-                    <div class="confirmation-buttons">
-                        <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
-                        <button id="cancel-btn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
+                <!-- Confirmation Modal -->
+                <div id="confirmation-modal" class="modal">
+                    <div class="modal-content">
+                        <p id="charge-text"></p>
+                        <p>Any other Material Charges will be Extra.</p>
+                        <div class="confirmation-buttons">
+                            <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
+                            <button id="cancel-btn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -478,7 +490,7 @@
             const previewBtn = document.getElementById('preview-btn');
             const agreeBtn = document.getElementById('agree-btn');
             const cancelBtn = document.getElementById('cancel-btn');
-            const confirmationBox = document.getElementById('confirmation-box');
+            const confirmationModal = document.getElementById('confirmation-modal');
             const chargeText = document.getElementById('charge-text');
 
             // Verify elements
@@ -487,10 +499,10 @@
             console.log('Preview button:', previewBtn);
             console.log('Agree button:', agreeBtn);
             console.log('Cancel button:', cancelBtn);
-            console.log('Confirmation box:', confirmationBox);
+            console.log('Confirmation modal:', confirmationModal);
             console.log('Charge text:', chargeText);
 
-            if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationBox || !chargeText) {
+            if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationModal || !chargeText) {
                 console.error('One or more elements not found');
                 return;
             }
@@ -545,15 +557,15 @@
                     return;
                 }
 
-                // Show confirmation
+                // Show confirmation modal
                 const isExistingCustomer = customerType === 'Existing Customer';
                 chargeText.innerHTML = `
                     Minimum Visiting Charge is Rs.${isExistingCustomer ? '650 <span class="strikethrough">Rs.750</span>' : '750'} 
                     even if we come and switch ON the Switch and also if we say what is the issue (Troubleshoot) in which
                     you may need to get some other's approval also. So, Request you to check once from your side and confirm with us.
                 `;
-                confirmationBox.classList.add('active');
-                console.log('Confirmation box displayed');
+                confirmationModal.classList.add('active');
+                console.log('Confirmation modal displayed');
             });
 
             // Agree button (Web3Forms submission)
@@ -561,7 +573,6 @@
                 console.log('Agree button clicked');
                 const formData = new FormData(form);
                 const object = Object.fromEntries(formData);
-                delete object.photo; // JSON API doesn't support files
                 const json = JSON.stringify(object);
                 console.log('Form data (JSON):', object);
 
@@ -584,6 +595,11 @@
                         result.innerHTML = json.message || 'Thank you! Your booking request has been submitted successfully.';
                         result.style.color = '#16a34a';
                         console.log('Web3Forms response data:', json);
+                        form.reset();
+                        confirmationModal.classList.remove('active');
+                        setTimeout(() => {
+                            window.location.href = 'thankyou.html';
+                        }, 1000); // Redirect after 1 second
                     } else {
                         console.log('Web3Forms error response:', json);
                         result.innerHTML = json.message || 'Error submitting form. Please try again.';
@@ -594,14 +610,6 @@
                     console.error('Submission error:', error);
                     result.innerHTML = 'Something went wrong!';
                     result.style.color = '#dc2626';
-                })
-                .then(() => {
-                    form.reset();
-                    confirmationBox.classList.remove('active');
-                    setTimeout(() => {
-                        result.classList.remove('active');
-                    }, 3000);
-                    console.log('Form submitted, reset');
                 });
             });
 
@@ -609,10 +617,13 @@
             cancelBtn.addEventListener('click', () => {
                 console.log('Cancel button clicked');
                 form.reset();
-                confirmationBox.classList.remove('active');
+                confirmationModal.classList.remove('active');
                 result.classList.remove('active');
-                alert('Thanks, we will work later');
-                console.log('Form reset, alert shown');
+                const proceed = confirm('Thanks. We will work later. Look at our Services in Home Page');
+                if (proceed) {
+                    window.location.href = 'index.html';
+                }
+                console.log('Form reset, confirm dialog shown, redirected:', proceed);
             });
         });
     </script>
