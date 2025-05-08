@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Eye Tech Securities</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="eyetech logo jpg.webp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css.all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Firebase SDK (Modular, v9.23.0) -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+        import { getFirestore, collection, getDocs, doc, updateDoc, increment, runTransaction, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDTHFO2c6SwjAmBueJBx4I8wNiQ3lmHRMw",
+            authDomain: "eye-tech-service-booking.firebaseapp.com",
+            projectId: "eye-tech-service-booking",
+            storageBucket: "eye-tech-service-booking.firebasestorage.app",
+            messagingSenderId: "169633761790",
+            appId: "1:169633761790:web:142d3e5ef2f8c6091c58af",
+            measurementId: "G-JFB3G4CECS"
+        };
+
+        // Initialize Firebase
+        try {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            window.firebaseServices = {
+                auth,
+                db,
+                signInWithEmailAndPassword,
+                signInWithPopup,
+                GoogleAuthProvider,
+                signOut,
+                onAuthStateChanged,
+                collection,
+                getDocs,
+                doc,
+                updateDoc,
+                increment,
+                runTransaction,
+                serverTimestamp
+            };
+            console.log('Firebase initialized successfully for admin dashboard');
+        } catch (error) {
+            console.error('Firebase initialization error:', error);
+        }
+    </script>
+
+    <style>
+        /* Reused styles from servicebooking.html */
+        @media (max-width: 639px) {
+            #mobile-menu {
+                overflow: visible;
+            }
+            #mobile-menu a {
+                padding-left: 1rem;
+                padding-right: 0.75rem;
+                align-items: center;
+                min-width: 160px;
+                display: flex;
+            }
+            #mobile-menu svg {
+                margin-left: 0.25rem;
+                width: 1.75rem; height: 1.75rem;
+                overflow: visible;
+            }
+        }
+        .nav-active {
+            background-color: #2563eb;
+            transform: scale(1.05);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            display: block;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        .auth-modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .auth-button {
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: #ffffff;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+        }
+        .auth-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .google-button {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .google-button:hover {
+            background-color: #f3f4f6;
+            transform: scale(1.05);
+        }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 1.5rem;
+            transition: color 0.2s ease;
+        }
+        .close-modal:hover {
+            color: #374151;
+        }
+        .floating-label-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .floating-label {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+        .floating-label-group input:not(:placeholder-shown) + .floating-label,
+        .floating-label-group input:focus + .floating-label {
+            top: -0.75rem;
+            left: 0.5rem;
+            font-size: 0.75rem;
+            color: #2563eb;
+            background: #ffffff;
+            padding: 0 0.25rem;
+        }
+        .floating-label-group input {
+            border: none;
+            border-bottom: 2px solid #d1d5db;
+            border-radius: 0;
+            padding: 0.75rem;
+            width: 100%;
+            font-size: 0.875rem;
+        }
+        .floating-label-group input:focus {
+            outline: none;
+            border-bottom: 2px solid #2563eb;
+        }
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            background: #fef2f2;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .error-message.active {
+            display: block;
+        }
+        .success-message {
+            color: #16a34a;
+            font-size: 1rem;
+            text-align: center;
+            background: #ecfdf5;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        .success-message.active {
+            display: block;
+        }
+        .history-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #ffffff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .history-table th,
+        .history-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .history-table th {
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+        .history-table tr:hover {
+            background: #f9fafb;
+        }
+        .history-table td {
+            font-size: 0.875rem;
+            color: #374151;
+        }
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 0 auto;
+        }
+        .loader.active {
+            display: block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @media (max-width: 640px) {
+            .history-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .history-table th,
+            .history-table td {
+                min-width: 120px;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+            .auth-button {
+                padding: 0.5rem 1.5rem;
+                font-size: 0.875rem;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <!-- Navigation (matched with servicebooking.html) -->
+    <nav class="bg-gradient-to-r from-gray-600 to-gray-600 text-white p-4 sticky top-0 z-20 shadow-lg">
+        <div class="container mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <img src="eyetech logo png.webp" alt="Eye Tech Securities Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain">
+                <h1 class="text-xl md:text-2xl font-bold">Eye Tech Securities</h1>
+            </div>
+            <div class="hidden md:flex space-x-4">
+                <a href="index.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span>Home</span>
+                </a>
+                <a href="packages.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
+                    <span>Packages</span>
+                </a>
+                <a href="Blog/blog.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Blog</span>
+                </a>
+                <a href="about.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>About Us</span>
+                </a>
+                <a href="contact.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span>Contact</span>
+                </a>
+                <a href="calculator.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/Imperial> <span>Storage Calculator</span>
+                </a>
+                <a href="servicebooking.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <span>Service Booking</span>
+                </a>
+                <button id="signout-btn" class="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded auth-button hidden">Sign Out</button>
+            </div>
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden focus:outline-none" onclick="toggleMenu()" aria-label="Toggle mobile menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-600 text-white p-4">
+            <a href="index.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span>Home</span>
+            </a>
+            <a href="packages.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0v6l-8 4m0-10L4 13m8 4v6m-8-6l8 4 8-4"></path></svg>
+                <span>Packages</span>
+            </a>
+            <a href="Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <span>Blog</span>
+            </a>
+            <a href="about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>About Us</span>
+            </a>
+            <a href="contact.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                <span>Contact</span>
+            </a>
+            <a href="calculator.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                <span>Storage Calculator</span>
+            </a>
+            <a href="servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span>Service Booking</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="py-8">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-6">Admin Dashboard</h2>
+            <div id="auth-status" class="text-right mb-4">
+                <span id="user-email" class="text-gray-700"></span>
+            </div>
+            <div id="admin-content" class="hidden">
+                <h3 class="text-2xl font-semibold mb-4">All Bookings</h3>
+                <table id="booking-table" class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Issue</th>
+                            <th>Customer Type</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                            <th>Invoice Number</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div id="auth-prompt" class="login-prompt">
+                <p>Please sign in as an admin to view bookings.</p>
+                <div class="centered-auth-button mt-4">
+                    <button onclick="openAuthModal()" class="auth-button">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentication Modal (matched with servicebooking.html) -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content auth-modal-content relative">
+            <i class="fas fa-times-circle close-modal" onclick="closeAuthModal()"></i>
+            <div id="signin-form">
+                <h2 class="text-2xl font-bold text-center mb-6">Admin Sign In</h2>
+                <div class="floating-label-group">
+                    <input type="email" id="signin-email" class="mt-1 w-full" required placeholder=" " autocomplete="email">
+                    <label class="floating-label">Email</label>
+                    <p id="signin-email-error" class="error-message">Please enter a valid email.</p>
+                </div>
+                <div class="floating-label-group">
+                    <input type="password" id="signin-password" class="mt-1 w-full" required placeholder=" " autocomplete="current-password">
+                    <label class="floating-label">Password</label>
+                    <p id="signin-password-error" class="error-message">Please enter your password.</p>
+                </div>
+                <button type="button" id="signin-btn" class="auth-button py-2 px-4 w-full mb-2">Sign In</button>
+                <button type="button" id="google-signin-btn" class="google-button py-2 px-4 w-full mb-2">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.20-2.25H12v4.51h5.84c-.25 1.34-.98 2.47-2.07 3.23v2.68h3.34c1.95-1.80 3.07-4.45 3.07-7.17z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.34-2.68c-1.01.68-2.30 1.08-3.94 1.08-3.02 0-5.58-2.04-6.50-4.78l-3.28 2.53C4.54 20.99 7.97 23 12 23z"/><path fill="#FBBC05" d="M5.50 14.25c-.23-.67-.36-1.39-.36-2.14s.13-1.47.36-2.14l-3.28-2.53C.99 8.76.50 10.38.50 12s.49 3.24 1.72 4.56l3.28-2.53z"/><path fill="#EA4335" d="M12 4.75c1.64 0 3.11.56 4.28 1.65l3.22-3.22C17.46 1.01 14.97 0 12 0 7.97 0 4.54 2.01 2.22 5.58l3.28 2.53c.92-2.74 3.48-4.78 6.50-4.78z"/></svg>
+                    Sign in with Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Booking Modal -->
+    <div id="update-modal" class="modal">
+        <div class="modal-content relative">
+            <i class="fas fa-times-circle close-modal" onclick="closeUpdateModal()"></i>
+            <h2 class="text-2xl font-bold text-center mb-6">Update Booking</h2>
+            <form id="update-form">
+                <div class="floating-label-group">
+                    <input type="number" id="update-amount" class="mt-1 p-2 w-full" min="0" step="0.01" placeholder=" ">
+                    <label class="floating-label">Amount (₹)</label>
+                    <p id="update-amount-error" class="error-message">Please enter a valid amount.</p>
+                </div>
+                <div class="mb-4">
+                    <label for="update-status" class="block text-sm font-medium text-gray-700">Status</label>
+                    <select id="update-status" class="mt-1 p-2 w-full border rounded-md">
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="floating-label-group">
+                    <textarea id="update-solution" class="mt-1 p-2 w-full border rounded-md" rows="4" placeholder=" "></textarea>
+                    <label class="floating-label">Solution</label>
+                </div>
+                <div id="form-loader" class="loader"></div>
+                <p id="update-result" class="success-message"></p>
+                <button type="submit" id="update-btn" class="auth-button py-2 px-4 w-full">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const { auth, db, onAuthStateChanged, collection, getDocs, doc, updateDoc, increment, runTransaction, serverTimestamp, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut } = window.firebaseServices;
+        const adminContent = document.getElementById('admin-content');
+        const authPrompt = document.getElementById('auth-prompt');
+        const signoutBtn = document.getElementById('signout-btn');
+        const userEmail = document.getElementById('user-email');
+        const authModal = document.getElementById('auth-modal');
+        const signinBtn = document.getElementById('signin-btn');
+        const googleSigninBtn = document.getElementById('google-signin-btn');
+        const updateModal = document.getElementById('update-modal');
+        const updateForm = document.getElementById('update-form');
+        const updateBtn = document.getElementById('update-btn');
+        const bookingTable = document.getElementById('booking-table').querySelector('tbody');
+        const loader = document.getElementById('form-loader');
+        const updateResult = document.getElementById('update-result');
+
+        // Admin UIDs
+        const adminUIDs = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o1'];
+
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // Generate Invoice Number
+        async function generateInvoiceNumber() {
+            const counterRef = doc(db, 'counters', 'invoice');
+            console.log('Attempting to generate invoice number...');
+            try {
+                return await runTransaction(db, async (transaction) => {
+                    console.log('Fetching counter document...');
+                    const counterDoc = await transaction.get(counterRef);
+                    let newInvoiceNumber;
+
+                    if (!counterDoc.exists()) {
+                        console.log('Counter document does not exist, initializing...');
+                        newInvoiceNumber = 1;
+                        transaction.set(counterRef, { lastInvoiceNumber: newInvoiceNumber });
+                    } else {
+                        const lastInvoiceNumber = counterDoc.data().lastInvoiceNumber;
+                        console.log('Current lastInvoiceNumber:', lastInvoiceNumber);
+                        if (typeof lastInvoiceNumber !== 'number') {
+                            throw new Error('lastInvoiceNumber is not a valid number');
+                        }
+                        newInvoiceNumber = lastInvoiceNumber + 1;
+                        console.log('New invoice number:', newInvoiceNumber);
+                        transaction.update(counterRef, { lastInvoiceNumber: newInvoiceNumber });
+                    }
+
+                    const invoiceId = `INV-${newInvoiceNumber.toString().padStart(6, '0')}`;
+                    console.log('Generated invoice ID:', invoiceId);
+                    return invoiceId;
+                });
+            } catch (error) {
+                console.error('Error generating invoice number:', error.message, error.stack);
+                return 'INV-ERROR';
+            }
+        }
+
+        // Load All Bookings
+        async function loadBookings() {
+            bookingTable.innerHTML = '';
+            try {
+                const querySnapshot = await getDocs(collection(db, 'bookings'));
+                if (querySnapshot.empty) {
+                    bookingTable.innerHTML = '<tr><td colspan="9" class="text-center text-gray-700">No bookings found.</td></tr>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const booking = doc.data();
+                    const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
+                    bookingTable.innerHTML += `
+                        <tr>
+                            <td>${date}</td>
+                            <td>${booking.name || 'N/A'}</td>
+                            <td>${booking.phone || 'N/A'}</td>
+                            <td>${booking.issue || 'N/A'}</td>
+                            <td>${booking.customerType || 'N/A'}</td>
+                            <td>${booking.status || 'Pending'}</td>
+                            <td>${booking.amount ? '₹' + booking.amount : 'N/A'}</td>
+                            <td>${booking.invoiceNumber || 'N/A'}</td>
+                            <td>
+                                <button class="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700" onclick="openUpdateModal('${doc.id}', '${booking.amount || ''}', '${booking.status || 'Pending'}', '${booking.solution || ''}')">Edit</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error('Error loading bookings:', error.code, error.message);
+                bookingTable.innerHTML = `<tr><td colspan="9" class="text-center text-red-600">Error: ${error.message}</td></tr>`;
+            }
+        }
+
+        // Authentication Modal
+        function openAuthModal() {
+            authModal.classList.add('active');
+            document.getElementById('signin-form').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            authModal.classList.remove('active');
+            document.getElementById('signin-email-error').classList.remove('active');
+            document.getElementById('signin-password-error').classList.remove('active');
+            document.getElementById('signin-email').value = '';
+            document.getElementById('signin-password').value = '';
+        }
+
+        // Update Booking Modal
+        let currentBookingId = null;
+        function openUpdateModal(bookingId, amount, status, solution) {
+            currentBookingId = bookingId;
+            document.getElementById('update-amount').value = amount;
+            document.getElementById('update-status').value = status;
+            document.getElementById('update-solution').value = solution;
+            document.getElementById('update-amount-error').classList.remove('active');
+            updateResult.classList.remove('active');
+            updateModal.classList.add('active');
+        }
+
+        function closeUpdateModal() {
+            updateModal.classList.remove('active');
+            currentBookingId = null;
+            document.getElementById('update-amount').value = '';
+            document.getElementById('update-status').value = 'Pending';
+            document.getElementById('update-solution').value = '';
+        }
+
+        // Sanitize Input
+        function sanitizeInput(input) {
+            const div = document.createElement('div');
+            div.textContent = input;
+            return div.innerHTML.replace(/[<>"'&]/g, '');
+        }
+
+        // Friendly Error Messages
+        function getFriendlyErrorMessage(errorCode) {
+            switch (errorCode) {
+                case 'auth/invalid-email':
+                    return 'The email address is not valid.';
+                case 'auth/user-disabled':
+                    return 'This account has been disabled.';
+                case 'auth/user-not-found':
+                    return 'No account found with this email.';
+                case 'auth/wrong-password':
+                    return 'Incorrect password.';
+                case 'auth/popup-closed-by-user':
+                    return 'Google sign-in was cancelled.';
+                case 'auth/too-many-requests':
+                    return 'Too many attempts. Please try again later.';
+                default:
+                    return 'An error occurred. Please try again.';
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Authentication State
+            onAuthStateChanged(auth, user => {
+                console.log('Auth state changed:', user ? user.uid : 'No user');
+                if (user && adminUIDs.includes(user.uid)) {
+                    console.log('Admin signed in:', user.email);
+                    adminContent.classList.remove('hidden');
+                    authPrompt.classList.add('hidden');
+                    signoutBtn.classList.remove('hidden');
+                    userEmail.textContent = user.email;
+                    loadBookings();
+                } else {
+                    console.log('Non-admin or no user, showing auth prompt');
+                    adminContent.classList.add('hidden');
+                    authPrompt.classList.remove('hidden');
+                    signoutBtn.classList.add('hidden');
+                    userEmail.textContent = '';
+                    bookingTable.innerHTML = '<tr><td colspan="9" class="text-center text-gray-700">Please sign in as an admin.</td></tr>';
+                }
+            });
+
+            // Sign Out
+            signoutBtn.addEventListener('click', () => {
+                signOut(auth).then(() => {
+                    console.log('Admin signed out');
+                    closeAuthModal();
+                }).catch(error => {
+                    console.error('Sign out error:', error.code, error.message);
+                    alert('Error signing out: ' + getFriendlyErrorMessage(error.code));
+                });
+            });
+
+            // Sign In
+            signinBtn.addEventListener('click', () => {
+                const email = document.getElementById('signin-email').value.trim();
+                const password = document.getElementById('signin-password').value.trim();
+                document.getElementById('signin-email-error').classList.remove('active');
+                document.getElementById('signin-password-error').classList.remove('active');
+
+                if (!email) {
+                    document.getElementById('signin-email-error').classList.add('active');
+                    return;
+                }
+                if (!password) {
+                    document.getElementById('signin-password-error').classList.add('active');
+                    return;
+                }
+
+                console.log('Attempting email sign-in for:', email);
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(userCredential => {
+                        console.log('Email sign-in successful:', userCredential.user.email);
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Email sign-in error:', error.code, error.message);
+                        document.getElementById('signin-password-error').textContent = getFriendlyErrorMessage(error.code);
+                        document.getElementById('signin-password-error').classList.add('active');
+                    });
+            });
+
+            // Google Sign In
+            googleSigninBtn.addEventListener('click', () => {
+                console.log('Attempting Google sign-in');
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider)
+                    .then(userCredential => {
+                        console.log('Google sign-in successful:', userCredential.user.email);
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Google sign-in error:', error.code, error.message);
+                        document.getElementById('signin-password-error').textContent = getFriendlyErrorMessage(error.code);
+                        document.getElementById('signin-password-error').classList.add('active');
+                    });
+            });
+
+            // Update Booking
+            updateForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                loader.classList.add('active');
+                updateBtn.disabled = true;
+                updateResult.classList.remove('active');
+                document.getElementById('update-amount-error').classList.remove('active');
+
+                const amount = parseFloat(document.getElementById('update-amount').value.trim());
+                const status = document.getElementById('update-status').value;
+                const solution = sanitizeInput(document.getElementById('update-solution').value.trim());
+
+                console.log('Updating booking:', { currentBookingId, amount, status, solution });
+
+                if (status === 'Completed' && (!amount || amount <= 0)) {
+                    console.log('Validation failed: Amount required for Completed status');
+                    document.getElementById('update-amount-error').textContent = 'Amount is required for Completed status.';
+                    document.getElementById('update-amount-error').classList.add('active');
+                    loader.classList.remove('active');
+                    updateBtn.disabled = false;
+                    return;
+                }
+
+                try {
+                    const bookingRef = doc(db, 'bookings', currentBookingId);
+                    let updateData = {
+                        status,
+                        solution,
+                        amount: amount || null,
+                        updatedAt: serverTimestamp()
+                    };
+
+                    if (status === 'Completed') {
+                        console.log('Generating invoice number for Completed status');
+                        const invoiceNumber = await generateInvoiceNumber();
+                        if (invoiceNumber === 'INV-ERROR') {
+                            throw new Error('Failed to generate invoice number');
+                        }
+                        updateData.invoiceNumber = invoiceNumber;
+                        console.log('Invoice number generated:', invoiceNumber);
+                    }
+
+                    await updateDoc(bookingRef, updateData);
+                    console.log('Booking updated successfully:', currentBookingId);
+                    updateResult.textContent = 'Booking updated successfully!';
+                    updateResult.classList.add('active');
+                    loader.classList.remove('active');
+                    updateBtn.disabled = false;
+                    loadBookings();
+                    setTimeout(() => {
+                        closeUpdateModal();
+                    }, 1000);
+                } catch (error) {
+                    console.error('Update error:', error.code, error.message);
+                    updateResult.textContent = `Error: ${error.message}`;
+                    updateResult.style.color = '#dc2626';
+                    updateResult.classList.add('active');
+                    loader.classList.remove('active');
+                    updateBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -654,7 +654,7 @@
     <div id="auth-modal" class="modal">
         <div class="modal-content auth-modal-content relative">
             <i class="fas fa-times-circle close-modal" onclick="closeAuthModal()"></i>
-            <div id="signin-form" class="hidden Guilherme Leal">
+            <div id="signin-form" class="hidden">
                 <h2 class="text-2xl font-bold text-center mb-6">Sign In</h2>
                 <div class="floating-label-group">
                     <input type="email" id="signin-email" class="mt-1 w-full" required placeholder=" ">
@@ -772,49 +772,37 @@
 
             // Auth Modal Functions
             window.openAuthModal = function(mode = 'signin') {
-                const authModal = document.getElementById('auth-modal');
                 const signinForm = document.getElementById('signin-form');
                 const signupForm = document.getElementById('signup-form');
-                if (authModal && signinForm && signupForm) {
-                    signinForm.classList.toggle('hidden', mode !== 'signin');
-                    signupForm.classList.toggle('hidden', mode !== 'signup');
-                    authModal.classList.add('active');
-                    document.getElementById('signin-result').textContent = '';
-                    document.getElementById('signup-result').textContent = '';
-                    document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-                    console.log('Auth modal opened in', mode, 'mode');
-                } else {
-                    console.error('Auth modal elements not found');
-                }
+                const authModal = document.getElementById('auth-modal');
+                signinForm.classList.toggle('hidden', mode !== 'signin');
+                signupForm.classList.toggle('hidden', mode !== 'signup');
+                authModal.classList.add('active');
+                document.getElementById('signin-result').textContent = '';
+                document.getElementById('signup-result').textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                console.log('Auth modal opened in', mode, 'mode');
             };
 
             window.closeAuthModal = function() {
                 const authModal = document.getElementById('auth-modal');
-                if (authModal) {
-                    authModal.classList.remove('active');
-                    document.getElementById('signin-email').value = '';
-                    document.getElementById('signin-password').value = '';
-                    document.getElementById('signup-email').value = '';
-                    document.getElementById('signup-password').value = '';
-                    console.log('Auth modal closed');
-                } else {
-                    console.error('Auth modal not found');
-                }
+                authModal.classList.remove('active');
+                document.getElementById('signin-email').value = '';
+                document.getElementById('signin-password').value = '';
+                document.getElementById('signup-email').value = '';
+                document.getElementById('signup-password').value = '';
+                console.log('Auth modal closed');
             };
 
             window.toggleAuthForm = function(mode) {
                 const signinForm = document.getElementById('signin-form');
                 const signupForm = document.getElementById('signup-form');
-                if (signinForm && signupForm) {
-                    signinForm.classList.toggle('hidden', mode !== 'signin');
-                    signupForm.classList.toggle('hidden', mode !== 'signup');
-                    document.getElementById('signin-result').textContent = '';
-                    document.getElementById('signup-result').textContent = '';
-                    document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-                    console.log('Toggled to', mode, 'form');
-                } else {
-                    console.error('Auth forms not found');
-                }
+                signinForm.classList.toggle('hidden', mode !== 'signin');
+                signupForm.classList.toggle('hidden', mode !== 'signup');
+                document.getElementById('signin-result').textContent = '';
+                document.getElementById('signup-result').textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                console.log('Toggled to', mode, 'form');
             };
 
             // Elements
@@ -900,13 +888,13 @@
                     const counterDoc = await getDoc(counterRef);
                     let newInvoiceNumber;
                     if (!counterDoc.exists()) {
-                        newInvoiceNumber = 150; // Start from 150
+                        newInvoiceNumber = 1;
                         await setDoc(counterRef, { lastInvoiceNumber: newInvoiceNumber });
                     } else {
                         await updateDoc(counterRef, { lastInvoiceNumber: increment(1) });
                         newInvoiceNumber = counterDoc.data().lastInvoiceNumber + 1;
                     }
-                    return `INV-${newInvoiceNumber.toString().padStart(6, '0')}`;
+                    return `INV-${newInvoiceNumber.toString().padStart(6, '150')}`;
                 } catch (error) {
                     console.error('Error generating invoice number:', error);
                     return `INV-ERROR`;
@@ -938,7 +926,7 @@
                         invoice_date: new Date().toLocaleDateString(),
                         amount: booking.amount || '0',
                         issue: booking.issue || 'N/A',
-                        solution: booking.solution || 'Awaiting Solution'
+                        solution: booking.solution || 'N/A'
                     };
 
                     console.log('Sending email with params:', templateParams);
@@ -1143,7 +1131,7 @@
                             <td>${booking.issue || 'N/A'}</td>
                             <td>${booking.customerType || 'N/A'}</td>
                             <td>${booking.comments || 'N/A'}</td>
-                            <td><textarea class="solution-textarea" data-id="${booking.id}"></textarea></td>
+                            <td><textarea class="solution-textarea" data-id="${booking.id}">${booking.solution || ''}</textarea></td>
                             <td><input type="number" class="amount-input" data-id="${booking.id}" value="${booking.amount || ''}" min="0" step="1"></td>
                             <td>
                                 <select data-id="${booking.id}" class="status-select">
