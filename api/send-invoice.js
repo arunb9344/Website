@@ -62,6 +62,10 @@ module.exports = async (req, res) => {
     const BREVO_API_KEY = process.env.BREVO_API_KEY?.trim();
     const TEMPLATE_ID = parseInt(process.env.BREVO_TEMPLATE_ID, 10);
 
+    // Log credentials for debugging (remove in production)
+    console.log('BREVO_API_KEY (first 10 chars):', BREVO_API_KEY?.substring(0, 10) || 'not set');
+    console.log('BREVO_TEMPLATE_ID:', TEMPLATE_ID || 'not set');
+
     if (!BREVO_API_KEY) {
         console.error('BREVO_API_KEY is not set or empty');
         return res.status(500).json({ error: 'Server configuration error: Missing BREVO_API_KEY' });
@@ -83,7 +87,20 @@ module.exports = async (req, res) => {
         invoice_date: booking.invoice_date || new Date().toLocaleDateString()
     };
 
-    // Log sanitized payload
+    // Prepare Brevo request body
+    const brevoPayload = {
+        sender: {
+            name: 'EyeTech Securities',
+            email: 'your-verified-email@domain.com' // Replace with a Brevo-verified email
+        },
+        to: [{ email: sanitizedBooking.email, name: sanitizedBooking.name }],
+        subject: `EyeTech Securities Invoice for ${sanitizedBooking.name}`,
+        templateId: TEMPLATE_ID,
+        params: sanitizedBooking,
+        attachments: [{ content: base64PDF, name: 'invoice.pdf' }]
+    };
+
+    // Log sanitized payload and Brevo request
     console.log('Sanitized payload for Brevo:', {
         to: sanitizedBooking.email,
         name: sanitizedBooking.name,
@@ -91,6 +108,7 @@ module.exports = async (req, res) => {
         base64PDFLength: base64PDF.length,
         params: sanitizedBooking
     });
+    console.log('Brevo request body:', brevoPayload);
 
     try {
         const response = await fetch('https://api.brevo.com/v3/smtp/email', {
@@ -100,23 +118,14 @@ module.exports = async (req, res) => {
                 'api-key': BREVO_API_KEY,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({
-                sender: {
-                    name: 'EyeTech Securities',
-                    email: 'no-reply@eyetechsecurities.in' // Must be verified in Brevo
-                },
-                to: [{ email: sanitizedBooking.email, name: sanitizedBooking.name }],
-                subject: `EyeTech Securities Invoice for ${sanitizedBooking.name}`,
-                templateId: TEMPLATE_ID,
-                params: sanitizedBooking,
-                attachments: [{ content: base64PDF, name: 'invoice.pdf' }]
-            })
+            body: JSON.stringify(brevoPayload)
         });
 
         const result = await response.json();
         console.log('Brevo API response:', {
             status: response.status,
             ok: response.ok,
+            headers: Object.fromEntries(response.headers.entries()),
             result
         });
 
