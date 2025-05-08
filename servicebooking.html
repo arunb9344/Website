@@ -151,7 +151,6 @@
     </script>
 
     <style>
-        /* Existing Styles */
         @media (max-width: 639px) {
             .customer-type-container {
                 display: flex;
@@ -277,8 +276,6 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        /* Professional Sign-In Modal Styles */
         .auth-modal-content {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -330,8 +327,6 @@
         .close-modal:hover {
             color: #374151;
         }
-
-        /* Floating Label Styles for Auth Modal */
         .floating-label-group {
             position: relative;
             margin-bottom: 1.5rem;
@@ -366,8 +361,6 @@
             outline: none;
             border-bottom: 2px solid #2563eb;
         }
-
-        /* Form Input Enhancements */
         #service-form input,
         #service-form textarea,
         #service-form select {
@@ -407,8 +400,6 @@
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-
-        /* Hero Header for Booking Section */
         .booking-header {
             background: linear-gradient(to right, #2563eb, #4f46e5);
             color: #ffffff;
@@ -418,8 +409,6 @@
             margin-bottom: 2rem;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
-        /* Login Prompt Styling */
         .login-prompt {
             font-size: 1.125rem;
             font-weight: 600;
@@ -433,15 +422,11 @@
             text-align: center;
             margin-bottom: 1rem;
         }
-
-        /* Centered Sign-In Button */
         .centered-auth-button {
             text-align: center;
             max-width: 200px;
             margin: 0 auto;
         }
-
-        /* Tabular Booking History Styles */
         .history-table {
             width: 100%;
             border-collapse: separate;
@@ -666,7 +651,7 @@
                 <form id="service-form" method="POST" class="hidden">
                     <input type="hidden" name="access_key" value="87574eae-83a5-4d24-827d-b2dd10240938">
                     <input type="hidden" name="status" value="Pending">
-                    <input type="hidden" name="solution" value="Awaiting Solution">
+                    <input type="hidden" name="solution" value="">
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
@@ -679,7 +664,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md">
+                        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md" required>
                         <p id="email-error" class="error-message">Please enter a valid email address.</p>
                     </div>
                     <div class="mb-4">
@@ -733,6 +718,17 @@
                         </div>
                     </div>
                 </div>
+                <!-- Cancel Modal -->
+                <div id="cancel-modal" class="modal">
+                    <div class="modal-content">
+                        <i class="fas fa-times-circle close-modal" onclick="closeCancelModal()"></i>
+                        <h2 class="text-xl font-bold text-center mb-4">Thank You for Considering Us</h2>
+                        <p class="text-center mb-6">We’re sorry to hear that. We look forward to assisting you in the future.</p>
+                        <div class="confirmation-buttons">
+                            <button onclick="window.location.href='index.html'" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Return to Home</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -771,6 +767,7 @@
             const agreeBtn = document.getElementById('agree-btn');
             const cancelBtn = document.getElementById('cancel-btn');
             const confirmationModal = document.getElementById('confirmation-modal');
+            const cancelModal = document.getElementById('cancel-modal');
             const chargeText = document.getElementById('charge-text');
             const loginPrompt = document.getElementById('login-prompt');
 
@@ -800,6 +797,7 @@
             console.log('Agree button:', agreeBtn);
             console.log('Cancel button:', cancelBtn);
             console.log('Confirmation modal:', confirmationModal);
+            console.log('Cancel modal:', cancelModal);
             console.log('Charge text:', chargeText);
             console.log('Login prompt:', loginPrompt);
             console.log('Auth modal:', authModal);
@@ -810,7 +808,7 @@
             console.log('History section:', historySection);
             console.log('Booking history:', bookingHistory);
 
-            if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationModal || !chargeText ||
+            if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationModal || !cancelModal || !chargeText ||
                 !loginPrompt || !authModal || !authBtn || !signoutBtn || !signinForm || !signupForm ||
                 !signinBtn || !googleSigninBtn || !signupBtn || !historySection || !bookingHistory) {
                 console.error('One or more elements not found');
@@ -854,6 +852,12 @@
                 signupResult.textContent = '';
                 document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
                 console.log('Toggled to', mode, 'form');
+            };
+
+            // Cancel Modal Functions
+            window.closeCancelModal = function() {
+                cancelModal.classList.remove('active');
+                console.log('Cancel modal closed');
             };
 
             // Firebase Authentication State
@@ -1012,7 +1016,7 @@
                                     <td>${booking.issue || 'N/A'}</td>
                                     <td>${booking.customerType || 'N/A'}</td>
                                     <td>${booking.comments || 'N/A'}</td>
-                                    <td>${booking.solution || 'Awaiting Solution'}</td>
+                                    <td>${booking.solution || ''}</td>
                                     <td>${booking.status || 'Pending'}</td>
                                 </tr>
                             `;
@@ -1049,7 +1053,7 @@
                     document.getElementById('phone-error').classList.add('active');
                     hasError = true;
                 }
-                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
                     document.getElementById('email-error').classList.add('active');
                     hasError = true;
                 }
@@ -1109,7 +1113,7 @@
                     issue: document.getElementById('issue').value,
                     comments: document.getElementById('comments').value.trim(),
                     status: 'Pending',
-                    solution: 'Awaiting Solution'
+                    solution: ''
                 };
                 console.log('Form data:', object);
 
@@ -1119,7 +1123,7 @@
                         userId: user.uid,
                         name: object.name,
                         phone: object.phone,
-                        email: object.email || '',
+                        email: object.email,
                         address: object.address,
                         customerType: object.customerType,
                         issue: object.issue,
@@ -1147,7 +1151,7 @@
                         setTimeout(() => {
                             window.location.href = 'thankyou.html';
                             console.log('Redirecting to thankyou.html');
-                        }, 200);
+                        }, 100);
                     } else {
                         console.error('Web3Forms submission error:', data.message);
                         result.textContent = `Error: ${data.message}`;
@@ -1168,6 +1172,8 @@
             cancelBtn.addEventListener('click', () => {
                 console.log('Cancel button clicked');
                 confirmationModal.classList.remove('active');
+                cancelModal.classList.add('active');
+                console.log('Cancel modal displayed');
             });
         });
     </script>

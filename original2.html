@@ -17,9 +17,9 @@
         "@graph": [
             {
                 "@type": "WebPage",
-                "name": "Admin Panel - EyeTech Securities",
-                "url": "https://www.eyetechsecurities.in/admin.html",
-                "description": "Admin panel for managing CCTV service bookings at EyeTech Securities in Chennai.",
+                "name": "Service Booking - EyeTech Securities",
+                "url": "https://www.eyetechsecurities.in/servicebooking.html",
+                "description": "Book CCTV maintenance services with EyeTech Securities in Chennai. Secure, reliable solutions.",
                 "isPartOf": {
                     "@type": "WebSite",
                     "url": "https://www.eyetechsecurities.in/"
@@ -72,42 +72,45 @@
     }
     </script>
 
+    <!-- Meta Description for SEO Purpose -->
+    <meta name="description" content="Book CCTV maintenance services with EyeTech Securities in Chennai. Secure, reliable solutions.">
+    <meta name="keywords" content="CCTV service booking Chennai, security system maintenance, EyeTech Securities">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Admin panel for managing CCTV service bookings at EyeTech Securities in Chennai.">
-    <meta name="keywords" content="EyeTech Securities, CCTV service admin, Chennai CCTV management">
+    <title>Service Booking - Eye Tech Securities</title>
 
     <!-- Open Graph Tags -->
-    <meta property="og:title" content="Admin Panel - EyeTech Securities">
-    <meta property="og:description" content="Admin panel for managing CCTV service bookings at EyeTech Securities in Chennai.">
+    <meta property="og:title" content="Service Booking - Eye Tech Securities">
+    <meta property="og:description" content="Book CCTV maintenance services with EyeTech Securities in Chennai. Secure, reliable solutions.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.eyetechsecurities.in/admin.html">
+    <meta property="og:url" content="https://www.eyetechsecurities.in/servicebooking.html">
     <meta property="og:image" content="https://www.eyetechsecurities.in/eyetech%20logo%20jpg.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="EyeTech Securities">
+    <meta property="og:site_name" content="Eye Tech Securities">
 
     <!-- Twitter (X) Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Admin Panel - EyeTech Securities">
-    <meta name="twitter:description" content="Admin panel for managing CCTV service bookings at EyeTech Securities in Chennai.">
+    <meta name="twitter:title" content="Service Booking - Eye Tech Securities">
+    <meta name="twitter:description" content="Book CCTV maintenance services with EyeTech Securities in Chennai. Secure, reliable solutions.">
     <meta name="twitter:image" content="https://www.eyetechsecurities.in/eyetech%20logo%20jpg.webp">
-    <meta name="twitter:image:alt" content="EyeTech Securities Logo">
+    <meta name="twitter:image:alt" content="Eye Tech Securities Logo">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.eyetechsecurities.in/admin.html">
+    <link rel="canonical" href="https://www.eyetechsecurities.in/servicebooking.html">
 
-    <title>Admin Panel - EyeTech Securities</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="eyetech logo jpg.webp">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    
     <!-- Firebase SDK (Modular, v9.23.0) -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
-        import { getFirestore, collection, getDocs, query, orderBy, where, doc, updateDoc, getDoc, setDoc, increment } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, query, where, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
 
+        // Firebase Configuration for Eye Tech-Service Booking
         const firebaseConfig = {
             apiKey: "AIzaSyDTHFO2c6SwjAmBueJBx4I8wNiQ3lmHRMw",
             authDomain: "eye-tech-service-booking.firebaseapp.com",
@@ -118,10 +121,13 @@
             measurementId: "G-JFB3G4CECS"
         };
 
+        // Initialize Firebase
         try {
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             const db = getFirestore(app);
+
+            // Expose Firebase services to global scope
             window.firebaseServices = {
                 auth,
                 db,
@@ -132,34 +138,36 @@
                 signOut,
                 onAuthStateChanged,
                 collection,
-                getDocs,
+                addDoc,
                 query,
-                orderBy,
                 where,
-                doc,
-                updateDoc,
-                getDoc,
-                setDoc,
-                increment
+                orderBy,
+                getDocs
             };
-            console.log('Firebase initialized successfully for admin panel');
+            console.log('Firebase initialized successfully for project: eye-tech-service-booking');
         } catch (error) {
             console.error('Firebase initialization error:', error);
         }
     </script>
 
-    <!-- EmailJS Library for Sending Emails -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script>
-        try {
-            emailjs.init("FmA0cp_Q29jF9Bh8s");
-            console.log('EmailJS initialized successfully');
-        } catch (error) {
-            console.error('EmailJS initialization error:', error);
-        }
-    </script>
-
     <style>
+        @media (max-width: 639px) {
+            .customer-type-container {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .customer-type-container label {
+                margin-left: 0;
+            }
+        }
+        @media (min-width: 640px) {
+            .customer-type-container {
+                display: flex;
+                flex-direction: row;
+                gap: 1.5rem;
+            }
+        }
         @media (max-width: 639px) {
             #mobile-menu {
                 overflow: visible;
@@ -181,6 +189,16 @@
         .nav-active {
             background-color: #2563eb;
             transform: scale(1.05);
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid transparent;
+            border-image: linear-gradient(to right, #2563eb, #4f46e5) 1;
         }
         .error-message {
             color: #dc2626;
@@ -206,6 +224,10 @@
         }
         .success-message.active {
             display: block;
+        }
+        .strikethrough {
+            text-decoration: line-through;
+            color: #6b7280;
         }
         .modal {
             display: none;
@@ -237,6 +259,22 @@
         }
         .modal.active .modal-content {
             transform: translateY(0);
+        }
+        .confirmation-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .confirmation-buttons button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .confirmation-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .auth-modal-content {
             background: rgba(255, 255, 255, 0.9);
@@ -323,186 +361,42 @@
             outline: none;
             border-bottom: 2px solid #2563eb;
         }
-        .tab {
-            cursor: pointer;
-            padding: 0.75rem 1.5rem;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-            background-color: #f3f4f6;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            white-space: nowrap;
-        }
-        .tab:hover {
-            background-color: #dbeafe;
-            transform: scale(1.05);
-        }
-        .tab.active {
-            border-bottom: 2px solid #2563eb;
-            background-color: #2563eb;
-            color: #ffffff;
-            font-weight: 600;
-        }
-        .tab-container {
-            display: flex;
-            flex-wrap: wrap;
-            overflow-x: auto;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        .table-container {
-            background: #ffffff;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border: 1px solid transparent;
-            border-image: linear-gradient(to right, #2563eb, #4f46e5) 1;
-        }
-        .admin-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-        .admin-table th,
-        .admin-table td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .admin-table th {
-            background: #2563eb;
-            color: #ffffff;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-        }
-        .admin-table tr:last-child td {
-            border-bottom: none;
-        }
-        .admin-table tr:hover {
-            background: #f9fafb;
-        }
-        .admin-table td {
-            font-size: 0.875rem;
-            color: #374151;
-        }
-        .admin-table select,
-        .admin-table textarea,
-        .admin-table input[type="number"] {
+        #service-form input,
+        #service-form textarea,
+        #service-form select {
             transition: all 0.3s ease;
             border: 1px solid #d1d5db;
             border-radius: 0.375rem;
             padding: 0.75rem;
         }
-        .admin-table textarea.solution-textarea {
-            min-height: 80px;
-            resize: vertical;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .admin-table input.amount-input {
-            width: 100px;
-        }
-        .admin-table select.status-select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1.25rem;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>');
-            padding-right: 2rem;
-        }
-        .admin-table select.status-select:focus {
+        #service-form input:focus,
+        #service-form textarea:focus,
+        #service-form select:focus {
             outline: none;
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
-        .admin-table select.status-select option[value="Pending"] {
-            background-color: #fefcbf;
-            color: #000;
-        }
-        .admin-table select.status-select option[value="Completed"] {
-            background-color: #c6f6d5;
-            color: #000;
-        }
-        .admin-table select.status-select option[value="Cancelled"] {
-            background-color: #fed7d7;
-            color: #000;
-        }
-        .admin-table select.status-select:has(option[value="Pending"]:checked) {
-            background-color: #fefcbf;
-            color: #000;
-            border-color: #f59e0b;
-        }
-        .admin-table select.status-select:has(option[value="Completed"]:checked) {
-            background-color: #c6f6d5;
-            color: #000;
-            border-color: #16a34a;
-        }
-        .admin-table select.status-select:has(option[value="Cancelled"]:checked) {
-            background-color: #fed7d7;
-            color: #000;
-            border-color: #dc2626;
-        }
-        .admin-table select.status-select:hover,
-        .admin-table textarea.solution-textarea:hover,
-        .admin-table input.amount-input:hover {
+        #service-form input:hover,
+        #service-form textarea:hover,
+        #service-form select:hover {
             transform: scale(1.02);
         }
-        .admin-table button {
+        #service-form label {
+            font-weight: 600;
+            color: #1f2937;
+            transition: all 0.2s ease;
+        }
+        #service-form input:not(:placeholder-shown) + label,
+        #service-form textarea:not(:placeholder-shown) + label,
+        #service-form select:not(:placeholder-shown) + label {
+            transform: translateY(-0.5rem);
+            font-size: 0.75rem;
+        }
+        #preview-btn {
             background: linear-gradient(to right, #2563eb, #4f46e5);
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
             transition: all 0.3s ease;
         }
-        .admin-table button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        .admin-table button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .search-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .search-container input {
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            width: 100%;
-            max-width: 300px;
-            font-size: 0.875rem;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        .search-container input:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        .search-container input:hover {
-            transform: scale(1.02);
-        }
-        .search-container button {
-            background: linear-gradient(to right, #2563eb, #4f46e5);
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
-        }
-        .search-container button:hover {
+        #preview-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
@@ -533,14 +427,49 @@
             max-width: 200px;
             margin: 0 auto;
         }
+        .history-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #ffffff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .history-table th,
+        .history-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .history-table th {
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+        .history-table tr:hover {
+            background: #f9fafb;
+        }
+        .history-table td {
+            font-size: 0.875rem;
+            color: #374151;
+        }
         @media (max-width: 640px) {
-            .admin-table {
+            .history-table {
                 display: block;
                 overflow-x: auto;
             }
-            .admin-table th,
-            .admin-table td {
+            .history-table th,
+            .history-table td {
                 min-width: 120px;
+            }
+            .form-container {
+                padding: 1.5rem;
             }
             .booking-header {
                 padding: 1.5rem;
@@ -548,13 +477,19 @@
             .modal-content {
                 padding: 1.5rem;
             }
-            .auth-button {
-                padding: 0.5rem 1.5rem;
+            #service-form label {
                 font-size: 0.875rem;
+            }
+            #preview-btn {
+                padding: 0.75rem;
             }
             .login-prompt {
                 font-size: 1rem;
                 padding: 0.75rem;
+            }
+            .auth-button {
+                padding: 0.5rem 1.5rem;
+                font-size: 0.875rem;
             }
         }
     </style>
@@ -592,13 +527,9 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     <span>Storage Calculator</span>
                 </a>
-                <a href="servicebooking.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
+                <a href="servicebooking.html" class="flex items-center space-x-1 px-3 py-2 rounded-md nav-active">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     <span>Service Booking</span>
-                </a>
-                <a href="admin.html" class="flex items-center space-x-1 px-3 py-2 rounded-md nav-active">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    <span>Admin Panel</span>
                 </a>
             </div>
             <!-- Mobile Menu Toggle -->
@@ -619,7 +550,7 @@
                 <span>Packages</span>
             </a>
             <a href="Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 <span>Blog</span>
             </a>
             <a href="about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
@@ -634,13 +565,9 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m-3 3v6m-3-3h6m-9 6h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 <span>Storage Calculator</span>
             </a>
-            <a href="servicebooking.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
+            <a href="servicebooking.html" class="flex items-center space-x-2 py-2 bg-blue-600 rounded-md px-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span>Service Booking</span>
-            </a>
-            <a href="admin.html" class="flex items-center space-x-2 py-2 bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                <span>Admin Panel</span>
             </a>
         </div>
     </nav>
@@ -698,51 +625,109 @@
         </div>
     </div>
 
-    <!-- Admin Section -->
-    <section id="admin-section" class="py-12 md:py-16 bg-gray-50">
+    <!-- Booking History Section -->
+    <section id="history-section" class="py-8 md:py-12 hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-xl md:text-2xl font-bold text-center mb-6">Your Booking History</h2>
+            <div class="history-container">
+                <table id="booking-history" class="history-table"></table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Booking Form -->
+    <section id="booking-section" class="py-12 md:py-16 bg-gray-50">
         <div class="container mx-auto px-4">
             <div class="booking-header">
-                <h2 class="text-2xl md:text-3xl font-bold">Admin Panel - Booking Management</h2>
-                <p class="mt-2 text-sm md:text-base">Manage CCTV service bookings for EyeTech Securities</p>
+                <h2 class="text-2xl md:text-3xl font-bold">Service Booking Form</h2>
+                <p class="mt-2 text-sm md:text-base">Book your CCTV maintenance with EyeTech Securities</p>
             </div>
-            <p id="login-prompt" class="login-prompt hidden">Please sign in as admin to access the panel.</p>
-            <div class="centered-auth-button">
-                <button id="auth-btn" class="auth-button hidden" onclick="openAuthModal('signin')">Sign In</button>
-            </div>
-            <p id="error-message" class="error-message text-center mb-4"></p>
-            <p id="success-message" class="success-message text-center mb-4"></p>
-            <div id="admin-content" class="hidden">
-                <div class="search-container">
-                    <input type="text" id="phone-search" placeholder="Search by phone number" class="focus:ring-2 focus:ring-blue-500">
-                    <button id="search-btn" class="flex items-center">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        Search
-                    </button>
+            <div class="form-container">
+                <p id="login-prompt" class="login-prompt hidden">Please sign in to submit a booking & to view booking History.</p>
+                <div class="centered-auth-button">
+                    <button id="auth-btn" class="auth-button hidden" onclick="openAuthModal('signin')">Sign In</button>
                 </div>
-                <div class="tab-container">
-                    <div class="tab active" data-tab="pending">Pending</div>
-                    <div class="tab" data-tab="cancelled">Cancelled</div>
-                    <div class="tab" data-tab="completed">Completed</div>
-                    <div class="tab" data-tab="all">All Bookings</div>
+                <p id="result" class="success-message"></p>
+                <form id="service-form" method="POST" class="hidden">
+                    <input type="hidden" name="access_key" value="87574eae-83a5-4d24-827d-b2dd10240938">
+                    <input type="hidden" name="status" value="Pending">
+                    <input type="hidden" name="solution" value="">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
+                        <p id="name-error" class="error-message">Please enter your name.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="mt-1 p-2 w-full border rounded-md" required pattern="[0-9]{10}">
+                        <p id="phone-error" class="error-message">Please enter a valid 10-digit phone number.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md" required>
+                        <p id="email-error" class="error-message">Please enter a valid email address.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Full Address</label>
+                        <textarea id="address" name="address" rows="3" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+                        <p id="address-error" class="error-message">Please enter your full address.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700">Customer Type</label>
+                        <div class="mt-1 customer-type-container">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="customerType" value="New Customer" class="form-radio" required>
+                                <span class="ml-1">New Customer</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="customerType" value="Existing Customer" class="form-radio">
+                                <span class="ml-2">Existing Customer (We Done Full Installation)</span>
+                            </label>
+                        </div>
+                        <p id="customerType-error" class="error-message">Please select a customer type.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="issue" class="block text-sm font-medium text-gray-700">Select an Issue You Are Facing</label>
+                        <select id="issue" name="issue" class="mt-1 p-2 w-full border rounded-md" required>
+                            <option value="" disabled selected>Select an issue</option>
+                            <option value="All Cameras No Video">All Cameras No Video</option>
+                            <option value="One or More Cameras not Working">One or More Cameras not Working</option>
+                            <option value="Only Mobile View Issue">Only Mobile View Issue</option>
+                            <option value="Beep Sound Issue">Beep Sound Issue</option>
+                            <option value="Display & Mobile both view Issue">Display & Mobile both view Issue</option>
+                            <option value="Blur Issue">Blur Issue</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <p id="issue-error" class="error-message">Please select an issue.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
+                        <textarea id="comments" name="comments" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+                        <p id="comments-error" class="error-message">Please enter your comments.</p>
+                    </div>
+                    <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
+                </form>
+                <!-- Confirmation Modal -->
+                <div id="confirmation-modal" class="modal">
+                    <div class="modal-content">
+                        <p id="charge-text"></p>
+                        <p>Any other Material Charges will be Extra.</p>
+                        <div class="confirmation-buttons">
+                            <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"> Agree & Proceed</button>
+                            <button id="cancel-btn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="table-container">
-                    <table id="admin-table" class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Issue</th>
-                                <th>Customer Type</th>
-                                <th>Comments</th>
-                                <th>Solution</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                <!-- Cancel Modal -->
+                <div id="cancel-modal" class="modal">
+                    <div class="modal-content">
+                        <i class="fas fa-times-circle close-modal" onclick="closeCancelModal()"></i>
+                        <h2 class="text-xl font-bold text-center mb-4">Thank You for Considering Us</h2>
+                        <p class="text-center mb-6">We’re sorry to hear that. We look forward to assisting you in the future.</p>
+                        <div class="confirmation-buttons">
+                            <button onclick="window.location.href='index.html'" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Return to Home</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -753,7 +738,7 @@
         <div class="container mx-auto px-4 text-center">
             <p class="text-sm md:text-base">© 2025 Eye Tech Securities. All rights reserved.</p>
             <p class="text-sm md:text-base mt-2">
-                <a href="Blog/privacy-policy.html" class="hover:underline">Privacy Policy</a> |
+                <a href="Blog/privacy-policy.html" class="hover:underline">Privacy Policy</a> | 
                 <a href="Blog/terms-of-service.html" class="hover:underline">Terms of Service</a>
             </p>
         </div>
@@ -775,133 +760,139 @@
                 }
             };
 
+            // Form elements
+            const form = document.getElementById('service-form');
+            const result = document.getElementById('result');
+            const previewBtn = document.getElementById('preview-btn');
+            const agreeBtn = document.getElementById('agree-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const confirmationModal = document.getElementById('confirmation-modal');
+            const cancelModal = document.getElementById('cancel-modal');
+            const chargeText = document.getElementById('charge-text');
+            const loginPrompt = document.getElementById('login-prompt');
+
+            // Auth elements
+            const authModal = document.getElementById('auth-modal');
+            const authBtn = document.getElementById('auth-btn');
+            const signoutBtn = document.getElementById('signout-btn');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            const signinBtn = document.getElementById('signin-btn');
+            const googleSigninBtn = document.getElementById('google-signin-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            const signinEmail = document.getElementById('signin-email');
+            const signinPassword = document.getElementById('signin-password');
+            const signupEmail = document.getElementById('signup-email');
+            const signupPassword = document.getElementById('signup-password');
+            const signinResult = document.getElementById('signin-result');
+            const signupResult = document.getElementById('signup-result');
+            const userEmail = document.getElementById('user-email');
+            const historySection = document.getElementById('history-section');
+            const bookingHistory = document.getElementById('booking-history');
+
+            // Verify elements
+            console.log('Form:', form);
+            console.log('Result:', result);
+            console.log('Preview button:', previewBtn);
+            console.log('Agree button:', agreeBtn);
+            console.log('Cancel button:', cancelBtn);
+            console.log('Confirmation modal:', confirmationModal);
+            console.log('Cancel modal:', cancelModal);
+            console.log('Charge text:', chargeText);
+            console.log('Login prompt:', loginPrompt);
+            console.log('Auth modal:', authModal);
+            console.log('Auth button:', authBtn);
+            console.log('Signout button:', signoutBtn);
+            console.log('Signin form:', signinForm);
+            console.log('Signup form:', signupForm);
+            console.log('History section:', historySection);
+            console.log('Booking history:', bookingHistory);
+
+            if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationModal || !cancelModal || !chargeText ||
+                !loginPrompt || !authModal || !authBtn || !signoutBtn || !signinForm || !signupForm ||
+                !signinBtn || !googleSigninBtn || !signupBtn || !historySection || !bookingHistory) {
+                console.error('One or more elements not found');
+                return;
+            }
+
+            // Firebase Services
+            const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, addDoc, query, where, orderBy, getDocs } = window.firebaseServices || {};
+
+            if (!auth || !db) {
+                console.error('Firebase services not initialized');
+                signinResult.textContent = 'Error: Firebase not initialized. Please try again later.';
+                signinResult.style.color = '#dc2626';
+                return;
+            }
+
             // Auth Modal Functions
             window.openAuthModal = function(mode = 'signin') {
-                const signinForm = document.getElementById('signin-form');
-                const signupForm = document.getElementById('signup-form');
-                const authModal = document.getElementById('auth-modal');
                 signinForm.classList.toggle('hidden', mode !== 'signin');
                 signupForm.classList.toggle('hidden', mode !== 'signup');
                 authModal.classList.add('active');
-                document.getElementById('signin-result').textContent = '';
-                document.getElementById('signup-result').textContent = '';
+                signinResult.textContent = '';
+                signupResult.textContent = '';
                 document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
                 console.log('Auth modal opened in', mode, 'mode');
             };
 
             window.closeAuthModal = function() {
-                const authModal = document.getElementById('auth-modal');
                 authModal.classList.remove('active');
-                document.getElementById('signin-email').value = '';
-                document.getElementById('signin-password').value = '';
-                document.getElementById('signup-email').value = '';
-                document.getElementById('signup-password').value = '';
+                signinEmail.value = '';
+                signinPassword.value = '';
+                signupEmail.value = '';
+                signupPassword.value = '';
                 console.log('Auth modal closed');
             };
 
             window.toggleAuthForm = function(mode) {
-                const signinForm = document.getElementById('signin-form');
-                const signupForm = document.getElementById('signup-form');
                 signinForm.classList.toggle('hidden', mode !== 'signin');
                 signupForm.classList.toggle('hidden', mode !== 'signup');
-                document.getElementById('signin-result').textContent = '';
-                document.getElementById('signup-result').textContent = '';
+                signinResult.textContent = '';
+                signupResult.textContent = '';
                 document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
                 console.log('Toggled to', mode, 'form');
             };
 
-            // Firebase Services
-            const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc, getDoc, setDoc, increment } = window.firebaseServices;
-
-            // Admin UIDs (Replace with actual admin UIDs)
-            const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o1'];
-
-            // Utility to show messages
-            const showMessage = (elementId, message, isSuccess = false) => {
-                const element = document.getElementById(elementId);
-                element.textContent = message;
-                element.classList.add(isSuccess ? 'success-message' : 'error-message', 'active');
-                setTimeout(() => {
-                    element.classList.remove('active');
-                    element.textContent = '';
-                }, 7000);
-                console.log(`${isSuccess ? 'Success' : 'Error'} message: ${message}`);
+            // Cancel Modal Functions
+            window.closeCancelModal = function() {
+                cancelModal.classList.remove('active');
+                console.log('Cancel modal closed');
             };
 
-            // Debounce function
-            const debounce = (func, wait) => {
-                let timeout;
-                return (...args) => {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => func.apply(this, args), wait);
-                };
-            };
-
-            // Generate unique invoice number
-            const generateInvoiceNumber = async () => {
-                try {
-                    const counterRef = doc(db, 'counters', 'invoice');
-                    let retries = 3;
-                    while (retries > 0) {
-                        try {
-                            await updateDoc(counterRef, { lastNumber: increment(1) }, { merge: true });
-                            const counterSnap = await getDoc(counterRef);
-                            if (counterSnap.exists()) {
-                                const lastNumber = counterSnap.data().lastNumber || 1;
-                                const invoiceNumber = `INV-${String(lastNumber).padStart(6, '0')}`;
-                                console.log('Generated invoice number:', invoiceNumber);
-                                return invoiceNumber;
-                            }
-                        } catch (error) {
-                            console.warn(`Retry ${4 - retries} for invoice number generation:`, error);
-                            retries--;
-                            if (retries === 0) throw error;
-                            await new Promise(resolve => setTimeout(resolve, 1000));
-                        }
-                    }
-                    throw new Error('Failed to generate invoice number after retries');
-                } catch (error) {
-                    console.error('Error generating invoice number:', error);
-                    const tempInvoice = `INV-TEMP-${Math.floor(Math.random() * 1000000).toString().padStart(6, '0')}`;
-                    console.warn('Using temporary invoice number:', tempInvoice);
-                    return tempInvoice;
+            // Firebase Authentication State
+            onAuthStateChanged(auth, user => {
+                if (user) {
+                    console.log('User signed in:', user.email);
+                    authBtn.classList.add('hidden');
+                    signoutBtn.classList.remove('hidden');
+                    userEmail.textContent = user.email;
+                    historySection.classList.remove('hidden');
+                    form.classList.remove('hidden');
+                    loginPrompt.classList.add('hidden');
+                    loadBookingHistory(user.uid);
+                } else {
+                    console.log('No user signed in');
+                    authBtn.classList.remove('hidden');
+                    signoutBtn.classList.add('hidden');
+                    userEmail.textContent = '';
+                    historySection.classList.add('hidden');
+                    form.classList.add('hidden');
+                    loginPrompt.classList.remove('hidden');
+                    bookingHistory.innerHTML = '';
                 }
-            };
+            });
 
-            // Send invoice email
-            const sendInvoiceEmail = async (booking) => {
-                try {
-                    if (!booking.email) {
-                        throw new Error('Customer email is missing');
-                    }
-                    if (!booking.invoiceNumber) {
-                        throw new Error('Invoice number is missing');
-                    }
-                    const templateParams = {
-                        invoice_number: booking.invoiceNumber,
-                        customer_name: booking.name,
-                        customer_email: booking.email,
-                        service_date: booking.date,
-                        issue: booking.issue,
-                        solution: booking.solution || 'Service completed',
-                        amount: booking.amount ? `₹${booking.amount}` : 'N/A',
-                        company_name: 'EyeTech Securities',
-                        company_contact: '+91-9962835944'
-                    };
-                    console.log('EmailJS template params:', templateParams);
-                    const response = await emailjs.send('service_c54v569', 'template_45pkecp', templateParams);
-                    console.log('Email sent successfully:', response);
-                    return true;
-                } catch (error) {
-                    console.error('Error sending invoice email:', error);
-                    return false;
-                }
-            };
+            // Open Sign-In Modal
+            authBtn.addEventListener('click', () => openAuthModal('signin'));
 
-            // Authentication Handlers
-            document.getElementById('signin-btn').addEventListener('click', async () => {
-                const email = document.getElementById('signin-email').value.trim();
-                const password = document.getElementById('signin-password').value.trim();
+            // Sign In
+            signinBtn.addEventListener('click', () => {
+                const email = signinEmail.value.trim();
+                const password = signinPassword.value.trim();
+                signinResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
                 if (!email) {
                     document.getElementById('signin-email-error').classList.add('active');
                     return;
@@ -910,220 +901,279 @@
                     document.getElementById('signin-password-error').classList.add('active');
                     return;
                 }
-                try {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    document.getElementById('signin-result').textContent = 'Signed in successfully!';
-                    setTimeout(closeAuthModal, 1000);
-                    console.log('Email sign-in successful:', email);
-                } catch (error) {
-                    document.getElementById('signin-result').textContent = `Error: ${error.message}`;
-                    console.error('Email sign-in error:', error);
-                }
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        signinResult.textContent = 'Signed in successfully!';
+                        signinResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Sign-in error:', error.code, error.message);
+                        signinResult.textContent = error.message;
+                        signinResult.style.color = '#dc2626';
+                    });
             });
 
-            document.getElementById('google-signin-btn').addEventListener('click', async () => {
-                try {
-                    const provider = new GoogleAuthProvider();
-                    await signInWithPopup(auth, provider);
-                    document.getElementById('signin-result').textContent = 'Signed in with Google!';
-                    setTimeout(closeAuthModal, 1000);
-                    console.log('Google sign-in successful');
-                } catch (error) {
-                    document.getElementById('signin-result').textContent = `Error: ${error.message}`;
-                    console.error('Google sign-in error:', error);
-                }
+            // Google Sign In
+            googleSigninBtn.addEventListener('click', () => {
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider)
+                    .then(() => {
+                        signinResult.textContent = 'Signed in with Google successfully!';
+                        signinResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Google Sign-in error:', error.code, error.message);
+                        signinResult.textContent = error.message;
+                        signinResult.style.color = '#dc2626';
+                    });
             });
 
-            document.getElementById('signup-btn').addEventListener('click', async () => {
-                const email = document.getElementById('signup-email').value.trim();
-                const password = document.getElementById('signup-password').value.trim();
+            // Sign Up
+            signupBtn.addEventListener('click', () => {
+                const email = signupEmail.value.trim();
+                const password = signupPassword.value.trim();
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
                 if (!email) {
                     document.getElementById('signup-email-error').classList.add('active');
                     return;
                 }
-                if (password.length < 6) {
+                if (!password || password.length < 6) {
                     document.getElementById('signup-password-error').classList.add('active');
                     return;
                 }
-                try {
-                    await createUserWithEmailAndPassword(auth, email, password);
-                    document.getElementById('signup-result').textContent = 'Account created successfully!';
-                    setTimeout(closeAuthModal, 1000);
-                    console.log('Sign-up successful:', email);
-                } catch (error) {
-                    document.getElementById('signup-result').textContent = `Error: ${error.message}`;
-                    console.error('Sign-up error:', error);
-                }
+
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        signupResult.textContent = 'Account created successfully!';
+                        signupResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Sign-up error:', error.code, error.message);
+                        signupResult.textContent = error.message;
+                        signupResult.style.color = '#dc2626';
+                    });
             });
 
-            document.getElementById('signout-btn').addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    document.getElementById('user-email').textContent = '';
-                    document.getElementById('signout-btn').classList.add('hidden');
-                    document.getElementById('admin-content').classList.add('hidden');
-                    document.getElementById('login-prompt').classList.remove('hidden');
-                    document.getElementById('auth-btn').classList.remove('hidden');
-                    showMessage('success-message', 'Signed out successfully!', true);
-                    console.log('Sign-out successful');
-                } catch (error) {
-                    showMessage('error-message', `Error signing out: ${error.message}`);
-                    console.error('Sign-out error:', error);
-                }
+            // Sign Out
+            signoutBtn.addEventListener('click', () => {
+                signOut(auth)
+                    .then(() => {
+                        console.log('User signed out');
+                    })
+                    .catch(error => {
+                        console.error('Sign-out error:', error.code, error.message);
+                        alert('Error signing out: ' + error.message);
+                    });
             });
 
-            // Check auth state
-            onAuthStateChanged(auth, (user) => {
-                const loginPrompt = document.getElementById('login-prompt');
-                const authBtn = document.getElementById('auth-btn');
-                const adminContent = document.getElementById('admin-content');
-                const userEmail = document.getElementById('user-email');
-                const signoutBtn = document.getElementById('signout-btn');
-                if (user && ADMIN_UIDS.includes(user.uid)) {
-                    loginPrompt.classList.add('hidden');
-                    authBtn.classList.add('hidden');
-                    adminContent.classList.remove('hidden');
-                    userEmail.textContent = user.email;
-                    signoutBtn.classList.remove('hidden');
-                    loadBookings('pending');
-                    console.log('Admin signed in:', user.email);
-                } else {
-                    loginPrompt.classList.remove('hidden');
-                    authBtn.classList.remove('hidden');
-                    adminContent.classList.add('hidden');
-                    userEmail.textContent = '';
-                    signoutBtn.classList.add('hidden');
-                    console.log('No admin signed in or user is not admin');
-                }
-            });
-
-            // Load bookings
-            const loadBookings = async (status) => {
-                try {
-                    const bookingsRef = collection(db, 'bookings');
-                    let q;
-                    if (status === 'all') {
-                        q = query(bookingsRef, orderBy('timestamp', 'desc'));
-                    } else {
-                        q = query(bookingsRef, where('status', '==', status), orderBy('timestamp', 'desc'));
-                    }
-                    const querySnapshot = await getDocs(q);
-                    const bookings = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderBookings(bookings);
-                    console.log(`Loaded ${status} bookings:`, bookings.length);
-                } catch (error) {
-                    showMessage('error-message', `Error loading bookings: ${error.message}`);
-                    console.error('Error loading bookings:', error);
-                }
-            };
-
-            // Render bookings
-            const renderBookings = (bookings) => {
-                const tbody = document.querySelector('#admin-table tbody');
-                tbody.innerHTML = '';
-                bookings.forEach(booking => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${booking.date}</td>
-                        <td>${booking.name}</td>
-                        <td>${booking.phone}</td>
-                        <td>${booking.issue}</td>
-                        <td>${booking.customerType}</td>
-                        <td>${booking.comments || ''}</td>
-                        <td><textarea class="solution-textarea" data-id="${booking.id}">${booking.solution || ''}</textarea></td>
-                        <td><input type="number" class="amount-input" data-id="${booking.id}" value="${booking.amount || ''}" min="0"></td>
-                        <td>
-                            <select class="status-select" data-id="${booking.id}">
-                                <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                                <option value="Completed" ${booking.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                                <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-                            </select>
-                        </td>
-                        <td><button class="save-btn" data-id="${booking.id}" ${booking.status === 'Completed' && booking.invoiceSent ? 'disabled' : ''}>Save</button></td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-                // Add event listeners for save buttons
-                document.querySelectorAll('.save-btn').forEach(button => {
-                    button.addEventListener('click', debounce(async (e) => {
-                        const id = e.target.dataset.id;
-                        const solution = document.querySelector(`.solution-textarea[data-id="${id}"]`).value.trim();
-                        const amount = parseFloat(document.querySelector(`.amount-input[data-id="${id}"]`).value);
-                        const status = document.querySelector(`.status-select[data-id="${id}"]`).value;
-                        const booking = bookings.find(b => b.id === id);
-
-                        try {
-                            let updateData = { solution, amount, status };
-                            let invoiceGenerated = booking.invoiceNumber || false;
-                            let emailSent = booking.invoiceSent || false;
-
-                            if (status === 'Completed' && !invoiceGenerated) {
-                                if (!solution) {
-                                    showMessage('error-message', 'Solution is required for completed bookings');
-                                    return;
-                                }
-                                if (!amount || amount <= 0) {
-                                    showMessage('error-message', 'Valid amount is required for completed bookings');
-                                    return;
-                                }
-                                updateData.invoiceNumber = await generateInvoiceNumber();
-                                invoiceGenerated = true;
-                            }
-
-                            if (status === 'Completed' && invoiceGenerated && !emailSent) {
-                                if (!booking.email) {
-                                    showMessage('error-message', 'Customer email is missing for invoice');
-                                    return;
-                                }
-                                updateData.emailSent = await sendInvoiceEmail({ ...booking, ...updateData });
-                                emailSent = updateData.emailSent;
-                            }
-
-                            await updateDoc(doc(db, 'bookings', id), updateData);
-                            showMessage('success-message', 'Booking updated successfully!', true);
-                            console.log(`Booking ${id} updated:`, updateData);
-                            if (status === 'Completed' && emailSent) {
-                                e.target.disabled = true;
-                            }
-                            loadBookings(document.querySelector('.tab.active').dataset.tab);
-                        } catch (error) {
-                            showMessage('error-message', `Error updating booking: ${error.message}`);
-                            console.error(`Error updating booking ${id}:`, error);
-                        }
-                    }, 1000));
-                });
-            };
-
-            // Tab switching
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    const status = tab.dataset.tab;
-                    loadBookings(status);
-                    console.log('Switched to tab:', status);
-                });
-            });
-
-            // Search by phone
-            document.getElementById('search-btn').addEventListener('click', async () => {
-                const phone = document.getElementById('phone-search').value.trim();
-                if (!phone) {
-                    showMessage('error-message', 'Please enter a phone number');
+            // Load Booking History
+            function loadBookingHistory(uid) {
+                console.log('Loading booking history for user:', uid);
+                if (!uid) {
+                    console.error('No user ID provided');
+                    bookingHistory.innerHTML = '<tr><td colspan="8" class="text-center text-red-600">Error: Please sign in to view history.</td></tr>';
                     return;
                 }
-                try {
-                    const bookingsRef = collection(db, 'bookings');
-                    const q = query(bookingsRef, where('phone', '==', phone), orderBy('timestamp', 'desc'));
-                    const querySnapshot = await getDocs(q);
-                    const bookings = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderBookings(bookings);
-                    console.log(`Search results for phone ${phone}:`, bookings.length);
-                } catch (error) {
-                    showMessage('error-message', `Error searching bookings: ${error.message}`);
-                    console.error('Error searching bookings:', error);
+
+                const q = query(collection(db, 'bookings'), where('userId', '==', uid), orderBy('timestamp', 'desc'));
+                getDocs(q)
+                    .then(querySnapshot => {
+                        console.log('Firestore query returned', querySnapshot.size, 'documents');
+                        bookingHistory.innerHTML = `
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Issue</th>
+                                    <th>Customer Type</th>
+                                    <th>Comments</th>
+                                    <th>Solution</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        `;
+                        if (querySnapshot.empty) {
+                            bookingHistory.innerHTML += '<tr><td colspan="8" class="text-center text-gray-700">No bookings found.</td></tr>';
+                            return;
+                        }
+                        querySnapshot.forEach(doc => {
+                            const booking = doc.data();
+                            console.log('Booking document:', booking);
+                            const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
+                            bookingHistory.innerHTML += `
+                                <tr>
+                                    <td>${date}</td>
+                                    <td>${booking.name || 'N/A'}</td>
+                                    <td>${booking.phone || 'N/A'}</td>
+                                    <td>${booking.issue || 'N/A'}</td>
+                                    <td>${booking.customerType || 'N/A'}</td>
+                                    <td>${booking.comments || 'N/A'}</td>
+                                    <td>${booking.solution || ''}</td>
+                                    <td>${booking.status || 'Pending'}</td>
+                                </tr>
+                            `;
+                        });
+                        bookingHistory.innerHTML += '</tbody>';
+                    })
+                    .catch(error => {
+                        console.error('Firestore query error:', error.code, error.message);
+                        bookingHistory.innerHTML = `<tr><td colspan="8" class="text-center text-red-600">Error loading history: ${error.message}</td></tr>`;
+                    });
+            }
+
+            // Preview button
+            previewBtn.addEventListener('click', () => {
+                console.log('Preview button clicked');
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                result.classList.remove('active');
+
+                // Validate inputs
+                let hasError = false;
+                const name = document.getElementById('name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const customerType = form.querySelector('input[name="customerType"]:checked')?.value;
+                const issue = document.getElementById('issue').value;
+                const comments = document.getElementById('comments').value.trim();
+
+                if (!name) {
+                    document.getElementById('name-error').classList.add('active');
+                    hasError = true;
                 }
+                if (!phone || !/^[0-9]{10}$/.test(phone)) {
+                    document.getElementById('phone-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    document.getElementById('email-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!address) {
+                    document.getElementById('address-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!customerType) {
+                    document.getElementById('customerType-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!issue) {
+                    document.getElementById('issue-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!comments) {
+                    document.getElementById('comments-error').classList.add('active');
+                    hasError = true;
+                }
+
+                if (hasError) {
+                    console.log('Validation errors detected');
+                    return;
+                }
+
+                // Show confirmation modal
+                const isExistingCustomer = customerType === 'Existing Customer';
+                chargeText.innerHTML = `
+                    Minimum Visiting Charge is Rs.${isExistingCustomer ? '650 <span class="strikethrough">Rs.750</span>' : '750'} 
+                    even if we come and switch ON the Switch and also if we say what is the issue (Troubleshoot) in which
+                    you may need to get some other's approval also. So, Request you to check once from your side and confirm with us.
+                `;
+                confirmationModal.classList.add('active');
+                console.log('Confirmation modal displayed');
+            });
+
+            // Agree button (Web3Forms submission and Firestore storage)
+            agreeBtn.addEventListener('click', async () => {
+                console.log('Agree & Proceed button clicked');
+                const user = auth.currentUser;
+                if (!user) {
+                    console.error('No user signed in');
+                    result.textContent = 'Error: Please sign in to submit a booking.';
+                    result.style.color = '#dc2626';
+                    result.classList.add('active');
+                    confirmationModal.classList.remove('active');
+                    openAuthModal('signin');
+                    return;
+                }
+
+                const object = {
+                    name: document.getElementById('name').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    address: document.getElementById('address').value.trim(),
+                    customerType: form.querySelector('input[name="customerType"]:checked')?.value,
+                    issue: document.getElementById('issue').value,
+                    comments: document.getElementById('comments').value.trim(),
+                    status: 'Pending',
+                    solution: ''
+                };
+                console.log('Form data:', object);
+
+                try {
+                    // Store in Firestore
+                    await addDoc(collection(db, 'bookings'), {
+                        userId: user.uid,
+                        name: object.name,
+                        phone: object.phone,
+                        email: object.email,
+                        address: object.address,
+                        customerType: object.customerType,
+                        issue: object.issue,
+                        comments: object.comments,
+                        status: object.status,
+                        solution: object.solution,
+                        timestamp: new Date()
+                    });
+                    console.log('Booking stored in Firestore for user:', user.uid);
+
+                    // Submit to Web3Forms
+                    const formData = new FormData(form);
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        result.textContent = 'Booking submitted successfully!';
+                        result.classList.add('active');
+                        form.reset();
+                        confirmationModal.classList.remove('active');
+                        console.log('Web3Forms submission successful');
+                        setTimeout(() => {
+                            window.location.href = 'thankyou.html';
+                            console.log('Redirecting to thankyou.html');
+                        }, 100);
+                    } else {
+                        console.error('Web3Forms submission error:', data.message);
+                        result.textContent = `Error: ${data.message}`;
+                        result.style.color = '#dc2626';
+                        result.classList.add('active');
+                        confirmationModal.classList.remove('active');
+                    }
+                } catch (error) {
+                    console.error('Submission error:', error.message);
+                    result.textContent = `Error: ${error.message}`;
+                    result.style.color = '#dc2626';
+                    result.classList.add('active');
+                    confirmationModal.classList.remove('active');
+                }
+            });
+
+            // Cancel button
+            cancelBtn.addEventListener('click', () => {
+                console.log('Cancel button clicked');
+                confirmationModal.classList.remove('active');
+                cancelModal.classList.add('active');
+                console.log('Cancel modal displayed');
             });
         });
     </script>
