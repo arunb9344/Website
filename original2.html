@@ -367,7 +367,7 @@
             text-transform: uppercase;
             font-size: 0.875rem;
         }
-        .admin-table tr:last + tr td {
+        .admin-table tr:last-child td {
             border-bottom: none;
         }
         .admin-table tr:hover {
@@ -910,16 +910,24 @@
             async function sendInvoiceEmail(booking, pdfData) {
                 // Validate email
                 if (!booking.email) {
-                    console.warn('No email provided for booking:', booking.id);
-                    errorMessage.textContent = 'Cannot send invoice: No email provided.';
+                    console.warn('[sendInvoiceEmail] No email provided for booking:', booking.id);
+                    errorMessage.textContent = 'Cannot send invoice: No email provided for this booking.';
                     errorMessage.classList.add('active');
                     return false;
                 }
 
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(booking.email)) {
-                    console.warn('Invalid email format for booking:', booking.id);
+                    console.warn('[sendInvoiceEmail] Invalid email format:', booking.email, 'for booking:', booking.id);
                     errorMessage.textContent = 'Cannot send invoice: Invalid email format.';
+                    errorMessage.classList.add('active');
+                    return false;
+                }
+
+                // Validate PDF data
+                if (!pdfData || !pdfData.startsWith('data:application/pdf;base64,')) {
+                    console.error('[sendInvoiceEmail] Invalid PDF data for booking:', booking.id);
+                    errorMessage.textContent = 'Cannot send invoice: Invalid PDF generated.';
                     errorMessage.classList.add('active');
                     return false;
                 }
@@ -928,58 +936,71 @@
                     const base64PDF = pdfData.split(',')[1]; // Extract Base64 part
                     const maxBase64Length = 20 * 1024 * 1024 * 4 / 3; // ~26M chars (20MB binary)
                     if (base64PDF.length > maxBase64Length) {
-                        console.warn('[sendInvoiceEmail] Base64 too large:', base64PDF.length);
-                        errorMessage.textContent = 'PDF too large to attach. Reduce content and try again.';
+                        console.warn('[sendInvoiceEmail] Base64 PDF too large:', base64PDF.length, 'chars for booking:', booking.id);
+                        errorMessage.textContent = 'Cannot send invoice: PDF too large. Reduce content and try again.';
                         errorMessage.classList.add('active');
                         return false;
                     }
 
+                    const payload = {
+                        booking: {
+                            email: booking.email,
+                            name: booking.name || 'Customer',
+                            amount: booking.amount || '0',
+                            issue: booking.issue || 'N/A',
+                            solution: booking.solution || 'Awaiting Solution',
+                            status: booking.status || 'Pending',
+                            invoice_date: new Date().toLocaleDateString()
+                        },
+                        base64PDF
+                    };
+
                     console.log('[sendInvoiceEmail] Sending email for booking:', booking.id, 'to:', booking.email);
+                    console.log('[sendInvoiceEmail] Payload:', {
+                        booking: payload.booking,
+                        base64PDFLength: base64PDF.length
+                    });
 
                     const response = await fetch('/api/send-invoice', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({
-                            booking: {
-                                email: booking.email,
-                                name: booking.name || 'Customer',
-                                amount: booking.amount || '0',
-                                issue: booking.issue || 'N/A',
-                                solution: booking.solution || 'Awaiting Solution',
-                                status: booking.status || 'Pending',
-                                invoice_date: new Date().toLocaleDateString()
-                            },
-                            base64PDF
-                        })
+                        body: JSON.stringify(payload)
                     });
 
                     const result = await response.json();
+                    console.log('[sendInvoiceEmail] Server response:', {
+                        status: response.status,
+                        result
+                    });
+
                     if (!response.ok) {
-                        throw new Error(`Vercel API error: ${response.status} - ${result.error || 'Unknown error'}`);
+                        throw new Error(`Server error: ${response.status} - ${result.error || 'Unknown error'}`);
                     }
 
-                    console.log('[sendInvoiceEmail] Email sent successfully:', result);
+                    console.log('[sendInvoiceEmail] Email sent successfully for booking:', booking.id);
                     successMessage.textContent = `Invoice sent to ${booking.email}!`;
                     successMessage.classList.add('active');
                     errorMessage.classList.remove('active');
 
-                    // Clear success message after 3 seconds
+                    // Clear success message after 5 seconds
                     setTimeout(() => {
                         successMessage.classList.remove('active');
-                    }, 3000);
+                    }, 5000);
 
                     return true;
                 } catch (error) {
-                    console.error('[sendInvoiceEmail] Error:', error);
+                    console.error('[sendInvoiceEmail] Error sending email for booking:', booking.id, 'Error:', error);
                     let errorText = 'Failed to send invoice email. ';
                     if (error.message.includes('401')) {
                         errorText += 'Authentication error. Verify BREVO_API_KEY in Vercel.';
                     } else if (error.message.includes('429')) {
-                        errorText += 'Rate limit exceeded. Please try again later.';
+                        errorText += 'Rate limit exceeded. Try again later.';
                     } else if (error.message.includes('400')) {
-                        errorText += 'Invalid request. Check BREVO_TEMPLATE_ID in Vercel or email parameters.';
+                        errorText += 'Invalid request. Check BREVO_TEMPLATE_ID or email parameters in Vercel.';
+                    } else if (error.message.includes('NetworkError') || error.message.includes('Failed to fetch')) {
+                        errorText += 'Network error. Check your internet connection or Vercel deployment.';
                     } else {
                         errorText += `Error: ${error.message}`;
                     }
@@ -1207,7 +1228,7 @@
                                 const pdfData = generateInvoicePDF({ ...booking, solution, amount, status });
                                 const emailSent = await sendInvoiceEmail({ ...booking, solution, amount, status }, pdfData);
                                 if (!emailSent) {
-                                    console.warn('Email sending failed, but Firestore update was successful.');
+                                    console.warn('Email sending failed, but Firestore update was successful for booking:', bookingId);
                                 }
                             }
 
@@ -1242,19 +1263,25 @@
                     tabs.forEach(t => t.classList.remove('active'));
                     tab.classList.add('active');
                     currentTab = tab.getAttribute('data-tab');
+                    console.log('Switched to tab:', currentTab);
                     loadBookings();
                 });
             });
 
             // Search Functionality
-            const debouncedSearch = debounce(() => {
+            searchBtn.addEventListener('click', () => {
                 currentSearch = phoneSearch.value.trim();
                 console.log('Searching with phone:', currentSearch);
                 renderBookings();
-            }, 300);
+            });
 
-            searchBtn.addEventListener('click', debouncedSearch);
-            phoneSearch.addEventListener('input', debouncedSearch);
+            phoneSearch.addEventListener('keypress', e => {
+                if (e.key === 'Enter') {
+                    currentSearch = phoneSearch.value.trim();
+                    console.log('Searching with phone:', currentSearch);
+                    renderBookings();
+                }
+            });
         });
     </script>
 </body>
