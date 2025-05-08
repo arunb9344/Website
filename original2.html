@@ -857,9 +857,6 @@
             // Admin UIDs
             const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o1'];
 
-            // Brevo API Key
-            const BREVO_API_KEY = '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'; // Secure this in production
-
             // Store bookings and current tab
             let allBookings = [];
             let currentTab = 'pending';
@@ -909,7 +906,7 @@
                 return pdfData;
             }
 
-            // Send Invoice Email with Brevo
+            // Send Invoice Email via Vercel Serverless Function
             async function sendInvoiceEmail(booking, pdfData) {
                 // Validate email
                 if (!booking.email) {
@@ -919,7 +916,6 @@
                     return false;
                 }
 
-                // Basic email format validation
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(booking.email)) {
                     console.warn('Invalid email format for booking:', booking.id);
@@ -930,43 +926,41 @@
 
                 try {
                     const base64PDF = pdfData.split(',')[1]; // Extract Base64 part
+                    const maxBase64Length = 20 * 1024 * 1024 * 4 / 3; // ~26M chars (20MB binary)
+                    if (base64PDF.length > maxBase64Length) {
+                        console.warn('[sendInvoiceEmail] Base64 too large:', base64PDF.length);
+                        errorMessage.textContent = 'PDF too large to attach. Reduce content and try again.';
+                        errorMessage.classList.add('active');
+                        return false;
+                    }
 
-                    // Send email via Brevo API
-                    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+                    console.log('[sendInvoiceEmail] Sending email for booking:', booking.id, 'to:', booking.email);
+
+                    const response = await fetch('/api/send-invoice', {
                         method: 'POST',
                         headers: {
-                            'accept': 'application/json',
-                            'api-key': BREVO_API_KEY,
-                            'content-type': 'application/json'
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            sender: { name: 'EyeTech Securities', email: 'no-reply@eyetechsecurities.in' },
-                            to: [{ email: booking.email, name: booking.name || 'Customer' }],
-                            subject: `EyeTech Securities Invoice for ${booking.name || 'Customer'}`,
-                            templateId: 1, // Replace with the numeric Template ID for 'EyeTechServiceBooking' from Brevo's Transactional Email Templates (e.g., 5, 10, etc.). Find it in Brevo dashboard: Transactional > Email Templates.
-                            params: {
-                                customer_name: booking.name || 'Customer',
-                                invoice_date: new Date().toLocaleDateString(),
+                            booking: {
+                                email: booking.email,
+                                name: booking.name || 'Customer',
                                 amount: booking.amount || '0',
                                 issue: booking.issue || 'N/A',
-                                solution: booking.solution || 'Awaiting Solution'
+                                solution: booking.solution || 'Awaiting Solution',
+                                status: booking.status || 'Pending',
+                                invoice_date: new Date().toLocaleDateString()
                             },
-                            attachments: [
-                                {
-                                    content: base64PDF,
-                                    name: 'invoice.pdf'
-                                }
-                            ]
+                            base64PDF
                         })
                     });
 
+                    const result = await response.json();
                     if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(`Brevo API error: ${errorData.message || response.statusText}`);
+                        throw new Error(`Vercel API error: ${response.status} - ${result.error || 'Unknown error'}`);
                     }
 
-                    const result = await response.json();
-                    console.log('Email sent successfully:', result);
+                    console.log('[sendInvoiceEmail] Email sent successfully:', result);
                     successMessage.textContent = `Invoice sent to ${booking.email}!`;
                     successMessage.classList.add('active');
                     errorMessage.classList.remove('active');
@@ -978,14 +972,14 @@
 
                     return true;
                 } catch (error) {
-                    console.error('Email sending error:', error);
+                    console.error('[sendInvoiceEmail] Error:', error);
                     let errorText = 'Failed to send invoice email. ';
                     if (error.message.includes('401')) {
-                        errorText += 'Invalid API key or unverified sender email. Verify no-reply@eyetechsecurities.in in Brevo.';
+                        errorText += 'Authentication error. Verify BREVO_API_KEY in Vercel.';
                     } else if (error.message.includes('429')) {
                         errorText += 'Rate limit exceeded. Please try again later.';
                     } else if (error.message.includes('400')) {
-                        errorText += 'Invalid request. Check template ID or parameters.';
+                        errorText += 'Invalid request. Check BREVO_TEMPLATE_ID in Vercel or email parameters.';
                     } else {
                         errorText += `Error: ${error.message}`;
                     }

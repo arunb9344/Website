@@ -152,7 +152,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script>
         // Initialize EmailJS with your User ID
-        emailjs.init("FmA0cp_Q29jF9Bh8s"); // Replace with your EmailJS User ID
+        // TODO: Verify this is your correct EmailJS Public Key (from EmailJS dashboard > Account > API Keys > Public Key)
+        emailjs.init("FmA0cp_Q29jF9Bh8s");
     </script>
 
     <style>
@@ -565,7 +566,7 @@
             </div>
             <div class="hidden md:flex space-x-4">
                 <a href="index.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1  divided by 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     <span>Home</span>
                 </a>
                 <a href="packages.html" class="flex items-center space-x-1 px-3 py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition transform">
@@ -801,7 +802,7 @@
                 signinForm.classList.toggle('hidden', mode !== 'signin');
                 signupForm.classList.toggle('hidden', mode !== 'signup');
                 document.getElementById('signin-result').textContent = '';
-                document.getElementById('signup Alessandro-result').textContent = '';
+                document.getElementById('signup-result').textContent = '';
                 document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
                 console.log('Toggled to', mode, 'form');
             };
@@ -915,12 +916,26 @@
 
             // Send Invoice Email
             async function sendInvoiceEmail(booking, pdfData) {
+                // Validate email
                 if (!booking.email) {
                     console.warn('No email provided for booking:', booking.id);
-                    return;
+                    errorMessage.textContent = 'Cannot send invoice: No email provided.';
+                    errorMessage.classList.add('active');
+                    return false;
                 }
+
+                // Basic email format validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(booking.email)) {
+                    console.warn('Invalid email format for booking:', booking.id);
+                    errorMessage.textContent = 'Cannot send invoice: Invalid email format.';
+                    errorMessage.classList.add('active');
+                    return false;
+                }
+
                 try {
-                    const response = await emailjs.send('service_c54v569', 'template_45pkecp', {
+                    // Prepare template parameters
+                    const templateParams = {
                         to_email: booking.email,
                         customer_name: booking.name || 'Customer',
                         invoice_date: new Date().toLocaleDateString(),
@@ -928,14 +943,41 @@
                         issue: booking.issue || 'N/A',
                         solution: booking.solution || 'Awaiting Solution',
                         attachment: pdfData.split(',')[1], // Base64 part of data URI
-                    });
+                    };
+
+                    console.log('Sending email with params:', templateParams);
+
+                    // Send email via EmailJS
+                    // TODO: Verify Service ID (service_c54v569) and Template ID (template_45pkecp) in EmailJS dashboard
+                    const response = await emailjs.send('service_c54v569', 'template_45pkecp', templateParams);
+
                     console.log('Email sent successfully:', response);
-                    successMessage.textContent = 'Invoice sent to customer email!';
+                    successMessage.textContent = `Invoice sent to ${booking.email}!`;
                     successMessage.classList.add('active');
+                    errorMessage.classList.remove('active');
+
+                    // Clear success message after 3 seconds
+                    setTimeout(() => {
+                        successMessage.classList.remove('active');
+                    }, 3000);
+
+                    return true;
                 } catch (error) {
                     console.error('Email sending error:', error);
-                    errorMessage.textContent = `Error sending invoice email: ${error.message}`;
+                    let errorText = 'Failed to send invoice email. ';
+                    if (error.status === 429) {
+                        errorText += 'EmailJS rate limit exceeded. Please try again later.';
+                    } else if (error.status === 400) {
+                        errorText += 'Invalid request. Check Service ID, Template ID, or parameters.';
+                    } else if (error.status === 403) {
+                        errorText += 'Invalid User ID. Please verify your EmailJS Public Key.';
+                    } else {
+                        errorText += `Error: ${error.text || error.message}`;
+                    }
+                    errorMessage.textContent = errorText;
                     errorMessage.classList.add('active');
+                    successMessage.classList.remove('active');
+                    return false;
                 }
             }
 
@@ -1154,7 +1196,10 @@
                             // If status changed to Completed and wasn't previously Completed, generate and send invoice
                             if (isCompleted && !wasCompleted && booking.email) {
                                 const pdfData = generateInvoicePDF({ ...booking, solution, amount, status });
-                                await sendInvoiceEmail({ ...booking, solution, amount, status }, pdfData);
+                                const emailSent = await sendInvoiceEmail({ ...booking, solution, amount, status }, pdfData);
+                                if (!emailSent) {
+                                    console.warn('Email sending failed, but Firestore update was successful.');
+                                }
                             }
 
                             // Update local booking data
