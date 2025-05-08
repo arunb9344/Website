@@ -1,13 +1,14 @@
 const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
-    // Enable CORS
+    // Set CORS headers for all responses
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     // Handle preflight OPTIONS request
     if (req.method === 'OPTIONS') {
+        console.log('Received OPTIONS request for /api/send-invoice');
         return res.status(200).end();
     }
 
@@ -16,11 +17,23 @@ module.exports = async (req, res) => {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
+    console.log('Received POST request to /api/send-invoice');
+
     const { booking, base64PDF } = req.body;
+
+    // Log incoming payload
+    console.log('Request payload:', {
+        booking: booking ? { ...booking, email: booking.email || 'missing' } : 'missing',
+        base64PDFLength: base64PDF ? base64PDF.length : 'missing'
+    });
 
     // Validate request body
     if (!booking || !booking.email || !base64PDF) {
-        console.error('Missing required fields:', { booking: !!booking, email: !!booking?.email, base64PDF: !!base64PDF });
+        console.error('Missing required fields:', {
+            booking: !!booking,
+            email: !!booking?.email,
+            base64PDF: !!base64PDF
+        });
         return res.status(400).json({ error: 'Missing booking, email, or PDF data' });
     }
 
@@ -46,11 +59,11 @@ module.exports = async (req, res) => {
     }
 
     // Validate environment variables
-    const BREVO_API_KEY = process.env.BREVO_API_KEY;
+    const BREVO_API_KEY = process.env.BREVO_API_KEY?.trim();
     const TEMPLATE_ID = parseInt(process.env.BREVO_TEMPLATE_ID, 10);
 
     if (!BREVO_API_KEY) {
-        console.error('BREVO_API_KEY is not set in environment variables');
+        console.error('BREVO_API_KEY is not set or empty');
         return res.status(500).json({ error: 'Server configuration error: Missing BREVO_API_KEY' });
     }
 
@@ -60,17 +73,20 @@ module.exports = async (req, res) => {
     }
 
     // Sanitize booking object to remove undefined/null values
-    const sanitizedBooking = {};
-    Object.keys(booking).forEach(key => {
-        if (booking[key] !== undefined && booking[key] !== null) {
-            sanitizedBooking[key] = booking[key];
-        }
-    });
-
-    // Log request details
-    console.log('Sending email with payload:', {
-        to: booking.email,
+    const sanitizedBooking = {
+        email: booking.email,
         name: booking.name || 'Customer',
+        amount: booking.amount || '0',
+        issue: booking.issue || 'N/A',
+        solution: booking.solution || 'Awaiting Solution',
+        status: booking.status || 'Pending',
+        invoice_date: booking.invoice_date || new Date().toLocaleDateString()
+    };
+
+    // Log sanitized payload
+    console.log('Sanitized payload for Brevo:', {
+        to: sanitizedBooking.email,
+        name: sanitizedBooking.name,
         templateId: TEMPLATE_ID,
         base64PDFLength: base64PDF.length,
         params: sanitizedBooking
@@ -85,12 +101,12 @@ module.exports = async (req, res) => {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                sender: { 
-                    name: 'EyeTech Securities', 
-                    email: 'no-reply@eyetechsecurities.in' // Ensure this is verified in Brevo
+                sender: {
+                    name: 'EyeTech Securities',
+                    email: 'no-reply@eyetechsecurities.in' // Must be verified in Brevo
                 },
-                to: [{ email: booking.email, name: booking.name || 'Customer' }],
-                subject: `EyeTech Securities Invoice for ${booking.name || 'Customer'}`,
+                to: [{ email: sanitizedBooking.email, name: sanitizedBooking.name }],
+                subject: `EyeTech Securities Invoice for ${sanitizedBooking.name}`,
                 templateId: TEMPLATE_ID,
                 params: sanitizedBooking,
                 attachments: [{ content: base64PDF, name: 'invoice.pdf' }]
@@ -100,6 +116,7 @@ module.exports = async (req, res) => {
         const result = await response.json();
         console.log('Brevo API response:', {
             status: response.status,
+            ok: response.ok,
             result
         });
 
@@ -115,7 +132,12 @@ module.exports = async (req, res) => {
             throw new Error(errorMessage);
         }
 
-        console.log('Email sent successfully, messageId:', result.messageId);
+        if (!result.messageId) {
+            console.warn('Brevo accepted request but no messageId returned:', result);
+            return res.status(500).json({ error: 'Email request accepted but no messageId returned. Check Brevo configuration.' });
+        }
+
+        console.log('Email queued successfully, messageId:', result.messageId);
         return res.status(200).json({ success: true, messageId: result.messageId });
     } catch (error) {
         console.error('Error sending email:', error.message);
