@@ -1463,57 +1463,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update Installation Booking
     async function updateInstallationBooking(bookingId) {
-        console.log('Updating installation booking:', bookingId);
-        const row = installationTable.querySelector(`tr .save-btn[data-id="${bookingId}"]`).closest('tr');
-        const numCameras = parseInt(row.querySelector('.num-cameras-input').value) || 0;
-        const price = parseFloat(row.querySelector('.price-input').value) || 0;
-        const serialNumber = row.querySelector('.serial-number-input').value.trim();
-        const status = row.querySelector('.status-select').value;
-        const booking = installationBookings.find(b => b.id === bookingId);
+    console.log('Updating installation booking:', bookingId);
+    const row = installationTable.querySelector(`tr .save-btn[data-id="${bookingId}"]`).closest('tr');
+    const numCameras = parseInt(row.querySelector('.num-cameras-input').value) || 0;
+    const price = parseFloat(row.querySelector('.price-input').value) || 0;
+    const serialNumber = row.querySelector('.serial-number-input').value.trim();
+    const status = row.querySelector('.status-select').value;
+    const booking = installationBookings.find(b => b.id === bookingId);
 
-        if (!booking) {
-            console.error('Booking not found:', bookingId);
-            errorMessage.textContent = 'Booking not found.';
-            errorMessage.classList.add('active');
-            return;
-        }
-
-        try {
-            const bookingRef = doc(db, 'installations', bookingId);
-            let updateData = { numCameras, price, serialNumber, status };
-            if (status === 'Completed' && !booking.invoiceNumber) {
-                const invoiceNumber = await generateInvoiceNumber();
-                updateData.invoiceNumber = invoiceNumber;
-            }
-
-            await updateDoc(bookingRef, updateData);
-            console.log('Installation booking updated:', bookingId, updateData);
-
-            // Update local booking
-            Object.assign(booking, updateData);
-
-            // Send invoice email if completed
-            if (status === 'Completed' && updateData.invoiceNumber) {
-                await sendInstallationInvoiceEmail({ ...booking, ...updateData });
-            }
-
-            successMessage.textContent = 'Installation booking updated successfully!';
-            successMessage.classList.add('active');
-            errorMessage.classList.remove('active');
-
-            // Refresh table
-            renderInstallationBookings();
-
-            setTimeout(() => {
-                successMessage.classList.remove('active');
-            }, 3000);
-        } catch (error) {
-            console.error('Update installation booking error:', error);
-            errorMessage.textContent = `Error updating installation booking: ${error.message}`;
-            errorMessage.classList.add('active');
-            successMessage.classList.remove('active');
-        }
+    if (!booking) {
+        console.error('Booking not found:', bookingId);
+        errorMessage.textContent = 'Booking not found.';
+        errorMessage.classList.add('active');
+        return;
     }
+
+    try {
+        const bookingRef = doc(db, 'installations', bookingId);
+        let updateData = { numCameras, price, serialNumber, status };
+        if (status === 'Completed' && !booking.invoiceNumber) {
+            const invoiceNumber = await generateInvoiceNumber();
+            updateData.invoiceNumber = invoiceNumber;
+        }
+
+        await updateDoc(bookingRef, updateData);
+        console.log('Installation booking updated:', bookingId, updateData);
+
+        // Update local booking
+        Object.assign(booking, updateData);
+
+        // Send invoice email if completed
+        if (status === 'Completed' && updateData.invoiceNumber) {
+            await sendInstallationInvoiceEmail({ ...booking, ...updateData });
+        }
+
+        successMessage.textContent = 'Installation booking updated successfully!';
+        successMessage.classList.add('active');
+        errorMessage.classList.remove('active');
+
+        // Refresh table
+        renderInstallationBookings();
+
+        setTimeout(() => {
+            successMessage.classList.remove('active');
+        }, 3000);
+    } catch (error) {
+        console.error('Update installation booking error:', error.code, error.message);
+        if (error.code === 'permission-denied') {
+            errorMessage.textContent = 'Error: Insufficient permissions to update booking. Ensure you are signed in as an admin and the document only contains allowed fields (e.g., no "solution" or "amount"). Check Firestore rules and document structure.';
+        } else {
+            errorMessage.textContent = `Error updating installation booking: ${error.message}`;
+        }
+        errorMessage.classList.add('active');
+        successMessage.classList.remove('active');
+    }
+}
 
     // Main Tab Switching
     mainTabs.forEach(tab => {
