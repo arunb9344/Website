@@ -492,6 +492,16 @@
                 font-size: 0.875rem;
             }
         }
+        /* Status-based coloring for booking history table */
+.history-table tr:has(td:last-child:where(:text("Completed"))) td {
+    color: #16a34a; /* Green for Completed */
+}
+.history-table tr:has(td:last-child:where(:text("Pending"))) td {
+    color: #d97706; /* Yellow for Pending */
+}
+.history-table tr:has(td:last-child:where(:text("Cancelled"))) td {
+    color: #dc2626; /* Red for Cancelled */
+}
     </style>
 </head>
 <body class="font-sans">
