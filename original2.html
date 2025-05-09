@@ -1287,9 +1287,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             let q;
             if (currentSubTabInstallation === 'all') {
-                q = query(collection(db, 'installation_bookings'), orderBy('timestamp', 'desc'));
+                q = query(collection(db, 'installations'), orderBy('timestamp', 'desc'));
             } else {
-                q = query(collection(db, 'installation_bookings'), where('status', '==', currentSubTabInstallation.charAt(0).toUpperCase() + currentSubTabInstallation.slice(1)), orderBy('timestamp', 'desc'));
+                q = query(collection(db, 'installations'), where('status', '==', currentSubTabInstallation.charAt(0).toUpperCase() + currentSubTabInstallation.slice(1)), orderBy('timestamp', 'desc'));
             }
             const querySnapshot = await getDocs(q);
             console.log('Installation Firestore query returned', querySnapshot.size, 'documents');
@@ -1468,7 +1468,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const bookingRef = doc(db, 'installation_bookings', bookingId);
+            const bookingRef = doc(db, 'installations', bookingId);
             let updateData = { numberOfCameras, price, serialNumber, status };
             if (status === 'Completed' && !booking.invoiceNumber) {
                 const invoiceNumber = await generateInvoiceNumber();
