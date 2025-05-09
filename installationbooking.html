@@ -647,8 +647,6 @@
                 <p id="result" class="success-message"></p>
                 <form id="installation-form" method="POST" class="hidden">
                     <input type="hidden" name="status" value="Pending">
-                    <input type="hidden" name="solution" value="">
-                    <input type="hidden" name="amount" value="0">
                     <div class="mb-4">
                         <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
                         <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
@@ -701,7 +699,7 @@
                     <div class="modal-content">
                         <p id="charge-text">A technician will assess the site and provide a quote based on the number of cameras and installation type. Minimum visiting charge is Rs.750. Any additional material charges will be extra.</p>
                         <div class="confirmation-buttons">
-                            <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
+                            <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"> Agree & Proceed</button>
                             <button id="cancel-btn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
                         </div>
                     </div>
@@ -1102,9 +1100,7 @@
                     numCameras: parseInt(document.getElementById('numCameras').value),
                     preferredDate: document.getElementById('preferredDate').value,
                     comments: document.getElementById('comments').value.trim(),
-                    status: 'Pending',
-                    solution: '',
-                    amount: 0
+                    status: 'Pending'
                 };
                 console.log('Form data:', object);
 
