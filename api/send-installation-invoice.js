@@ -16,7 +16,7 @@ const generatePDF = (booking) => {
       });
       doc.on('error', (err) => reject(err));
 
-      // Header: EyeTech Securities Branding with Logo Placeholder
+      // Header: EyeTech Securities Branding
       doc
         .fontSize(24)
         .font('Helvetica-Bold')
@@ -28,8 +28,7 @@ const generatePDF = (booking) => {
         .text('No.56/80, 1st Floor, Medavakkam Main Road', 50, 70)
         .text('Chennai, Tamil Nadu 600117, India', 50, 85)
         .text('Phone: +91-9962835944', 50, 100)
-        .text('Email: eyetechsecurities@gmail.com', 50, 115)
-        .text('GSTIN: [Your GSTIN]', 50, 130); // Add your GSTIN if applicable
+        .text('Email: eyetechsecurities@gmail.com', 50, 115);
 
       // Right-aligned Invoice Info
       doc
@@ -49,7 +48,7 @@ const generatePDF = (booking) => {
         .lineWidth(1)
         .stroke();
 
-      // Customer Details
+      // Customer Details (Bill To)
       doc
         .fontSize(12)
         .font('Helvetica-Bold')
@@ -59,10 +58,11 @@ const generatePDF = (booking) => {
         .font('Helvetica')
         .text(booking.customerName, 50, 190)
         .text(booking.address, 50, 205, { width: 250 })
-        .text(`Email: ${booking.toEmail}`, 50, 235);
+        .text(`Phone: ${booking.phone || 'N/A'}`, 50, 235) // Added phone number
+        .text(`Email: ${booking.toEmail}`, 50, 250);
 
       // Table Header
-      const tableTop = 270;
+      const tableTop = 280;
       doc
         .fontSize(11)
         .font('Helvetica-Bold')
@@ -93,8 +93,8 @@ const generatePDF = (booking) => {
         .text('Installation Details:', 50, rowTop + 40)
         .fontSize(10)
         .font('Helvetica')
-        .text(`Serial Number: ${booking.serialNumber}`, 50, rowTop + 60)
-        .text(`Preferred Date: ${booking.preferredDate}`, 50, rowTop + 75)
+        .text(`Number of Cameras: ${booking.numCameras}`, 50, rowTop + 60) // Added Number of Cameras
+        .text(`Serial Number: ${booking.serialNumber}`, 50, rowTop + 75)
         .text(`Comments: ${booking.comments || 'None'}`, 50, rowTop + 90, { width: 500 });
 
       // Total
@@ -104,6 +104,25 @@ const generatePDF = (booking) => {
         .fillColor('#333333')
         .text(`Total: INR ${booking.price.toFixed(2)}`, 450, rowTop + 130, { align: 'right' });
 
+      // Terms & Conditions
+      doc
+        .fontSize(12)
+        .font('Helvetica-Bold')
+        .fillColor('#333333')
+        .text('Terms & Conditions:', 50, rowTop + 160)
+        .fontSize(10)
+        .font('Helvetica')
+        .text('• 2 Years Manufacturing Warranty for Camera, DVR, SMPS, POE, NVR.', 50, rowTop + 180)
+        .text('• 3 Years Manufacturing Warranty for Hard Disk above 1TB. 2 Years Manufacturing Warranty for 500GB Hard Disk.', 50, rowTop + 195)
+        .text('• 1 Year Free Service for CCTV Camera System.', 50, rowTop + 210);
+
+      // System-Generated Note
+      doc
+        .fontSize(10)
+        .font('Helvetica')
+        .fillColor('#333333')
+        .text('This is System Generated Invoice, Hence no Signature is Required', 50, rowTop + 240, { align: 'center' });
+
       // Footer
       doc
         .fontSize(10)
@@ -111,7 +130,8 @@ const generatePDF = (booking) => {
         .fillColor('#333333')
         .text('Thank you for choosing EyeTech Securities!', 50, doc.page.height - 100, { align: 'center' })
         .text('For queries, contact us at eyetechsecurities@gmail.com or +91-9962835944', 50, doc.page.height - 85, { align: 'center' })
-        .text('Terms: Payment due within 30 days. Late payments may incur additional charges.', 50, doc.page.height - 70, { align: 'center' });
+        .text('Terms: Payment due within 30 days. Late payments may incur additional charges.', 50, doc.page.height - 70, { align: 'center' })
+        .text('Regards, Eye Tech Securities', 50, doc.page.height - 55, { align: 'center' }); // Added Regards
 
       doc.end();
     } catch (err) {
@@ -126,10 +146,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { toEmail, customerName, invoiceNumber, invoiceDate, numCameras, price, serialNumber, address, installationType, preferredDate, comments } = req.body;
+  const { toEmail, customerName, invoiceNumber, invoiceDate, numCameras, price, serialNumber, address, installationType, preferredDate, comments, phone } = req.body;
 
   // Validate request body
-  if (!toEmail || !customerName || !invoiceNumber || !invoiceDate || !numCameras || !price || !serialNumber || !address || !installationType || !preferredDate) {
+  if (!toEmail || !customerName || !invoiceNumber || !invoiceDate || !numCameras || !price || !serialNumber || !address || !installationType) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -145,8 +165,8 @@ export default async function handler(req, res) {
       serialNumber,
       address,
       installationType,
-      preferredDate,
-      comments
+      comments,
+      phone
     });
 
     // Initialize Brevo client
@@ -169,8 +189,9 @@ export default async function handler(req, res) {
       serialNumber,
       address,
       installationType,
-      preferredDate,
-      comments: comments || 'None'
+      preferredDate: preferredDate || 'N/A',
+      comments: comments || 'None',
+      phone: phone || 'N/A'
     };
     sendSmtpEmail.attachment = [
       {
