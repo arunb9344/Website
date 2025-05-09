@@ -1,16 +1,17 @@
 {
-  "name": "eyetech-securities",
+  "name": "eyetech-invoice-api",
   "version": "1.0.0",
-  "description": "EyeTech Securities admin panel with Brevo email and PDF invoice generation",
-  "main": "index.js",
+  "description": "API for sending service and installation invoices for EyeTech Securities",
+  "main": "api/send-invoice.js",
   "scripts": {
-    "start": "vercel dev"
+    "start": "node api/send-invoice.js"
   },
   "dependencies": {
-    "@getbrevo/brevo": "^2.2.0",
+    "@getbrevo/brevo": "^2.2.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
     "pdfkit": "^0.15.0"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "author": "EyeTech Securities",
+  "license": "ISC"
 }

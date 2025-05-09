@@ -1,147 +1,198 @@
-const Brevo = require('@getbrevo/brevo');
+const express = require('express');
+const SibApiV3Sdk = require('@getbrevo/brevo');
 const PDFDocument = require('pdfkit');
-const { Buffer } = require('buffer');
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config();
 
-// Helper function to generate PDF invoice
-const generatePDF = (booking) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const doc = new PDFDocument({ size: 'A4', margin: 50 });
-      const buffers = [];
+const app = express();
+app.use(express.json());
 
-      doc.on('data', buffers.push.bind(buffers));
-      doc.on('end', () => {
-        const pdfData = Buffer.concat(buffers).toString('base64');
-        resolve(pdfData);
-      });
-      doc.on('error', (err) => reject(err));
+// Initialize Brevo API client
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+const client = SibApiV3Sdk.ApiClient.instance;
+const apiKey = client.authentications['api-key'];
+apiKey.apiKey = process.env.BREVO_API_KEY || 'YOUR_BREVO_API_KEY';
 
-      // Header: EyeTech Securities Branding
-      doc
-        .fontSize(20)
-        .font('Helvetica-Bold')
-        .text('EyeTech Securities', 50, 50)
-        .fontSize(10)
-        .font('Helvetica')
-        .text('No.56/80, 1st Floor, Medavakkam Main Road', 50, 80)
-        .text('Chennai, Tamil Nadu 600117, India', 50, 95)
-        .text('Phone: +91-9962835944', 50, 110)
-        .text('Email: eyetechsecurities@gmail.com', 50, 125)
-        .moveDown();
+// Generate PDF Invoice for Installation Bookings
+function generateInvoicePDF(booking) {
+    return new Promise((resolve, reject) => {
+        const doc = new PDFDocument({ margin: 50 });
+        const outputPath = path.join(__dirname, `invoice-${booking.invoiceNumber}.pdf`);
+        const stream = fs.createWriteStream(outputPath);
+        doc.pipe(stream);
 
-      // Invoice Title
-      doc
-        .fontSize(16)
-        .font('Helvetica-Bold')
-        .text('Invoice', 50, 160)
-        .moveDown();
+        // Header
+        doc.fontSize(20).text('EyeTech Securities', { align: 'center' });
+        doc.fontSize(12).text('Invoice', { align: 'center' });
+        doc.moveDown();
 
-      // Invoice Details
-      doc
-        .fontSize(10)
-        .font('Helvetica')
-        .text(`Invoice Number: ${booking.invoiceNumber}`, 50, 190)
-        .text(`Invoice Date: ${booking.invoiceDate}`, 50, 205)
-        .text(`Customer Name: ${booking.customerName}`, 50, 220)
-        .moveDown();
+        // Company Details
+        doc.fontSize(10).text('EyeTech Securities', { align: 'left' });
+        doc.text('123 Tech Street, Software Park, Xiamen, China');
+        doc.text('Email: support@eyetechsecurities.in');
+        doc.text('Phone: +91-123-456-7890');
+        doc.moveDown();
 
-      // Table Header
-      const tableTop = 250;
-      doc
-        .fontSize(10)
-        .font('Helvetica-Bold')
-        .text('Description', 50, tableTop)
-        .text('Amount (INR)', 400, tableTop);
+        // Invoice Details
+        doc.fontSize(12).text(`Invoice Number: ${booking.invoiceNumber}`, { align: 'right' });
+        doc.text(`Invoice Date: ${booking.invoiceDate}`, { align: 'right' });
+        doc.moveDown();
 
-      // Table Row
-      doc
-        .font('Helvetica')
-        .text(`CCTV Service - ${booking.issue}`, 50, tableTop + 20)
-        .text(`${booking.amount.toFixed(2)}`, 400, tableTop + 20);
+        // Customer Details
+        doc.fontSize(12).text('Billed To:', { align: 'left' });
+        doc.fontSize(10).text(booking.customerName);
+        doc.text(booking.address || 'N/A');
+        doc.text(`Email: ${booking.toEmail}`);
+        doc.moveDown();
 
-      // Solution Provided
-      doc
-        .fontSize(10)
-        .font('Helvetica')
-        .text('Solution Provided:', 50, tableTop + 60)
-        .text(booking.solution, 50, tableTop + 75, { width: 500 });
+        // Table Header
+        doc.fontSize(10).font('Helvetica-Bold');
+        doc.text('Description', 50, doc.y, { width: 200 });
+        doc.text('Quantity', 250, doc.y, { width: 100 });
+        doc.text('Unit Price', 350, doc.y, { width: 100 });
+        doc.text('Total', 450, doc.y, { width: 100 });
+        doc.moveDown(0.5);
 
-      // Total
-      doc
-        .fontSize(12)
-        .font('Helvetica-Bold')
-        .text(`Total: INR ${booking.amount.toFixed(2)}`, 400, tableTop + 120);
+        // Table Row
+        doc.font('Helvetica');
+        doc.text('CCTV Installation', 50, doc.y, { width: 200 });
+        doc.text(booking.numberOfCameras.toString(), 250, doc.y, { width: 100 });
+        doc.text(`₹${(booking.price / booking.numberOfCameras).toFixed(2)}`, 350, doc.y, { width: 100 });
+        doc.text(`₹${booking.price.toFixed(2)}`, 450, doc.y, { width: 100 });
+        doc.moveDown();
 
-      // Footer
-      doc
-        .fontSize(10)
-        .font('Helvetica')
-        .text('Thank you for choosing EyeTech Securities!', 50, doc.page.height - 100, { align: 'center' })
-        .text('For queries, contact us at eyetechsecurities@gmail.com or +91-9962835944', 50, doc.page.height - 85, { align: 'center' });
+        // Total
+        doc.font('Helvetica-Bold');
+        doc.text(`Total: ₹${booking.price.toFixed(2)}`, 450, doc.y, { width: 100 });
+        doc.moveDown(2);
 
-      doc.end();
-    } catch (err) {
-      reject(err);
-    }
-  });
-};
+        // Terms & Conditions
+        doc.fontSize(12).text('Terms & Conditions:', { align: 'left' });
+        doc.fontSize(10).font('Helvetica');
+        doc.text('1. 2 Years Manufacturer Warranty for Camera, DVR, SMPS, NVR, POE.');
+        doc.text('2. 3 Years Manufacturer Warranty for Hard Disk above 1TB. For 500GB, 2 Years Manufacturer Warranty.');
+        doc.text('3. 1 Year Free Service for CCTV Camera.');
+        doc.moveDown();
 
-// Vercel serverless function
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+        // Additional Info
+        doc.text(`DVR/NVR Serial Number: ${booking.serialNumber || 'N/A'}`);
+        doc.moveDown();
 
-  const { toEmail, customerName, invoiceNumber, invoiceDate, amount, issue, solution } = req.body;
+        // Footer
+        doc.fontSize(8).text('Thank you for choosing EyeTech Securities!', { align: 'center' });
 
-  // Validate request body
-  if (!toEmail || !customerName || !invoiceNumber || !invoiceDate || !amount || !issue || !solution) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
+        doc.end();
 
-  try {
-    // Generate PDF
-    const pdfBase64 = await generatePDF({
-      customerName,
-      invoiceNumber,
-      invoiceDate,
-      amount: parseFloat(amount),
-      issue,
-      solution,
+        stream.on('finish', () => {
+            const pdfBuffer = fs.readFileSync(outputPath);
+            resolve(pdfBuffer);
+        });
+
+        stream.on('error', (err) => {
+            reject(err);
+        });
     });
-
-    // Initialize Brevo client
-    const apiInstance = new Brevo.TransactionalEmailsApi();
-    const apiKey = apiInstance.authentications['apiKey'];
-    apiKey.apiKey = process.env.BREVO_API_KEY;
-
-    // Configure email with template ID
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
-    sendSmtpEmail.sender = { name: 'EyeTech Securities', email: 'no-reply@eyetechsecurities.in' };
-    sendSmtpEmail.to = [{ email: toEmail }];
-    sendSmtpEmail.subject = `Your Invoice ${invoiceNumber} from EyeTech Securities`;
-    sendSmtpEmail.templateId = parseInt(process.env.BREVO_TEMPLATE_ID); // Use template ID from env
-    sendSmtpEmail.params = {
-      customerName,
-      invoiceNumber,
-      invoiceDate,
-      issue,
-      solution,
-      amount: parseFloat(amount).toFixed(2),
-    };
-    sendSmtpEmail.attachment = [
-      {
-        name: `Invoice_${invoiceNumber}.pdf`,
-        content: pdfBase64,
-      },
-    ];
-
-    // Send email
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
-
-    return res.status(200).json({ message: 'Invoice email sent successfully' });
-  } catch (error) {
-    console.error('Error sending invoice email:', error);
-    return res.status(500).json({ error: `Failed to send invoice email: ${error.message}` });
-  }
 }
+
+// Send Service Invoice Email (Plain Text)
+app.post('/api/send-invoice', async (req, res) => {
+    const { toEmail, customerName, invoiceNumber, invoiceDate, amount, issue, solution } = req.body;
+
+    if (!toEmail || !customerName || !invoiceNumber) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.sender = { email: 'no-reply@eyetechsecurities.in', name: 'EyeTech Securities' };
+    sendSmtpEmail.to = [{ email: toEmail }];
+    sendSmtpEmail.subject = `Service Invoice ${invoiceNumber}`;
+    sendSmtpEmail.htmlContent = `
+        <p>Dear ${customerName},</p>
+        <p>Thank you for choosing EyeTech Securities. Below are the details of your service invoice:</p>
+        <ul>
+            <li><strong>Invoice Number:</strong> ${invoiceNumber}</li>
+            <li><strong>Invoice Date:</strong> ${invoiceDate}</li>
+            <li><strong>Amount:</strong> ₹${amount || '0.00'}</li>
+            <li><strong>Issue:</strong> ${issue || 'N/A'}</li>
+            <li><strong>Solution:</strong> ${solution || 'N/A'}</li>
+        </ul>
+        <p>Please contact us at support@eyetechsecurities.in for any queries.</p>
+        <p>Best regards,<br>EyeTech Securities Team</p>
+    `;
+
+    try {
+        await apiInstance.sendTransacEmail(sendSmtpEmail);
+        console.log(`Service invoice email sent to ${toEmail}`);
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error sending service invoice email:', error);
+        res.status(500).json({ error: 'Failed to send service invoice email' });
+    }
+});
+
+// Send Installation Invoice Email (PDF Attachment)
+app.post('/api/send-installation-invoice', async (req, res) => {
+    const { toEmail, customerName, invoiceNumber, invoiceDate, numberOfCameras, price, serialNumber, address } = req.body;
+
+    if (!toEmail || !customerName || !invoiceNumber || !numberOfCameras || !price) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        // Generate PDF
+        const pdfBuffer = await generateInvoicePDF({
+            toEmail,
+            customerName,
+            invoiceNumber,
+            invoiceDate,
+            numberOfCameras,
+            price,
+            serialNumber,
+            address
+        });
+
+        // Encode PDF to Base64
+        const pdfBase64 = pdfBuffer.toString('base64');
+
+        // Send Email with PDF Attachment
+        const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+        sendSmtpEmail.sender = { email: 'no-reply@eyetechsecurities.in', name: 'EyeTech Securities' };
+        sendSmtpEmail.to = [{ email: toEmail }];
+        sendSmtpEmail.subject = `Installation Invoice ${invoiceNumber}`;
+        sendSmtpEmail.htmlContent = `
+            <p>Dear ${customerName},</p>
+            <p>Thank you for choosing EyeTech Securities. Please find your installation invoice attached.</p>
+            <p>Invoice Details:</p>
+            <ul>
+                <li><strong>Invoice Number:</strong> ${invoiceNumber}</li>
+                <li><strong>Invoice Date:</strong> ${invoiceDate}</li>
+                <li><strong>Number of Cameras:</strong> ${numberOfCameras}</li>
+                <li><strong>Total Amount:</strong> ₹${price.toFixed(2)}</li>
+            </ul>
+            <p>Please contact us at support@eyetechsecurities.in for any queries.</p>
+            <p>Best regards,<br>EyeTech Securities Team</p>
+        `;
+        sendSmtpEmail.attachment = [{
+            content: pdfBase64,
+            name: `invoice-${invoiceNumber}.pdf`
+        }];
+
+        await apiInstance.sendTransacEmail(sendSmtpEmail);
+        console.log(`Installation invoice email with PDF sent to ${toEmail}`);
+
+        // Clean up PDF file
+        fs.unlinkSync(path.join(__dirname, `invoice-${invoiceNumber}.pdf`));
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error sending installation invoice email:', error);
+        res.status(500).json({ error: 'Failed to send installation invoice email' });
+    }
+});
+
+// Start Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
