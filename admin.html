@@ -773,8 +773,8 @@
         </div>
     </footer>
 
-    <Script>
-        document.addEventListener('DOMContentLoaded', () => {
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded');
 
     // Mobile menu toggle
@@ -1128,7 +1128,7 @@
             renderBookings();
         } catch (error) {
             console.error('Firestore query error:', error.code, error.message);
-            adminTable.innerHTML = `<tr><td colspan="10" class="text-center text-red-600">Error loading writings: ${error.message}</td></tr>`;
+            adminTable.innerHTML = `<tr><td colspan="10" class="text-center text-red-600">Error loading bookings: ${error.message}</td></tr>`;
             errorMessage.textContent = `Error loading bookings: ${error.message}`;
             errorMessage.classList.add('active');
         }
@@ -1155,7 +1155,7 @@
                     <td>${booking.customerType || 'N/A'}</td>
                     <td>${booking.comments || 'N/A'}</td>
                     <td><textarea class="solution-textarea" data-id="${booking.id}" placeholder="Enter solution">${booking.solution || ''}</textarea></td>
-                    <td><input type="number" class="amount-input" data-id="${booking.id}" value="${booking.amount || ''}" min="0" step="1"></td>
+                    <td><input type="number" class="amount-input" data-id="${booking.id}" value="${booking.amount != null ? booking.amount : ''}" min="0" step="1" placeholder="Enter Amount"></td>
                     <td>
                         <select data-id="${booking.id}" class="status-select">
                             <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
@@ -1189,7 +1189,6 @@
 
                 // Validation for Solution Field
                 if (status === 'Cancelled' || status === 'Completed') {
-                    // Solution must not be empty in Cancelled or Completed status
                     if (!solution) {
                         errorMessage.textContent = `Solution field is required for ${status} status.`;
                         errorMessage.classList.add('active');
@@ -1198,21 +1197,9 @@
                         return;
                     }
                 }
-                if (previousStatus === 'Pending' && (status === 'Cancelled' || status === 'Completed')) {
-                    // Solution must not be empty when transitioning from Pending to Cancelled/Completed
-                    if (!solution) {
-                        errorMessage.textContent = `Solution field is required when changing to ${status} status.`;
-                        errorMessage.classList.add('active');
-                        successMessage.classList.remove('active');
-                        btn.disabled = false;
-                        return;
-                    }
-                }
-                // Solution can be empty when transitioning to Pending or staying in Pending
 
                 // Validation for Amount Field
                 if (status === 'Completed') {
-                    // Amount must be a number (can be zero) in Completed status or when transitioning to Completed
                     if (amount === null || isNaN(amount) || amount < 0) {
                         errorMessage.textContent = 'Amount field must be a valid number (0 or greater) for Completed status.';
                         errorMessage.classList.add('active');
@@ -1220,9 +1207,7 @@
                         btn.disabled = false;
                         return;
                     }
-                }
-                if (status === 'Cancelled') {
-                    // Amount must be 0 or empty (set to 0 if empty)
+                } else if (status === 'Cancelled') {
                     if (amount !== null && amount !== 0) {
                         errorMessage.textContent = 'Amount must be 0 for Cancelled status.';
                         errorMessage.classList.add('active');
@@ -1231,7 +1216,6 @@
                         return;
                     }
                 }
-                // Amount can be empty or any number when transitioning to Pending or staying in Pending
 
                 try {
                     // Prepare update data
@@ -1302,7 +1286,7 @@
 
                     setTimeout(() => {
                         successMessage.classList.remove('active');
-                    }, 3000);
+                    }, 1000);
                 } catch (error) {
                     console.error('Error updating booking:', error);
                     errorMessage.textContent = `Error updating booking: ${error.message}`;
@@ -1315,16 +1299,44 @@
 
             btn.addEventListener('click', debouncedSave);
         });
+
+        // Validate bookings against current tab rules
+        validateTabRules(filteredBookings);
+    }
+
+    // Validate bookings against current tab rules
+    function validateTabRules(bookings) {
+        let error = '';
+        if (currentTab === 'cancelled') {
+            const invalidBookings = bookings.filter(b => !b.solution || b.amount !== 0);
+            if (invalidBookings.length > 0) {
+                error = 'Some bookings in Cancelled tab have empty solutions or non-zero amounts.';
+            }
+        } else if (currentTab === 'completed') {
+            const invalidBookings = bookings.filter(b => !b.solution || b.amount == null || isNaN(b.amount) || b.amount < 0);
+            if (invalidBookings.length > 0) {
+                error = 'Some bookings in Completed tab have empty solutions or invalid amounts (must be 0 or greater).';
+            }
+        }
+        if (error) {
+            errorMessage.textContent = error;
+            errorMessage.classList.add('active');
+        } else {
+            errorMessage.classList.remove('active');
+        }
     }
 
     // Tab Switching
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            currentTab = tab.getAttribute('data-tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            console.log('Switched to tab:', currentTab);
-            loadBookings();
+            const newTab = tab.getAttribute('data-tab');
+            if (currentTab !== newTab) {
+                currentTab = newTab;
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                console.log('Switched to tab:', currentTab);
+                loadBookings();
+            }
         });
     });
 
@@ -1338,5 +1350,5 @@
     searchBtn.addEventListener('click', searchBookings);
     phoneSearch.addEventListener('input', debounce(searchBookings, 300));
 });
-    </Script>
+</script>
     </body></html>

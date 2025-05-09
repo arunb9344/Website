@@ -26,7 +26,7 @@ const generatePDF = (booking) => {
         .text('No.56/80, 1st Floor, Medavakkam Main Road', 50, 80)
         .text('Chennai, Tamil Nadu 600117, India', 50, 95)
         .text('Phone: +91-9962835944', 50, 110)
-        .text('Email: info@eyetechsecurities.in', 50, 125)
+        .text('Email: eyetechsecurities@gmail.com', 50, 125)
         .moveDown();
 
       // Invoice Title
@@ -77,7 +77,7 @@ const generatePDF = (booking) => {
         .fontSize(10)
         .font('Helvetica')
         .text('Thank you for choosing EyeTech Securities!', 50, doc.page.height - 100, { align: 'center' })
-        .text('For queries, contact us at info@eyetechsecurities.in or +91-9962835944', 50, doc.page.height - 85, { align: 'center' });
+        .text('For queries, contact us at eyetechsecurities@gmail.com or +91-9962835944', 50, doc.page.height - 85, { align: 'center' });
 
       doc.end();
     } catch (err) {
