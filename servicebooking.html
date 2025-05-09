@@ -493,13 +493,26 @@
             }
         }
         /* Status-based coloring for booking history table */
-.history-table tr:has(td:last-child:where(:text("Completed"))) td {
-    color: #095f28; /* Green for Completed */
+.history-table tr td:last-child {
+    text-transform: capitalize; /* Ensure consistent casing for status */
 }
-.history-table tr:has(td:last-child:where(:text("Pending"))) td {
+.history-table tr td:last-child:where(:not(:empty)) {
+    font-weight: 500; /* Optional: Make status text slightly bolder for clarity */
+}
+.history-table tr td:last-child:not(:empty) + td,
+.history-table tr td:last-child:not(:empty) ~ td {
+    color: inherit; /* Reset to default for safety */
+}
+.history-table tr td:last-child:not(:empty)[data-status="Completed"] ~ td,
+.history-table tr td:last-child:not(:empty)[data-status="Completed"] {
+    color: #16a34a; /* Green for Completed */
+}
+.history-table tr td:last-child:not(:empty)[data-status="Pending"] ~ td,
+.history-table tr td:last-child:not(:empty)[data-status="Pending"] {
     color: #d97706; /* Yellow for Pending */
 }
-.history-table tr:has(td:last-child:where(:text("Cancelled"))) td {
+.history-table tr td:last-child:not(:empty)[data-status="Cancelled"] ~ td,
+.history-table tr td:last-child:not(:empty)[data-status="Cancelled"] {
     color: #dc2626; /* Red for Cancelled */
 }
     </style>
