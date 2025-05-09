@@ -9,8 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@getbrevo/brevo": "2.0.0",
-    "axios": "^1.7.2",
+    "@getbrevo/brevo": "^2.2.0",
     "dotenv": "^16.4.5",
     "pdfkit": "^0.15.0"
   },
