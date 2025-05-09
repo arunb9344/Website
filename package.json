@@ -7,7 +7,7 @@
     "start": "node api/send-invoice.js"
   },
   "dependencies": {
-    "@getbrevo/brevo": "^2.2.2",
+    "@getbrevo/brevo": "2.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "pdfkit": "^0.15.0"
