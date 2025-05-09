@@ -95,7 +95,7 @@
     <meta name="twitter:title" content="Installation Booking - Eye Tech Securities">
     <meta name="twitter:description" content="Book CCTV installation services with EyeTech Securities in Chennai. Secure, reliable solutions.">
     <meta name="twitter:image" content="https://www.eyetechsecurities.in/eyetech%20logo%20jpg.webp">
-    <meta name="twitter:image:alt" content="Eye Tech Securities Logo">
+    <meta name="twitter:image:alt" content="EyeTech Securities Logo">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.eyetechsecurities.in/installationbooking.html">
@@ -699,7 +699,7 @@
                     <div class="modal-content">
                         <p id="charge-text">A technician will assess the site and provide a quote based on the number of cameras and installation type. Minimum visiting charge is Rs.750. Any additional material charges will be extra.</p>
                         <div class="confirmation-buttons">
-                            <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"> Agree & Proceed</button>
+                            <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
                             <button id="cancel-btn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
                         </div>
                     </div>
@@ -1077,7 +1077,7 @@
                 console.log('Confirmation modal displayed');
             });
 
-            // Agree button (Firestore storage and Brevo email)
+            // Agree button (Firestore storage only)
             agreeBtn.addEventListener('click', async () => {
                 console.log('Agree & Proceed button clicked');
                 const user = auth.currentUser;
@@ -1113,34 +1113,15 @@
                     });
                     console.log('Booking stored in Firestore for user:', user.uid, 'Doc ID:', docRef.id);
 
-                    // Send confirmation email via Vercel serverless function
-                    const response = await fetch('/api/send-confirmation', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            type: 'installation',
-                            booking: object
-                        })
-                    });
-                    const data = await response.json();
-
-                    if (data.success) {
-                        result.textContent = 'Booking submitted successfully!';
-                        result.classList.add('active');
-                        form.reset();
-                        confirmationModal.classList.remove('active');
-                        console.log('Brevo email sent successfully');
-                        setTimeout(() => {
-                            window.location.href = 'thankyou.html';
-                            console.log('Redirecting to thankyou.html');
-                        }, 500);
-                    } else {
-                        console.error('Brevo email error:', data.message);
-                        result.textContent = `Error: ${data.message}`;
-                        result.style.color = '#dc2626';
-                        result.classList.add('active');
-                        confirmationModal.classList.remove('active');
-                    }
+                    // Complete booking process
+                    result.textContent = 'Booking submitted successfully!';
+                    result.classList.add('active');
+                    form.reset();
+                    confirmationModal.classList.remove('active');
+                    setTimeout(() => {
+                        window.location.href = 'thankyou.html';
+                        console.log('Redirecting to thankyou.html');
+                    }, 500);
                 } catch (error) {
                     console.error('Submission error:', error.message);
                     result.textContent = `Error: ${error.message}`;
