@@ -17,9 +17,9 @@
         "@graph": [
             {
                 "@type": "WebPage",
-                "name": "Admin Panel - EyeTech Securities",
-                "url": "https://www.eyetechsecurities.in/admin.html",
-                "description": "Admin panel for managing CCTV service and installation bookings at EyeTech Securities in Chennai.",
+                "name": "Installation Booking - EyeTech Securities",
+                "url": "https://www.eyetechsecurities.in/installationbooking.html",
+                "description": "Book CCTV installation services with EyeTech Securities in Chennai. Secure, reliable solutions.",
                 "isPartOf": {
                     "@type": "WebSite",
                     "url": "https://www.eyetechsecurities.in/"
@@ -72,42 +72,45 @@
     }
     </script>
 
+    <!-- Meta Description for SEO Purpose -->
+    <meta name="description" content="Book CCTV installation services with EyeTech Securities in Chennai. Secure, reliable solutions.">
+    <meta name="keywords" content="CCTV installation booking Chennai, security system installation, EyeTech Securities">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Admin panel for managing CCTV service and installation bookings at EyeTech Securities in Chennai.">
-    <meta name="keywords" content="EyeTech Securities, CCTV service admin, CCTV installation admin, Chennai CCTV management">
+    <title>Installation Booking - Eye Tech Securities</title>
 
     <!-- Open Graph Tags -->
-    <meta property="og:title" content="Admin Panel - EyeTech Securities">
-    <meta property="og:description" content="Admin panel for managing CCTV service and installation bookings at EyeTech Securities in Chennai.">
+    <meta property="og:title" content="Installation Booking - Eye Tech Securities">
+    <meta property="og:description" content="Book CCTV installation services with EyeTech Securities in Chennai. Secure, reliable solutions.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.eyetechsecurities.in/admin.html">
+    <meta property="og:url" content="https://www.eyetechsecurities.in/installationbooking.html">
     <meta property="og:image" content="https://www.eyetechsecurities.in/eyetech%20logo%20jpg.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="EyeTech Securities">
+    <meta property="og:site_name" content="Eye Tech Securities">
 
     <!-- Twitter (X) Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Admin Panel - EyeTech Securities">
-    <meta name="twitter:description" content="Admin panel for managing CCTV service and installation bookings at EyeTech Securities in Chennai.">
+    <meta name="twitter:title" content="Installation Booking - Eye Tech Securities">
+    <meta name="twitter:description" content="Book CCTV installation services with EyeTech Securities in Chennai. Secure, reliable solutions.">
     <meta name="twitter:image" content="https://www.eyetechsecurities.in/eyetech%20logo%20jpg.webp">
-    <meta name="twitter:image:alt" content="EyeTech Securities Logo">
+    <meta name="twitter:image:alt" content="Eye Tech Securities Logo">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.eyetechsecurities.in/admin.html">
+    <link rel="canonical" href="https://www.eyetechsecurities.in/installationbooking.html">
 
-    <title>Admin Panel - EyeTech Securities</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="eyetech logo jpg.webp">
+    <link rel="icon" type="image/x-icon" href="/public/eyetech logo jpg.webp">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    
     <!-- Firebase SDK (Modular, v9.23.0) -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
-        import { getFirestore, collection, getDocs, query, orderBy, where, doc, updateDoc, increment, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, query, where, orderBy, getDocs } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
 
+        // Firebase Configuration for Eye Tech-Service Booking
         const firebaseConfig = {
             apiKey: "AIzaSyDTHFO2c6SwjAmBueJBx4I8wNiQ3lmHRMw",
             authDomain: "eye-tech-service-booking.firebaseapp.com",
@@ -118,10 +121,13 @@
             measurementId: "G-JFB3G4CECS"
         };
 
+        // Initialize Firebase
         try {
             const app = initializeApp(firebaseConfig);
             const auth = getAuth(app);
             const db = getFirestore(app);
+
+            // Expose Firebase services to global scope
             window.firebaseServices = {
                 auth,
                 db,
@@ -132,17 +138,13 @@
                 signOut,
                 onAuthStateChanged,
                 collection,
-                getDocs,
+                addDoc,
                 query,
-                orderBy,
                 where,
-                doc,
-                updateDoc,
-                increment,
-                getDoc,
-                setDoc
+                orderBy,
+                getDocs
             };
-            console.log('Firebase initialized successfully for admin panel');
+            console.log('Firebase initialized successfully for project: eye-tech-service-booking');
         } catch (error) {
             console.error('Firebase initialization error:', error);
         }
@@ -150,26 +152,66 @@
 
     <style>
         @media (max-width: 639px) {
-            #mobile-menu {
-                overflow: visible;
-            }
-            #mobile-menu a {
-                padding-left: 1rem;
-                padding-right: 0.75rem;
-                align-items: center;
-                min-width: 160px;
+            .customer-type-container {
                 display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
             }
-            #mobile-menu svg {
-                margin-left: 0.25rem;
-                width: 1.75rem;
-                height: 1.75rem;
-                overflow: visible;
+            .customer-type-container label {
+                margin-left: 0;
+            }
+            .history-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .history-table th,
+            .history-table td {
+                min-width: 120px;
+            }
+            .form-container {
+                padding: 1.5rem;
+            }
+            .booking-header {
+                padding: 1.5rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+            #installation-form label {
+                font-size: 0.875rem;
+            }
+            #preview-btn {
+                padding: 0.75rem;
+            }
+            .login-prompt {
+                font-size: 1rem;
+                padding: 0.75rem;
+            }
+            .auth-button {
+                padding: 0.5rem 1.5rem;
+                font-size: 0.875rem;
+            }
+        }
+        @media (min-width: 640px) {
+            .customer-type-container {
+                display: flex;
+                flex-direction: row;
+                gap: 1.5rem;
             }
         }
         .nav-active {
             background-color: #2563eb;
             transform: scale(1.05);
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid transparent;
+            border-image: linear-gradient(to right, #2563eb, #4f46e5) 1;
         }
         .error-message {
             color: #dc2626;
@@ -227,6 +269,22 @@
         .modal.active .modal-content {
             transform: translateY(0);
         }
+        .confirmation-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .confirmation-buttons button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .confirmation-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
         .auth-modal-content {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
@@ -244,26 +302,6 @@
         .auth-button:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        #signin-btn {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            border: none;
-            border-radius: 0.75rem;
-            padding: 0.75rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-        }
-        #signin-btn:hover {
-            background: linear-gradient(135deg, #1e40af, #60a5fa);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
-        }
-        #signin-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         .google-button {
             background-color: #ffffff;
@@ -332,228 +370,53 @@
             outline: none;
             border-bottom: 2px solid #2563eb;
         }
-        .main-tab {
-            cursor: pointer;
-            padding: 0.75rem 1.5rem;
-            border-bottom: 4px solid transparent;
+        #installation-form input,
+        #installation-form textarea,
+        #installation-form select {
             transition: all 0.3s ease;
-            background-color: #e5e7eb;
-            border-radius: 0.5rem;
-            font-size: 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+        }
+        #installation-form input:focus,
+        #installation-form textarea:focus,
+        #installation-form select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        #installation-form input:hover,
+        #installation-form textarea:hover,
+        #installation-form select:hover {
+            transform: scale(1.02);
+        }
+        #installation-form label {
             font-weight: 600;
             color: #1f2937;
-            margin-right: 0.5rem;
+            transition: all 0.2s ease;
         }
-        .main-tab:hover {
-            background-color: #d1d5db;
-            transform: scale(1.05);
+        #installation-form input:not(:placeholder-shown) + label,
+        #installation-form textarea:not(:placeholder-shown) + label,
+        #installation-form select:not(:placeholder-shown) + label {
+            transform: translateY(-0.5rem);
+            font-size: 0.75rem;
         }
-        .main-tab.active {
-            border-bottom: 4px solid #2563eb;
-            background-color: #2563eb;
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-        .sub-tab {
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-bottom: 2px solid transparent;
-            transition: all 0.3s ease;
-            background-color: #f3f4f6;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            white-space: nowrap;
-        }
-        .sub-tab:hover {
-            background-color: #dbeafe;
-            transform: scale(1.05);
-        }
-        .sub-tab.active {
-            border-bottom: 2px solid #2563eb;
-            background-color: #2563eb;
-            color: #ffffff;
-            font-weight: 600;
-        }
-        .tab-container {
-            display: flex;
-            flex-wrap: wrap;
-            overflow-x: auto;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        .table-container {
-            background: #ffffff;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border: 1px solid transparent;
-            border-image: linear-gradient(to right, #2563eb, #4f46e5) 1;
-        }
-        .admin-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-        .admin-table th,
-        .admin-table td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        .admin-table th {
+        #preview-btn {
             background: linear-gradient(to right, #2563eb, #4f46e5);
-            color: #ffffff;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-        }
-        .admin-table tr:last-child td {
-            border-bottom: none;
-        }
-        .admin-table tr:hover {
-            background: #f9fafb;
-        }
-        .admin-table td {
-            font-size: 0.875rem;
-            color: #374151;
-        }
-        .admin-table select,
-        .admin-table textarea,
-        .admin-table input[type="number"],
-        .admin-table input[type="text"] {
-            transition: all 0.3s ease;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            padding: 0.75rem;
-        }
-        .admin-table textarea.solution-textarea {
-            min-height: 80px;
-            resize: vertical;
-            width: 100%;
-            box-sizing: border-box;
-            overflow-y: auto;
-            max-height: 200px;
-        }
-        .admin-table input.amount-input,
-        .admin-table input.num-cameras-input,
-        .admin-table input.price-input,
-        .admin-table input.serial-number-input {
-            width: 120px;
-        }
-        .admin-table select.status-select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            background-repeat: no-repeat;
-            background-position: right 0.75rem center;
-            background-size: 1.25rem;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>');
-            padding-right: 2rem;
-        }
-        .admin-table select.status-select:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        .admin-table select.status-select option[value="Pending"] {
-            background-color: #fefcbf;
-            color: #000;
-        }
-        .admin-table select.status-select option[value="Completed"] {
-            background-color: #c6f6d5;
-            color: #000;
-        }
-        .admin-table select.status-select option[value="Cancelled"] {
-            background-color: #fed7d7;
-            color: #000;
-        }
-        .admin-table select.status-select:has(option[value="Pending"]:checked) {
-            background-color: #fefcbf;
-            color: #000;
-            border-color: #f59e0b;
-        }
-        .admin-table select.status-select:has(option[value="Completed"]:checked) {
-            background-color: #c6f6d5;
-            color: #000;
-            border-color: #16a34a;
-        }
-        .admin-table select.status-select:has(option[value="Cancelled"]:checked) {
-            background-color: #fed7d7;
-            color: #000;
-            border-color: #dc2626;
-        }
-        .admin-table select.status-select:hover,
-        .admin-table textarea.solution-textarea:hover,
-        .admin-table input.amount-input:hover,
-        .admin-table input.num-cameras-input:hover,
-        .admin-table input.price-input:hover,
-        .admin-table input.serial-number-input:hover {
-            transform: scale(1.02);
-        }
-        .admin-table button {
-            background: linear-gradient(to right, #2563eb, #4f46e5);
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
             transition: all 0.3s ease;
         }
-        .admin-table button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        .admin-table button:disabled {
-            background: #9ca3af;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .search-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .search-container input {
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            width: 100%;
-            max-width: 300px;
-            font-size: 0.875rem;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-        }
-        .search-container input:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-        .search-container input:hover {
-            transform: scale(1.02);
-        }
-        .search-container button {
-            background: linear-gradient(to right, #2563eb, #4f46e5);
-            color: #ffffff;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
-        }
-        .search-container button:hover {
+        #preview-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         .booking-header {
-            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            background: linear-gradient(to right, #2563eb, #4f46e5);
             color: #ffffff;
             padding: 2rem;
             border-radius: 0.75rem;
             text-align: center;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .login-prompt {
             font-size: 1.125rem;
@@ -573,32 +436,50 @@
             max-width: 200px;
             margin: 0 auto;
         }
-        @media (max-width: 640px) {
-            .admin-table {
-                display: block;
-                overflow-x: auto;
-            }
-            .admin-table th,
-            .admin-table td {
-                min-width: 120px;
-            }
-            .booking-header {
-                padding: 1.5rem;
-            }
-            .modal-content {
-                padding: 1.5rem;
-            }
-            .auth-button {
-                padding: 0.5rem 1.5rem;
-                font-size: 0.875rem;
-            }
-            .login-prompt {
-                font-size: 1rem;
-                padding: 0.75rem;
-            }
-            .admin-table textarea.solution-textarea {
-                max-height: 150px;
-            }
+        .history-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #ffffff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .history-table th,
+        .history-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .history-table th {
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+        .history-table tr:hover {
+            background: #f9fafb;
+        }
+        .history-table td {
+            font-size: 0.875rem;
+        }
+        .status-completed td {
+            color: #16a34a;
+        }
+        .status-pending td {
+            color: #f59e0b;
+        }
+        .status-cancelled td {
+            color: #dc2626;
+        }
+        .status-completed td:last-child,
+        .status-pending td:last-child,
+        .status-cancelled td:last-child {
+            font-weight: 700;
         }
     </style>
 </head>
@@ -607,7 +488,7 @@
     <nav class="bg-gradient-to-r from-gray-600 to-gray-600 text-white p-4 sticky top-0 z-20 shadow-lg">
         <div class="container mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-2">
-                <img src="eyetech logo png.webp" alt="Eye Tech Securities Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain">
+                <img src="/public/eyetech logo png.webp" alt="Eye Tech Securities Logo" class="w-8 h-8 md:w-10 md:h-10 object-contain">
                 <h1 class="text-xl md:text-2xl font-bold">Eye Tech Securities</h1>
             </div>
             <div class="hidden md:flex space-x-4">
@@ -639,9 +520,9 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     <span>Service Booking</span>
                 </a>
-                <a href="admin.html" class="flex items-center space-x-1 px-3 py-2 rounded-md nav-active">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    <span>Admin Panel</span>
+                <a href="installationbooking.html" class="flex items-center space-x-1 px-3 py-2 rounded-md nav-active">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    <span>Installation Booking</span>
                 </a>
             </div>
             <!-- Mobile Menu Toggle -->
@@ -681,9 +562,9 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                 <span>Service Booking</span>
             </a>
-            <a href="admin.html" class="flex items-center space-x-2 py-2 bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                <span>Admin Panel</span>
+            <a href="installationbooking.html" class="flex items-center space-x-2 py-2 bg-blue-600 rounded-md px-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                <span>Installation Booking</span>
             </a>
         </div>
     </nav>
@@ -714,7 +595,7 @@
                     <label class="floating-label">Password</label>
                     <p id="signin-password-error" class="error-message">Please enter your password.</p>
                 </div>
-                <button type="button" id="signin-btn" class="py-2 px-4 w-full mb-2">Sign In</button>
+                <button type="button" id="signin-btn" class="auth-button py-2 px-4 w-full mb-2">Sign In</button>
                 <button type="button" id="google-signin-btn" class="google-button py-2 px-4 w-full mb-2">
                     <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.20-2.25H12v4.51h5.84c-.25 1.34-.98 2.47-2.07 3.23v2.68h3.34c1.95-1.80 3.07-4.45 3.07-7.17z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-1.01 7.28-2.73l-3.34-2.68c-1.01.68-2.30 1.08-3.94 1.08-3.02 0-5.58-2.04-6.50-4.78l-3.28 2.53C4.54 20.99 7.97 23 12 23z"/><path fill="#FBBC05" d="M5.50 14.25c-.23-.67-.36-1.39-.36-2.14s.13-1.47.36-2.14l-3.28-2.53C.99 8.76.50 10.38.50 12s.49 3.24 1.72 4.56l3.28-2.53z"/><path fill="#EA4335" d="M12 4.75c1.64 0 3.11.55 4.27 1.62l3.20-3.20C17.46 1.01 14.97 0 12 0 7.97 0 4.54 2.01 2.72 4.73l3.28 2.53c.92-2.74 3.48-4.76 6.50-4.76z"/></svg>
                     Sign In with Google
@@ -741,89 +622,99 @@
         </div>
     </div>
 
-    <!-- Admin Section -->
-    <section id="admin-section" class="py-12 md:py-16 bg-gray-100">
+    <!-- Installation Booking History Section -->
+    <section id="history-section" class="py-8 md:py-12 hidden">
+        <div class="container mx-auto px-4">
+            <h2 class="text-xl md:text-2xl font-bold text-center mb-6">Your Installation Booking History</h2>
+            <div class="history-container">
+                <table id="booking-history" class="history-table"></table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Booking Form -->
+    <section id="booking-section" class="py-12 md:py-16 bg-gray-50">
         <div class="container mx-auto px-4">
             <div class="booking-header">
-                <h2 class="text-2xl md:text-3xl font-bold">Admin Panel - Booking Management</h2>
-                <p class="mt-2 text-sm md:text-base">Manage CCTV service and installation bookings for EyeTech Securities</p>
+                <h2 class="text-2xl md:text-3xl font-bold">Installation Booking Form</h2>
+                <p class="mt-2 text-sm md:text-base">Book your CCTV installation with EyeTech Securities</p>
             </div>
-            <p id="login-prompt" class="login-prompt hidden">Please sign in as admin to access the panel.</p>
-            <div class="centered-auth-button">
-                <button id="auth-btn" class="auth-button hidden" onclick="openAuthModal('signin')">Sign In</button>
-            </div>
-            <p id="error-message" class="error-message text-center mb-4"></p>
-            <p id="success-message" class="success-message text-center mb-4"></p>
-            <div id="admin-content" class="hidden">
-                <div class="flex mb-6">
-                    <div class="main-tab active" data-main-tab="service">Service Bookings</div>
-                    <div class="main-tab" data-main-tab="installation">Installation Bookings</div>
+            <div class="form-container">
+                <p id="login-prompt" class="login-prompt hidden">Please sign in to submit an installation booking & to view booking history.</p>
+                <div class="centered-auth-button">
+                    <button id="auth-btn" class="auth-button hidden" onclick="openAuthModal('signin')">Sign In</button>
                 </div>
-                <div id="service-content" class="tab-content">
-                    <div class="search-container">
-                        <input type="text" id="phone-search-service" placeholder="Search by phone number" class="focus:ring-2 focus:ring-blue-500">
-                        <button id="search-btn-service" class="flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            Search
-                        </button>
+                <p id="result" class="success-message"></p>
+                <form id="installation-form" class="hidden">
+                    <input type="hidden" name="status" value="Pending">
+                    <input type="hidden" name="solution" value="">
+                    <input type="hidden" name="amount" value="0">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
+                        <p id="name-error" class="error-message">Please enter your name.</p>
                     </div>
-                    <div class="tab-container">
-                        <div class="sub-tab active" data-tab="pending">Pending</div>
-                        <div class="sub-tab" data-tab="cancelled">Cancelled</div>
-                        <div class="sub-tab" data-tab="completed">Completed</div>
-                        <div class="sub-tab" data-tab="all">All Bookings</div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="mt-1 p-2 w-full border rounded-md" required pattern="[0-9]{10}">
+                        <p id="phone-error" class="error-message">Please enter a valid 10-digit phone number.</p>
                     </div>
-                    <div class="table-container">
-                        <table id="service-table" class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Issue</th>
-                                    <th>Customer Type</th>
-                                    <th>Comments</th>
-                                    <th>Solution</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md" required>
+                        <p id="email-error" class="error-message">Please enter a valid email address.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Full Address</label>
+                        <textarea id="address" name="address" rows="3" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+                        <p id="address-error" class="error-message">Please enter your full address.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="installationType" class="block text-sm font-medium text-gray-700">Installation Type</label>
+                        <select id="installationType" name="installationType" class="mt-1 p-2 w-full border rounded-md" required>
+                            <option value="" disabled selected>Select installation type</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Industrial">Industrial</option>
+                        </select>
+                        <p id="installationType-error" class="error-message">Please select an installation type.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="numCameras" class="block text-sm font-medium text-gray-700">Number of Cameras</label>
+                        <input type="number" id="numCameras" name="numCameras" class="mt-1 p-2 w-full border rounded-md" required min="1">
+                        <p id="numCameras-error" class="error-message">Please enter a valid number of cameras (minimum 1).</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="preferredDate" class="block text-sm font-medium text-gray-700">Preferred Installation Date</label>
+                        <input type="date" id="preferredDate" name="preferredDate" class="mt-1 p-2 w-full border rounded-md" required>
+                        <p id="preferredDate-error" class="error-message">Please select a valid date.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
+                        <textarea id="comments" name="comments" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+                        <p id="comments-error" class="error-message">Please enter your comments.</p>
+                    </div>
+                    <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
+                </form>
+                <!-- Confirmation Modal -->
+                <div id="confirmation-modal" class="modal">
+                    <div class="modal-content">
+                        <p id="charge-text">A technician will assess the site and provide a quote based on the number of cameras and installation type. Minimum visiting charge is Rs.750. Any additional material charges will be extra.</p>
+                        <div class="confirmation-buttons">
+                            <button id="agree-btn" class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded">Agree & Proceed</button>
+                            <button id="cancel-btn" class="bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded">No Need</button>
+                        </div>
                     </div>
                 </div>
-                <div id="installation-content" class="tab-content hidden">
-                    <div class="search-container">
-                        <input type="text" id="phone-search-installation" placeholder="Search by phone number" class="focus:ring-2 focus:ring-blue-500">
-                        <button id="search-btn-installation" class="flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            Search
-                        </button>
-                    </div>
-                    <div class="tab-container">
-                        <div class="sub-tab active" data-tab="pending">Pending</div>
-                        <div class="sub-tab" data-tab="cancelled">Cancelled</div>
-                        <div class="sub-tab" data-tab="completed">Completed</div>
-                        <div class="sub-tab" data-tab="all">All Bookings</div>
-                    </div>
-                    <div class="table-container">
-                        <table id="installation-table" class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Address</th>
-                                    <th>Number of Cameras</th>
-                                    <th>Price</th>
-                                    <th>DVR/NVR Serial Number</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                <!-- Cancel Modal -->
+                <div id="cancel-modal" class="modal">
+                    <div class="modal-content">
+                        <i class="fas fa-times-circle close-modal" onclick="closeCancelModal()"></i>
+                        <h2 class="text-xl font-bold text-center mb-4">Thank You for Considering Us</h2>
+                        <p class="text-center mb-6">We’re sorry to hear that. We look forward to assisting you in the future.</p>
+                        <div class="confirmation-buttons">
+                            <button onclick="window.location.href='index.html'" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Return to Home</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -835,736 +726,435 @@
         <div class="container mx-auto px-4 text-center">
             <p class="text-sm md:text-base">© 2025 Eye Tech Securities. All rights reserved.</p>
             <p class="text-sm md:text-base mt-2">
-                <a href="Blog/privacy-policy.html" class="hover:underline">Privacy Policy</a> |
+                <a href="Blog/privacy-policy.html" class="hover:underline">Privacy Policy</a> | 
                 <a href="Blog/terms-of-service.html" class="hover:underline">Terms of Service</a>
             </p>
         </div>
     </footer>
 
+    <!-- JavaScript -->
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded');
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded');
 
-    // Mobile menu toggle
-    window.toggleMenu = function() {
-        const menu = document.getElementById('mobile-menu');
-        if (menu) {
-            menu.classList.toggle('hidden');
-            console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
-        } else {
-            console.error('Mobile menu not found');
-        }
-    };
-
-    // Auth Modal Functions
-    window.openAuthModal = function(mode = 'signin') {
-        const signinForm = document.getElementById('signin-form');
-        const signupForm = document.getElementById('signup-form');
-        const authModal = document.getElementById('auth-modal');
-        signinForm.classList.toggle('hidden', mode !== 'signin');
-        signupForm.classList.toggle('hidden', mode !== 'signup');
-        authModal.classList.add('active');
-        document.getElementById('signin-result').textContent = '';
-        document.getElementById('signup-result').textContent = '';
-        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-        console.log('Auth modal opened in', mode, 'mode');
-    };
-
-    window.closeAuthModal = function() {
-        const authModal = document.getElementById('auth-modal');
-        authModal.classList.remove('active');
-        document.getElementById('signin-email').value = '';
-        document.getElementById('signin-password').value = '';
-        document.getElementById('signup-email').value = '';
-        document.getElementById('signup-password').value = '';
-        console.log('Auth modal closed');
-    };
-
-    window.toggleAuthForm = function(mode) {
-        const signinForm = document.getElementById('signin-form');
-        const signupForm = document.getElementById('signup-form');
-        signinForm.classList.toggle('hidden', mode !== 'signin');
-        signupForm.classList.toggle('hidden', mode !== 'signup');
-        document.getElementById('signin-result').textContent = '';
-        document.getElementById('signup-result').textContent = '';
-        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-        console.log('Toggled to', mode, 'form');
-    };
-
-    // Elements
-    const authBtn = document.getElementById('auth-btn');
-    const signoutBtn = document.getElementById('signout-btn');
-    const userEmail = document.getElementById('user-email');
-    const adminContent = document.getElementById('admin-content');
-    const errorMessage = document.getElementById('error-message');
-    const successMessage = document.getElementById('success-message');
-    const serviceTable = document.getElementById('service-table').querySelector('tbody');
-    const installationTable = document.getElementById('installation-table').querySelector('tbody');
-    const phoneSearchService = document.getElementById('phone-search-service');
-    const searchBtnService = document.getElementById('search-btn-service');
-    const phoneSearchInstallation = document.getElementById('phone-search-installation');
-    const searchBtnInstallation = document.getElementById('search-btn-installation');
-    const mainTabs = document.querySelectorAll('.main-tab');
-    const subTabsService = document.querySelectorAll('#service-content .sub-tab');
-    const subTabsInstallation = document.querySelectorAll('#installation-content .sub-tab');
-    const signinBtn = document.getElementById('signin-btn');
-    const googleSigninBtn = document.getElementById('google-signin-btn');
-    const signupBtn = document.getElementById('signup-btn');
-    const signinEmail = document.getElementById('signin-email');
-    const signinPassword = document.getElementById('signin-password');
-    const signupEmail = document.getElementById('signup-email');
-    const signupPassword = document.getElementById('signup-password');
-    const signinResult = document.getElementById('signin-result');
-    const signupResult = document.getElementById('signup-result');
-    const loginPrompt = document.getElementById('login-prompt');
-
-    // Verify elements
-    console.log('Auth button:', authBtn);
-    console.log('Signout button:', signoutBtn);
-    console.log('User email:', userEmail);
-    console.log('Admin content:', adminContent);
-    console.log('Error message:', errorMessage);
-    console.log('Success message:', successMessage);
-    console.log('Service table:', serviceTable);
-    console.log('Installation table:', installationTable);
-    console.log('Phone search service:', phoneSearchService);
-    console.log('Search button service:', searchBtnService);
-    console.log('Phone search installation:', phoneSearchInstallation);
-    console.log('Search button installation:', searchBtnInstallation);
-    console.log('Main tabs:', mainTabs);
-    console.log('Sub tabs service:', subTabsService);
-    console.log('Sub tabs installation:', subTabsInstallation);
-    console.log('Signin button:', signinBtn);
-    console.log('Google Signin button:', googleSigninBtn);
-    console.log('Signup button:', signupBtn);
-    console.log('Login prompt:', loginPrompt);
-
-    if (!authBtn || !signoutBtn || !userEmail || !adminContent || !errorMessage || !successMessage || !serviceTable || !installationTable || !phoneSearchService || !searchBtnService || !phoneSearchInstallation || !searchBtnInstallation || !mainTabs.length || !subTabsService.length || !subTabsInstallation.length || !signinBtn || !googleSigninBtn || !signupBtn || !loginPrompt) {
-        console.error('One or more elements not found');
-        errorMessage.textContent = 'Error: Page elements missing. Please reload.';
-        errorMessage.classList.add('active');
-        return;
-    }
-
-    // Firebase Services
-    const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc, increment, getDoc, setDoc } = window.firebaseServices || {};
-
-    if (!auth || !db) {
-        console.error('Firebase services not initialized');
-        errorMessage.textContent = 'Error: Firebase not initialized. Please try again later.';
-        errorMessage.classList.add('active');
-        return;
-    }
-
-    // Admin UIDs
-    const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o1', 'XuTILJTW6xf0fmSXXjQtRAD5xdH3'];
-
-    // Store bookings and current state
-    let serviceBookings = [];
-    let installationBookings = [];
-    let currentMainTab = 'service';
-    let currentSubTabService = 'pending';
-    let currentSubTabInstallation = 'pending';
-    let currentSearchService = '';
-    let currentSearchInstallation = '';
-
-    // Debounce function
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
+            // Mobile menu toggle
+            window.toggleMenu = function() {
+                const menu = document.getElementById('mobile-menu');
+                if (menu) {
+                    menu.classList.toggle('hidden');
+                    console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
+                } else {
+                    console.error('Mobile menu not found');
+                }
             };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
 
-    // Generate Invoice Number
-    async function generateInvoiceNumber() {
-        const counterRef = doc(db, 'counters', 'invoice');
-        try {
-            const counterDoc = await getDoc(counterRef);
-            let currentCount;
-            if (!counterDoc.exists()) {
-                currentCount = 149;
-                await setDoc(counterRef, { count: currentCount });
-            } else {
-                currentCount = counterDoc.data().count || 149;
-            }
-            currentCount += 1;
-            const invoiceNumber = `INV-${currentCount.toString().padStart(6, '0')}`;
-            await setDoc(counterRef, { count: currentCount }, { merge: true });
-            console.log('Generated invoice number:', invoiceNumber);
-            return invoiceNumber;
-        } catch (error) {
-            console.error('Error generating invoice number:', error);
-            errorMessage.textContent = `Error generating invoice number: ${error.message}`;
-            errorMessage.classList.add('active');
-            return `INV-ERROR`;
-        }
-    }
+            // Form elements
+            const form = document.getElementById('installation-form');
+            const result = document.getElementById('result');
+            const previewBtn = document.getElementById('preview-btn');
+            const agreeBtn = document.getElementById('agree-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const confirmationModal = document.getElementById('confirmation-modal');
+            const cancelModal = document.getElementById('cancel-modal');
+            const loginPrompt = document.getElementById('login-prompt');
 
-    // Send Service Invoice Email
-    async function sendServiceInvoiceEmail(booking) {
-        console.log('Attempting to send service invoice email for booking:', booking);
-        if (!booking.email) {
-            console.warn('No email provided for booking:', booking.id);
-            errorMessage.textContent = 'Cannot send invoice: No email provided.';
-            errorMessage.classList.add('active');
-            return false;
-        }
+            // Auth elements
+            const authModal = document.getElementById('auth-modal');
+            const authBtn = document.getElementById('auth-btn');
+            const signoutBtn = document.getElementById('signout-btn');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            const signinBtn = document.getElementById('signin-btn');
+            const googleSigninBtn = document.getElementById('google-signin-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            const signinEmail = document.getElementById('signin-email');
+            const signinPassword = document.getElementById('signin-password');
+            const signupEmail = document.getElementById('signup-email');
+            const signupPassword = document.getElementById('signup-password');
+            const signinResult = document.getElementById('signin-result');
+            const signupResult = document.getElementById('signup-result');
+            const userEmail = document.getElementById('user-email');
+            const historySection = document.getElementById('history-section');
+            const bookingHistory = document.getElementById('booking-history');
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(booking.email)) {
-            console.warn('Invalid email format for booking:', booking.id, 'Email:', booking.email);
-            errorMessage.textContent = 'Cannot send invoice: Invalid email format.';
-            errorMessage.classList.add('active');
-            return false;
-        }
+            // Verify critical elements
+            const requiredElements = [
+                { id: 'installation-form', element: form },
+                { id: 'result', element: result },
+                { id: 'preview-btn', element: previewBtn },
+                { id: 'agree-btn', element: agreeBtn },
+                { id: 'cancel-btn', element: cancelBtn },
+                { id: 'confirmation-modal', element: confirmationModal },
+                { id: 'cancel-modal', element: cancelModal },
+                { id: 'login-prompt', element: loginPrompt },
+                { id: 'auth-modal', element: authModal },
+                { id: 'auth-btn', element: authBtn },
+                { id: 'signout-btn', element: signoutBtn },
+                { id: 'signin-form', element: signinForm },
+                { id: 'signup-form', element: signupForm },
+                { id: 'signin-btn', element: signinBtn },
+                { id: 'google-signin-btn', element: googleSigninBtn },
+                { id: 'signup-btn', element: signupBtn },
+                { id: 'user-email', element: userEmail },
+                { id: 'history-section', element: historySection },
+                { id: 'booking-history', element: bookingHistory }
+            ];
 
-        try {
-            const response = await fetch('/api/send-invoice', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    toEmail: booking.email,
-                    customerName: booking.name || 'Customer',
-                    invoiceNumber: booking.invoiceNumber || 'N/A',
-                    invoiceDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('/').join('/'),
-                    amount: booking.amount || 0,
-                    issue: booking.issue || 'N/A',
-                    solution: booking.solution || 'N/A'
-                })
-            });
-
-            const result = await response.json();
-            console.log('Service API response:', response.status, result);
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Failed to send service invoice email');
+            const missingElements = requiredElements.filter(item => !item.element);
+            if (missingElements.length > 0) {
+                console.error('Missing DOM elements:', missingElements.map(item => item.id));
+                if (result) {
+                    result.textContent = 'Error: Page failed to load correctly. Please refresh.';
+                    result.style.color = '#dc2626';
+                    result.classList.add('active');
+                }
+                return;
             }
 
-            console.log('Service email sent successfully to:', booking.email);
-            successMessage.textContent = `Service invoice sent to ${booking.email}!`;
-            successMessage.classList.add('active');
-            errorMessage.classList.remove('active');
-
-            setTimeout(() => {
-                successMessage.classList.remove('active');
-            }, 3000);
-
-            return true;
-        } catch (error) {
-            console.error('Service email sending error:', error);
-            errorMessage.textContent = `Failed to send service invoice email: ${error.message}`;
-            errorMessage.classList.add('active');
-            successMessage.classList.remove('active');
-            return false;
-        }
-    }
-
-    // Send Installation Invoice Email (PDF via Brevo)
-    async function sendInstallationInvoiceEmail(booking) {
-        console.log('Attempting to send installation invoice email for booking:', booking);
-        if (!booking.email) {
-            console.warn('No email provided for booking:', booking.id);
-            errorMessage.textContent = 'Cannot send installation invoice: No email provided.';
-            errorMessage.classList.add('active');
-            return false;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(booking.email)) {
-            console.warn('Invalid email format for booking:', booking.id, 'Email:', booking.email);
-            errorMessage.textContent = 'Cannot send installation invoice: Invalid email format.';
-            errorMessage.classList.add('active');
-            return false;
-        }
-
-        try {
-            const response = await fetch('/api/send-installation-invoice', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    toEmail: booking.email,
-                    customerName: booking.name || 'Customer',
-                    invoiceNumber: booking.invoiceNumber || 'N/A',
-                    invoiceDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('/').join('/'),
-                    numberOfCameras: booking.numberOfCameras || 0,
-                    price: booking.price || 0,
-                    serialNumber: booking.serialNumber || 'N/A',
-                    address: booking.address || 'N/A'
-                })
-            });
-
-            const result = await response.json();
-            console.log('Installation API response:', response.status, result);
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Failed to send installation invoice email');
-            }
-
-            console.log('Installation email sent successfully to:', booking.email);
-            successMessage.textContent = `Installation invoice sent to ${booking.email}!`;
-            successMessage.classList.add('active');
-            errorMessage.classList.remove('active');
-
-            setTimeout(() => {
-                successMessage.classList.remove('active');
-            }, 3000);
-
-            return true;
-        } catch (error) {
-            console.error('Installation email sending error:', error);
-            errorMessage.textContent = `Failed to send installation invoice email: ${error.message}`;
-            errorMessage.classList.add('active');
-            successMessage.classList.remove('active');
-            return false;
-        }
-    }
-
-    // Authentication State
-    onAuthStateChanged(auth, user => {
-        if (user && ADMIN_UIDS.includes(user.uid)) {
-            console.log('Admin signed in:', user.email, 'UID:', user.uid);
-            authBtn.classList.add('hidden');
-            signoutBtn.classList.remove('hidden');
-            userEmail.textContent = user.email;
-            adminContent.classList.remove('hidden');
-            loginPrompt.classList.add('hidden');
-            errorMessage.classList.remove('active');
-            loadServiceBookings();
-            loadInstallationBookings();
-        } else if (user) {
-            console.log('Non-admin user signed in:', user.email, 'UID:', user.uid);
-            authBtn.classList.add('hidden');
-            signoutBtn.classList.remove('hidden');
-            userEmail.textContent = user.email;
-            adminContent.classList.add('hidden');
-            loginPrompt.classList.remove('hidden');
-            errorMessage.textContent = 'Unauthorized access. Admin privileges required.';
-            errorMessage.classList.add('active');
-            serviceTable.innerHTML = '';
-            installationTable.innerHTML = '';
-        } else {
-            console.log('No user signed in');
-            authBtn.classList.remove('hidden');
-            signoutBtn.classList.add('hidden');
-            userEmail.textContent = '';
-            adminContent.classList.add('hidden');
-            loginPrompt.classList.remove('hidden');
-            errorMessage.textContent = 'Please sign in as admin to access the panel.';
-            errorMessage.classList.add('active');
-            serviceTable.innerHTML = '';
-            installationTable.innerHTML = '';
-        }
-    });
-
-    // Open Sign-In Modal
-    authBtn.addEventListener('click', () => openAuthModal('signin'));
-
-    // Sign In
-    signinBtn.addEventListener('click', () => {
-        const email = signinEmail.value.trim();
-        const password = signinPassword.value.trim();
-        signinResult.textContent = '';
-        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-
-        if (!email) {
-            document.getElementById('signin-email-error').classList.add('active');
-            return;
-        }
-        if (!password) {
-            document.getElementById('signin-password-error').classList.add('active');
-            return;
-        }
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                signinResult.textContent = 'Signed in successfully!';
-                signinResult.style.color = '#16a34a';
-                closeAuthModal();
-            })
-            .catch(error => {
-                console.error('Sign-in error:', error.code, error.message);
-                signinResult.textContent = error.message;
+            // Firebase Services
+            const firebaseServices = window.firebaseServices;
+            if (!firebaseServices || !firebaseServices.auth || !firebaseServices.db) {
+                console.error('Firebase services not initialized');
+                signinResult.textContent = 'Error: Firebase not initialized. Please try again later.';
                 signinResult.style.color = '#dc2626';
-            });
-    });
-
-    // Google Sign In
-    googleSigninBtn.addEventListener('click', () => {
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then(() => {
-                signinResult.textContent = 'Signed in with Google successfully!';
-                signinResult.style.color = '#16a34a';
-                closeAuthModal();
-            })
-            .catch(error => {
-                console.error('Google Sign-in error:', error.code, error.message);
-                signinResult.textContent = error.message;
-                signinResult.style.color = '#dc2626';
-            });
-    });
-
-    // Sign Up
-    signupBtn.addEventListener('click', () => {
-        const email = signupEmail.value.trim();
-        const password = signupPassword.value.trim();
-        signupResult.textContent = '';
-        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-
-        if (!email) {
-            document.getElementById('signup-email-error').classList.add('active');
-            return;
-        }
-        if (!password || password.length < 6) {
-            document.getElementById('signup-password-error').classList.add('active');
-            return;
-        }
-
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                signupResult.textContent = 'Account created successfully!';
-                signupResult.style.color = '#16a34a';
-                closeAuthModal();
-            })
-            .catch(error => {
-                console.error('Sign-up error:', error.code, error.message);
-                signupResult.textContent = error.message;
-                signupResult.style.color = '#dc2626';
-            });
-    });
-
-    // Sign Out
-    signoutBtn.addEventListener('click', () => {
-        signOut(auth)
-            .then(() => {
-                console.log('Admin signed out');
-            })
-            .catch(error => {
-                console.error('Sign-out error:', error.code, error.message);
-                errorMessage.textContent = `Error signing out: ${error.message}`;
-                errorMessage.classList.add('active');
-            });
-    });
-
-    // Load Service Bookings
-    async function loadServiceBookings() {
-        console.log('Loading service bookings for tab:', currentSubTabService);
-        try {
-            let q;
-            if (currentSubTabService === 'all') {
-                q = query(collection(db, 'bookings'), orderBy('timestamp', 'desc'));
-            } else {
-                q = query(collection(db, 'bookings'), where('status', '==', currentSubTabService.charAt(0).toUpperCase() + currentSubTabService.slice(1)), orderBy('timestamp', 'desc'));
-            }
-            const querySnapshot = await getDocs(q);
-            console.log('Service Firestore query returned', querySnapshot.size, 'documents');
-            serviceBookings = [];
-            querySnapshot.forEach(doc => {
-                serviceBookings.push({ id: doc.id, ...doc.data() });
-            });
-            renderServiceBookings();
-        } catch (error) {
-            console.error('Service Firestore query error:', error.code, error.message);
-            serviceTable.innerHTML = `<tr><td colspan="10" class="text-center text-red-600">Error loading service bookings: ${error.message}</td></tr>`;
-            errorMessage.textContent = `Error loading service bookings: ${error.message}`;
-            errorMessage.classList.add('active');
-        }
-    }
-
-    // Load Installation Bookings
-    async function loadInstallationBookings() {
-        console.log('Loading installation bookings for tab:', currentSubTabInstallation);
-        try {
-            let q;
-            if (currentSubTabInstallation === 'all') {
-                q = query(collection(db, 'installation_bookings'), orderBy('timestamp', 'desc'));
-            } else {
-                q = query(collection(db, 'installation_bookings'), where('status', '==', currentSubTabInstallation.charAt(0).toUpperCase() + currentSubTabInstallation.slice(1)), orderBy('timestamp', 'desc'));
-            }
-            const querySnapshot = await getDocs(q);
-            console.log('Installation Firestore query returned', querySnapshot.size, 'documents');
-            installationBookings = [];
-            querySnapshot.forEach(doc => {
-                installationBookings.push({ id: doc.id, ...doc.data() });
-            });
-            renderInstallationBookings();
-        } catch (error) {
-            console.error('Installation Firestore query error:', error.code, error.message);
-            installationTable.innerHTML = `<tr><td colspan="9" class="text-center text-red-600">Error loading installation bookings: ${error.message}</td></tr>`;
-            errorMessage.textContent = `Error loading installation bookings: ${error.message}`;
-            errorMessage.classList.add('active');
-        }
-    }
-
-    // Render Service Bookings
-    function renderServiceBookings() {
-        console.log('Rendering service bookings:', serviceBookings.length);
-        let filteredBookings = serviceBookings;
-        if (currentSearchService) {
-            filteredBookings = serviceBookings.filter(booking =>
-                booking.phone.includes(currentSearchService.replace(/\D/g, ''))
-            );
-        }
-        serviceTable.innerHTML = '';
-        if (filteredBookings.length === 0) {
-            serviceTable.innerHTML = `<tr><td colspan="10" class="text-center">No service bookings found.</td></tr>`;
-            return;
-        }
-        filteredBookings.forEach(booking => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${new Date(booking.timestamp.toDate()).toLocaleDateString('en-GB')}</td>
-                <td>${booking.name || 'N/A'}</td>
-                <td>${booking.phone || 'N/A'}</td>
-                <td>${booking.issue || 'N/A'}</td>
-                <td>${booking.customerType || 'N/A'}</td>
-                <td>${booking.comments || 'N/A'}</td>
-                <td><textarea class="solution-textarea" data-id="${booking.id}">${booking.solution || ''}</textarea></td>
-                <td><input type="number" class="amount-input" data-id="${booking.id}" value="${booking.amount || ''}" min="0"></td>
-                <td>
-                    <select class="status-select" data-id="${booking.id}">
-                        <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                        <option value="Completed" ${booking.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                        <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-                    </select>
-                </td>
-                <td><button class="save-btn" data-id="${booking.id}" ${booking.status === 'Completed' ? 'disabled' : ''}>Save</button></td>
-            `;
-            serviceTable.appendChild(row);
-        });
-
-        // Attach event listeners to save buttons
-        document.querySelectorAll('.save-btn').forEach(button => {
-            button.addEventListener('click', async () => {
-                const bookingId = button.getAttribute('data-id');
-                await updateServiceBooking(bookingId);
-            });
-        });
-    }
-
-    // Render Installation Bookings
-    function renderInstallationBookings() {
-        console.log('Rendering installation bookings:', installationBookings.length);
-        let filteredBookings = installationBookings;
-        if (currentSearchInstallation) {
-            filteredBookings = installationBookings.filter(booking =>
-                booking.phone.includes(currentSearchInstallation.replace(/\D/g, ''))
-            );
-        }
-        installationTable.innerHTML = '';
-        if (filteredBookings.length === 0) {
-            installationTable.innerHTML = `<tr><td colspan="9" class="text-center">No installation bookings found.</td></tr>`;
-            return;
-        }
-        filteredBookings.forEach(booking => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${new Date(booking.timestamp.toDate()).toLocaleDateString('en-GB')}</td>
-                <td>${booking.name || 'N/A'}</td>
-                <td>${booking.phone || 'N/A'}</td>
-                <td>${booking.address || 'N/A'}</td>
-                <td><input type="number" class="num-cameras-input" data-id="${booking.id}" value="${booking.numberOfCameras || ''}" min="1"></td>
-                <td><input type="number" class="price-input" data-id="${booking.id}" value="${booking.price || ''}" min="0"></td>
-                <td><input type="text" class="serial-number-input" data-id="${booking.id}" value="${booking.serialNumber || ''}"></td>
-                <td>
-                    <select class="status-select" data-id="${booking.id}">
-                        <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                        <option value="Completed" ${booking.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                        <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-                    </select>
-                </td>
-                <td><button class="save-btn" data-id="${booking.id}" ${booking.status === 'Completed' ? 'disabled' : ''}>Save</button></td>
-            `;
-            installationTable.appendChild(row);
-        });
-
-        // Attach event listeners to save buttons
-        document.querySelectorAll('.save-btn').forEach(button => {
-            button.addEventListener('click', async () => {
-                const bookingId = button.getAttribute('data-id');
-                await updateInstallationBooking(bookingId);
-            });
-        });
-    }
-
-    // Update Service Booking
-    async function updateServiceBooking(bookingId) {
-        console.log('Updating service booking:', bookingId);
-        const row = serviceTable.querySelector(`tr .save-btn[data-id="${bookingId}"]`).closest('tr');
-        const solution = row.querySelector('.solution-textarea').value.trim();
-        const amount = parseFloat(row.querySelector('.amount-input').value) || 0;
-        const status = row.querySelector('.status-select').value;
-        const booking = serviceBookings.find(b => b.id === bookingId);
-
-        if (!booking) {
-            console.error('Booking not found:', bookingId);
-            errorMessage.textContent = 'Booking not found.';
-            errorMessage.classList.add('active');
-            return;
-        }
-
-        try {
-            const bookingRef = doc(db, 'bookings', bookingId);
-            let updateData = { solution, amount, status };
-            if (status === 'Completed' && !booking.invoiceNumber) {
-                const invoiceNumber = await generateInvoiceNumber();
-                updateData.invoiceNumber = invoiceNumber;
+                return;
             }
 
-            await updateDoc(bookingRef, updateData);
-            console.log('Service booking updated:', bookingId, updateData);
+            const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, addDoc, query, where, orderBy, getDocs } = firebaseServices;
 
-            // Update local booking
-            Object.assign(booking, updateData);
+            // Auth Modal Functions
+            window.openAuthModal = function(mode = 'signin') {
+                signinForm.classList.toggle('hidden', mode !== 'signin');
+                signupForm.classList.toggle('hidden', mode !== 'signup');
+                authModal.classList.add('active');
+                signinResult.textContent = '';
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                console.log('Auth modal opened in', mode, 'mode');
+            };
 
-            // Send invoice email if completed
-            if (status === 'Completed' && updateData.invoiceNumber) {
-                await sendServiceInvoiceEmail({ ...booking, ...updateData });
+            window.closeAuthModal = function() {
+                authModal.classList.remove('active');
+                signinEmail.value = '';
+                signinPassword.value = '';
+                signupEmail.value = '';
+                signupPassword.value = '';
+                console.log('Auth modal closed');
+            };
+
+            window.toggleAuthForm = function(mode) {
+                signinForm.classList.toggle('hidden', mode !== 'signin');
+                signupForm.classList.toggle('hidden', mode !== 'signup');
+                signinResult.textContent = '';
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                console.log('Toggled to', mode, 'form');
+            };
+
+            // Cancel Modal Functions
+            window.closeCancelModal = function() {
+                cancelModal.classList.remove('active');
+                console.log('Cancel modal closed');
+            };
+
+            // Firebase Authentication State
+            onAuthStateChanged(auth, user => {
+                if (user) {
+                    console.log('User signed in:', user.email);
+                    authBtn.classList.add('hidden');
+                    signoutBtn.classList.remove('hidden');
+                    userEmail.textContent = user.email;
+                    historySection.classList.remove('hidden');
+                    form.classList.remove('hidden');
+                    loginPrompt.classList.add('hidden');
+                    loadBookingHistory(user.uid);
+                } else {
+                    console.log('No user signed in');
+                    authBtn.classList.remove('hidden');
+                    signoutBtn.classList.add('hidden');
+                    userEmail.textContent = '';
+                    historySection.classList.add('hidden');
+                    form.classList.add('hidden');
+                    loginPrompt.classList.remove('hidden');
+                    bookingHistory.innerHTML = '';
+                }
+            });
+
+            // Open Sign-In Modal
+            authBtn.addEventListener('click', () => openAuthModal('signin'));
+
+            // Sign In
+            signinBtn.addEventListener('click', () => {
+                const email = signinEmail.value.trim();
+                const password = signinPassword.value.trim();
+                signinResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+                if (!email) {
+                    document.getElementById('signin-email-error').classList.add('active');
+                    return;
+                }
+                if (!password) {
+                    document.getElementById('signin-password-error').classList.add('active');
+                    return;
+                }
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        signinResult.textContent = 'Signed in successfully!';
+                        signinResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Sign-in error:', error.code, error.message);
+                        signinResult.textContent = error.message;
+                        signinResult.style.color = '#dc2626';
+                    });
+            });
+
+            // Google Sign In
+            googleSigninBtn.addEventListener('click', () => {
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider)
+                    .then(() => {
+                        signinResult.textContent = 'Signed in with Google successfully!';
+                        signinResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Google Sign-in error:', error.code, error.message);
+                        signinResult.textContent = error.message;
+                        signinResult.style.color = '#dc2626';
+                    });
+            });
+
+            // Sign Up
+            signupBtn.addEventListener('click', () => {
+                const email = signupEmail.value.trim();
+                const password = signupPassword.value.trim();
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+                if (!email) {
+                    document.getElementById('signup-email-error').classList.add('active');
+                    return;
+                }
+                if (!password || password.length < 6) {
+                    document.getElementById('signup-password-error').classList.add('active');
+                    return;
+                }
+
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        signupResult.textContent = 'Account created successfully!';
+                        signupResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Sign-up error:', error.code, error.message);
+                        signupResult.textContent = error.message;
+                        signupResult.style.color = '#dc2626';
+                    });
+            });
+
+            // Sign Out
+            signoutBtn.addEventListener('click', () => {
+                signOut(auth)
+                    .then(() => {
+                        console.log('User signed out');
+                    })
+                    .catch(error => {
+                        console.error('Sign-out error:', error.code, error.message);
+                        alert('Error signing out: ' + error.message);
+                    });
+            });
+
+            // Load Booking History
+            function loadBookingHistory(uid) {
+                console.log('Loading installation booking history for user:', uid);
+                if (!uid) {
+                    console.error('No user ID provided');
+                    bookingHistory.innerHTML = '<tr><td colspan="8" class="text-center text-red-600">Error: Please sign in to view history.</td></tr>';
+                    return;
+                }
+
+                const q = query(collection(db, 'installations'), where('userId', '==', uid), orderBy('timestamp', 'desc'));
+                getDocs(q)
+                    .then(querySnapshot => {
+                        console.log('Firestore query returned', querySnapshot.size, 'documents');
+                        bookingHistory.innerHTML = `
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Installation Type</th>
+                                    <th>No. of Cameras</th>
+                                    <th>Preferred Date</th>
+                                    <th>Comments</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        `;
+                        if (querySnapshot.empty) {
+                            bookingHistory.innerHTML += '<tr><td colspan="8" class="text-center text-gray-700">No installation bookings found.</td></tr>';
+                            return;
+                        }
+                        querySnapshot.forEach(doc => {
+                            const booking = doc.data();
+                            console.log('Installation booking document:', booking);
+                            const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
+                            const preferredDate = booking.preferredDate ? new Date(booking.preferredDate).toLocaleDateString() : 'N/A';
+                            const statusClass = booking.status === 'Completed' ? 'status-completed' :
+                                               booking.status === 'Pending' ? 'status-pending' :
+                                               booking.status === 'Cancelled' ? 'status-cancelled' : '';
+                            bookingHistory.innerHTML += `
+                                <tr class="${statusClass}">
+                                    <td>${date}</td>
+                                    <td>${booking.name || 'N/A'}</td>
+                                    <td>${booking.phone || 'N/A'}</td>
+                                    <td>${booking.installationType || 'N/A'}</td>
+                                    <td>${booking.numCameras || 'N/A'}</td>
+                                    <td>${preferredDate}</td>
+                                    <td>${booking.comments || 'N/A'}</td>
+                                    <td>${booking.status || 'Pending'}</td>
+                                </tr>
+                            `;
+                        });
+                        bookingHistory.innerHTML += '</tbody>';
+                    })
+                    .catch(error => {
+                        console.error('Firestore query error:', error.code, error.message);
+                        bookingHistory.innerHTML = `<tr><td colspan="8" class="text-center text-red-600">Error loading history: ${error.message}</td></tr>`;
+                    });
             }
 
-            successMessage.textContent = 'Service booking updated successfully!';
-            successMessage.classList.add('active');
-            errorMessage.classList.remove('active');
+            // Preview button
+            previewBtn.addEventListener('click', () => {
+                console.log('Preview button clicked');
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                result.classList.remove('active');
 
-            // Refresh table
-            renderServiceBookings();
+                // Validate inputs
+                let hasError = false;
+                const name = document.getElementById('name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const installationType = document.getElementById('installationType').value;
+                const numCameras = document.getElementById('numCameras').value;
+                const preferredDate = document.getElementById('preferredDate').value;
+                const comments = document.getElementById('comments').value.trim();
 
-            setTimeout(() => {
-                successMessage.classList.remove('active');
-            }, 3000);
-        } catch (error) {
-            console.error('Update service booking error:', error);
-            errorMessage.textContent = `Error updating service booking: ${error.message}`;
-            errorMessage.classList.add('active');
-            successMessage.classList.remove('active');
-        }
-    }
+                if (!name) {
+                    document.getElementById('name-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!phone || !/^[0-9]{10}$/.test(phone)) {
+                    document.getElementById('phone-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    document.getElementById('email-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!address) {
+                    document.getElementById('address-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!installationType) {
+                    document.getElementById('installationType-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!numCameras || numCameras < 1) {
+                    document.getElementById('numCameras-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!preferredDate) {
+                    document.getElementById('preferredDate-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!comments) {
+                    document.getElementById('comments-error').classList.add('active');
+                    hasError = true;
+                }
 
-    // Update Installation Booking
-    async function updateInstallationBooking(bookingId) {
-        console.log('Updating installation booking:', bookingId);
-        const row = installationTable.querySelector(`tr .save-btn[data-id="${bookingId}"]`).closest('tr');
-        const numberOfCameras = parseInt(row.querySelector('.num-cameras-input').value) || 0;
-        const price = parseFloat(row.querySelector('.price-input').value) || 0;
-        const serialNumber = row.querySelector('.serial-number-input').value.trim();
-        const status = row.querySelector('.status-select').value;
-        const booking = installationBookings.find(b => b.id === bookingId);
+                if (hasError) {
+                    console.log('Validation errors detected');
+                    return;
+                }
 
-        if (!booking) {
-            console.error('Booking not found:', bookingId);
-            errorMessage.textContent = 'Booking not found.';
-            errorMessage.classList.add('active');
-            return;
-        }
+                // Show confirmation modal
+                confirmationModal.classList.add('active');
+                console.log('Confirmation modal displayed');
+            });
 
-        try {
-            const bookingRef = doc(db, 'installation_bookings', bookingId);
-            let updateData = { numberOfCameras, price, serialNumber, status };
-            if (status === 'Completed' && !booking.invoiceNumber) {
-                const invoiceNumber = await generateInvoiceNumber();
-                updateData.invoiceNumber = invoiceNumber;
-            }
+            // Agree button (Firestore storage only)
+            agreeBtn.addEventListener('click', async () => {
+                console.log('Agree & Proceed button clicked');
+                const user = auth.currentUser;
+                if (!user) {
+                    console.error('No user signed in');
+                    result.textContent = 'Error: Please sign in to submit a booking.';
+                    result.style.color = '#dc2626';
+                    result.classList.add('active');
+                    confirmationModal.classList.remove('active');
+                    openAuthModal('signin');
+                    return;
+                }
 
-            await updateDoc(bookingRef, updateData);
-            console.log('Installation booking updated:', bookingId, updateData);
+                const bookingData = {
+                    name: document.getElementById('name').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    address: document.getElementById('address').value.trim(),
+                    installationType: document.getElementById('installationType').value,
+                    numCameras: parseInt(document.getElementById('numCameras').value),
+                    preferredDate: document.getElementById('preferredDate').value,
+                    comments: document.getElementById('comments').value.trim(),
+                    status: 'Pending',
+                    solution: '',
+                    amount: 0
+                };
+                console.log('Form data:', bookingData);
 
-            // Update local booking
-            Object.assign(booking, updateData);
+                try {
+                    // Store in Firestore
+                    const docRef = await addDoc(collection(db, 'installations'), {
+                        userId: user.uid,
+                        ...bookingData,
+                        timestamp: new Date()
+                    });
+                    console.log('Booking stored in Firestore for user:', user.uid, 'Doc ID:', docRef.id);
 
-            // Send invoice email if completed
-            if (status === 'Completed' && updateData.invoiceNumber) {
-                await sendInstallationInvoiceEmail({ ...booking, ...updateData });
-            }
+                    // Show success message and redirect
+                    result.textContent = 'Booking submitted successfully!';
+                    result.style.color = '#16a34a';
+                    result.classList.add('active');
+                    form.reset();
+                    confirmationModal.classList.remove('active');
+                    setTimeout(() => {
+                        window.location.href = 'thankyou.html';
+                        console.log('Redirecting to thankyou.html');
+                    }, 500);
+                } catch (error) {
+                    console.error('Submission error:', error.message);
+                    result.textContent = `Error: ${error.message}`;
+                    result.style.color = '#dc2626';
+                    result.classList.add('active');
+                    confirmationModal.classList.remove('active');
+                }
+            });
 
-            successMessage.textContent = 'Installation booking updated successfully!';
-            successMessage.classList.add('active');
-            errorMessage.classList.remove('active');
-
-            // Refresh table
-            renderInstallationBookings();
-
-            setTimeout(() => {
-                successMessage.classList.remove('active');
-            }, 3000);
-        } catch (error) {
-            console.error('Update installation booking error:', error);
-            errorMessage.textContent = `Error updating installation booking: ${error.message}`;
-            errorMessage.classList.add('active');
-            successMessage.classList.remove('active');
-        }
-    }
-
-    // Main Tab Switching
-    mainTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            mainTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentMainTab = tab.getAttribute('data-main-tab');
-            document.getElementById('service-content').classList.toggle('hidden', currentMainTab !== 'service');
-            document.getElementById('installation-content').classList.toggle('hidden', currentMainTab !== 'installation');
-            console.log('Switched to main tab:', currentMainTab);
+            // Cancel button
+            cancelBtn.addEventListener('click', () => {
+                console.log('Cancel button clicked');
+                confirmationModal.classList.remove('active');
+                cancelModal.classList.add('active');
+                console.log('Cancel modal displayed');
+            });
         });
-    });
-
-    // Sub Tab Switching (Service)
-    subTabsService.forEach(tab => {
-        tab.addEventListener('click', () => {
-            subTabsService.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentSubTabService = tab.getAttribute('data-tab');
-            console.log('Switched to service sub-tab:', currentSubTabService);
-            loadServiceBookings();
-        });
-    });
-
-    // Sub Tab Switching (Installation)
-    subTabsInstallation.forEach(tab => {
-        tab.addEventListener('click', () => {
-            subTabsInstallation.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentSubTabInstallation = tab.getAttribute('data-tab');
-            console.log('Switched to installation sub-tab:', currentSubTabInstallation);
-            loadInstallationBookings();
-        });
-    });
-
-    // Search Service Bookings
-    searchBtnService.addEventListener('click', () => {
-        currentSearchService = phoneSearchService.value.trim();
-        console.log('Searching service bookings with phone:', currentSearchService);
-        renderServiceBookings();
-    });
-
-    // Search Installation Bookings
-    searchBtnInstallation.addEventListener('click', () => {
-        currentSearchInstallation = phoneSearchInstallation.value.trim();
-        console.log('Searching installation bookings with phone:', currentSearchInstallation);
-        renderInstallationBookings();
-    });
-
-    // Debounced search on input
-    phoneSearchService.addEventListener('input', debounce(() => {
-        currentSearchService = phoneSearchService.value.trim();
-        console.log('Debounced search service bookings with phone:', currentSearchService);
-        renderServiceBookings();
-    }, 500));
-
-    phoneSearchInstallation.addEventListener('input', debounce(() => {
-        currentSearchInstallation = phoneSearchInstallation.value.trim();
-        console.log('Debounced search installation bookings with phone:', currentSearchInstallation);
-        renderInstallationBookings();
-    }, 500));
-});
-</script>
+    </script>
 </body>
 </html>
