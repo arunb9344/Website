@@ -457,7 +457,20 @@
         }
         .history-table td {
             font-size: 0.875rem;
-            color: #374151;
+        }
+        .status-completed td {
+            color: #16a34a;
+        }
+        .status-pending td {
+            color: #dd8d04;
+        }
+        .status-cancelled td {
+            color: #dc2626;
+        }
+        .status-completed td:last-child,
+        .status-pending td:last-child,
+        .status-cancelled td:last-child {
+            font-weight: 700;
         }
         @media (max-width: 640px) {
             .history-table {
@@ -492,29 +505,6 @@
                 font-size: 0.875rem;
             }
         }
-        /* Status-based coloring for booking history table */
-.history-table tr td:last-child {
-    text-transform: capitalize; /* Ensure consistent casing for status */
-}
-.history-table tr td:last-child:where(:not(:empty)) {
-    font-weight: 500; /* Optional: Make status text slightly bolder for clarity */
-}
-.history-table tr td:last-child:not(:empty) + td,
-.history-table tr td:last-child:not(:empty) ~ td {
-    color: inherit; /* Reset to default for safety */
-}
-.history-table tr td:last-child:not(:empty)[data-status="Completed"] ~ td,
-.history-table tr td:last-child:not(:empty)[data-status="Completed"] {
-    color: #16a34a; /* Green for Completed */
-}
-.history-table tr td:last-child:not(:empty)[data-status="Pending"] ~ td,
-.history-table tr td:last-child:not(:empty)[data-status="Pending"] {
-    color: #d97706; /* Yellow for Pending */
-}
-.history-table tr td:last-child:not(:empty)[data-status="Cancelled"] ~ td,
-.history-table tr td:last-child:not(:empty)[data-status="Cancelled"] {
-    color: #dc2626; /* Red for Cancelled */
-}
     </style>
 </head>
 <body class="font-sans">
@@ -573,7 +563,7 @@
                 <span>Packages</span>
             </a>
             <a href="Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-   4.5 1.253"></path></svg>
                 <span>Blog</span>
             </a>
             <a href="about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
@@ -1031,8 +1021,11 @@
                             const booking = doc.data();
                             console.log('Booking document:', booking);
                             const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
+                            const statusClass = booking.status === 'Completed' ? 'status-completed' :
+                                               booking.status === 'Pending' ? 'status-pending' :
+                                               booking.status === 'Cancelled' ? 'status-cancelled' : '';
                             bookingHistory.innerHTML += `
-                                <tr>
+                                <tr class="${statusClass}">
                                     <td>${date}</td>
                                     <td>${booking.name || 'N/A'}</td>
                                     <td>${booking.phone || 'N/A'}</td>
