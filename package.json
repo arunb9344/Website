@@ -1,0 +1,16 @@
+{
+  "name": "eyetech-securities",
+  "version": "1.0.0",
+  "description": "EyeTech Securities admin panel with Brevo email and PDF invoice generation",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@getbrevo/brevo": "^2.2.0",
+    "pdfkit": "^0.15.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
