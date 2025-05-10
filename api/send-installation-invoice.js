@@ -102,21 +102,22 @@ const generatePDF = (booking) => {
         .fontSize(10)
         .font('Helvetica')
         .text(`Number of Cameras: ${booking.numCameras}`, 50, rowTop + 55)
-        .text(`Serial Number: ${booking.serialNumber}`, 50, rowTop + 70);
+        .text(`Serial Number: ${booking.serialNumber}`, 50, rowTop + 70)
+        .text(`Passwords: ${booking.passwords || 'N/A'}`, 50, rowTop + 85); // Added passwords field
 
       // Terms & Conditions
       doc
         .fontSize(12)
         .font('Helvetica-Bold')
         .fillColor('#333333')
-        .text('Warranties & Services', 50, rowTop + 135)
+        .text('Warranties & Services', 50, rowTop + 150) // Adjusted position to accommodate new field
         .fontSize(10)
         .font('Helvetica')
-        .text('• 2 Years Manufacturing Warranty for Camera, DVR, SMPS, POE, NVR.', 50, rowTop + 155)
-        .text('• 3 Years Manufacturing Warranty for Hard Disk above 1TB.', 50, rowTop + 170)
-        .text('• 2 Years Manufacturing Warranty for Hard Disk above 500GB HDD', 50, rowTop + 185)
-        .text('• 1 Year Manufacturer Warranty for Biometrics.', 50, rowTop + 200)
-        .text('• 1 Year Free Service for CCTV Camera System.', 50, rowTop + 215);
+        .text('• 2 Years Manufacturing Warranty for Camera, DVR, SMPS, POE, NVR.', 50, rowTop + 170)
+        .text('• 3 Years Manufacturing Warranty for Hard Disk above 1TB.', 50, rowTop + 185)
+        .text('• 2 Years Manufacturing Warranty for Hard Disk above 500GB HDD', 50, rowTop + 200)
+        .text('• 1 Year Manufacturer Warranty for Biometrics.', 50, rowTop + 215)
+        .text('• 1 Year Free Service for CCTV Camera System.', 50, rowTop + 230);
 
       // Footer
       doc
@@ -140,7 +141,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { toEmail, customerName, invoiceNumber, invoiceDate, numCameras, price, serialNumber, address, installationType, preferredDate, comments, phone } = req.body;
+  const { toEmail, customerName, invoiceNumber, invoiceDate, numCameras, price, serialNumber, passwords, address, installationType, preferredDate, comments, phone } = req.body;
 
   // Validate request body
   if (!toEmail || !customerName || !invoiceNumber || !invoiceDate || !numCameras || !price || !serialNumber || !address || !installationType) {
@@ -157,6 +158,7 @@ export default async function handler(req, res) {
       numCameras: parseInt(numCameras),
       price: parseFloat(price),
       serialNumber,
+      passwords, // Added passwords field
       address,
       installationType,
       comments,
@@ -181,6 +183,7 @@ export default async function handler(req, res) {
       numCameras: parseInt(numCameras),
       price: parseFloat(price).toFixed(2),
       serialNumber,
+      passwords: passwords || 'N/A', // Added passwords field
       address,
       installationType,
       preferredDate: preferredDate || 'N/A',
