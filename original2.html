@@ -1095,8 +1095,8 @@ const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o
 let serviceBookings = [];
 let installationBookings = [];
 let currentMainTab = localStorage.getItem('currentMainTab') || 'service';
-let currentSubTabService = localStorage.getItem('currentSubTabService') || 'pending';
-let currentSubTabInstallation = localStorage.getItem('currentSubTabInstallation') || 'pending';
+let currentSubTabService = 'pending'; // Always default to pending on refresh
+let currentSubTabInstallation = 'pending'; // Always default to pending on refresh
 let currentSearchService = '';
 let currentSearchInstallation = '';
 
@@ -1610,14 +1610,12 @@ function renderInstallationBookings() {
 function switchToPendingTab() {
     if (currentMainTab === 'service') {
         currentSubTabService = 'pending';
-        localStorage.setItem('currentSubTabService', 'pending');
         subTabsService.forEach(tab => {
             tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
         });
         loadServiceBookings();
     } else {
         currentSubTabInstallation = 'pending';
-        localStorage.setItem('currentSubTabInstallation', 'pending');
         subTabsInstallation.forEach(tab => {
             tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
         });
@@ -1756,9 +1754,14 @@ mainTabs.forEach(tab => {
         document.getElementById('service-content').classList.toggle('hidden', currentMainTab !== 'service');
         document.getElementById('installation-content').classList.toggle('hidden', currentMainTab !== 'installation');
         console.log('Switched to main tab:', currentMainTab);
+        // Reset sub-tab to pending when switching main tabs
         if (currentMainTab === 'service') {
+            currentSubTabService = 'pending';
+            subTabsService.forEach(t => t.classList.toggle('active', t.getAttribute('data-tab') === 'pending'));
             loadServiceBookings();
         } else {
+            currentSubTabInstallation = 'pending';
+            subTabsInstallation.forEach(t => t.classList.toggle('active', t.getAttribute('data-tab') === 'pending'));
             loadInstallationBookings();
         }
     });
@@ -1770,7 +1773,6 @@ subTabsService.forEach(tab => {
         subTabsService.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         currentSubTabService = tab.getAttribute('data-tab');
-        localStorage.setItem('currentSubTabService', currentSubTabService);
         console.log('Switched to service sub-tab:', currentSubTabService);
         loadServiceBookings();
     });
@@ -1782,7 +1784,6 @@ subTabsInstallation.forEach(tab => {
         subTabsInstallation.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         currentSubTabInstallation = tab.getAttribute('data-tab');
-        localStorage.setItem('currentSubTabInstallation', currentSubTabInstallation);
         console.log('Switched to installation sub-tab:', currentSubTabInstallation);
         loadInstallationBookings();
     });
