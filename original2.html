@@ -1066,8 +1066,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Constants ---
     const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o1', 'XuTILJTW6xf0fmSXXjQtRAD5xdH3'];
     const bookingCache = {
-        service: { data: [], lastUpdated: null },
-        installation: { data: [], lastUpdated: null }
+        service: { pending: [], completed: [], cancelled: [], all: [], lastUpdated: {} },
+        installation: { pending: [], completed: [], cancelled: [], all: [], lastUpdated: {} }
     };
 
     // --- State ---
@@ -1142,6 +1142,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Table Rendering ---
     function renderTable(table, bookings, type, search) {
+        console.log(`Rendering ${type} table with ${bookings.length} bookings, search: ${search}`);
         const filteredBookings = search ? bookings.filter(booking => booking.phone.includes(search.replace(/\D/g, ''))) : bookings;
         const fragment = document.createDocumentFragment();
         table.innerHTML = '';
@@ -1202,22 +1203,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Booking Management ---
-    async function loadBookings(type) {
+    async function loadBookings(type, subTab) {
+        console.log(`Loading ${type} bookings for sub-tab: ${subTab}`);
         const cache = bookingCache[type];
-        if (cache.lastUpdated && Date.now() - cache.lastUpdated < 60000) {
-            return cache.data;
+        const cacheKey = subTab.toLowerCase();
+        if (cache.lastUpdated[cacheKey] && Date.now() - cache.lastUpdated[cacheKey] < 60000) {
+            console.log(`Returning cached ${type} bookings for ${cacheKey}`);
+            return cache[cacheKey];
         }
 
         const collectionName = type === 'service' ? 'bookings' : 'installations';
-        const subTab = type === 'service' ? currentSubTabService : currentSubTabInstallation;
         try {
             let q = subTab === 'all'
                 ? query(collection(db, collectionName), orderBy('timestamp', 'desc'))
                 : query(collection(db, collectionName), where('status', '==', subTab.charAt(0).toUpperCase() + subTab.slice(1)), orderBy('timestamp', 'desc'));
             const querySnapshot = await getDocs(q);
-            cache.data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            cache.lastUpdated = Date.now();
-            return cache.data;
+            cache[cacheKey] = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            cache.lastUpdated[cacheKey] = Date.now();
+            console.log(`Loaded ${cache[cacheKey].length} ${type} bookings for ${cacheKey}`);
+            return cache[cacheKey];
         } catch (error) {
             console.error(`${type} Firestore query error:`, error);
             const table = type === 'service' ? elements.serviceTable : elements.installationTable;
@@ -1350,7 +1354,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function updateBooking(bookingId, type, row) {
         const isService = type === 'service';
-        const bookings = isService ? bookingCache.service.data : bookingCache.installation.data;
+        const bookings = isService ? bookingCache.service[currentSubTabService.toLowerCase()] : bookingCache.installation[currentSubTabInstallation.toLowerCase()];
         const booking = bookings.find(b => b.id === bookingId);
 
         if (!booking) {
@@ -1390,6 +1394,13 @@ document.addEventListener('DOMContentLoaded', () => {
             await updateDoc(bookingRef, updateData);
             Object.assign(booking, updateData);
 
+            // Invalidate cache for all sub-tabs to ensure fresh data
+            const cache = isService ? bookingCache.service : bookingCache.installation;
+            ['pending', 'completed', 'cancelled', 'all'].forEach(key => {
+                cache[key] = [];
+                cache.lastUpdated[key] = null;
+            });
+
             if (shouldSendEmail) {
                 await (isService ? sendServiceInvoiceEmail : sendInstallationInvoiceEmail)(booking);
             }
@@ -1412,6 +1423,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Tab Management ---
     function initializeTabs() {
+        console.log('Initializing tabs with mainTab:', currentMainTab, 'subTab:', currentMainTab === 'service' ? currentSubTabService : currentSubTabInstallation);
         elements.mainTabs.forEach(tab => {
             tab.classList.toggle('active', tab.getAttribute('data-main-tab') === currentMainTab);
         });
@@ -1427,23 +1439,29 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeTabs();
 
     function switchToPendingTab() {
+        console.log(`Switching to Pending tab for ${currentMainTab}`);
         if (currentMainTab === 'service') {
             currentSubTabService = 'pending';
             elements.subTabsService.forEach(tab => {
                 tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
             });
-            renderTable(elements.serviceTable, bookingCache.service.data, 'service', currentSearchService);
+            loadBookings('service', 'pending').then(bookings => {
+                renderTable(elements.serviceTable, bookings, 'service', currentSearchService);
+            });
         } else {
             currentSubTabInstallation = 'pending';
             elements.subTabsInstallation.forEach(tab => {
                 tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
             });
-            renderTable(elements.installationTable, bookingCache.installation.data, 'installation', currentSearchInstallation);
+            loadBookings('installation', 'pending').then(bookings => {
+                renderTable(elements.installationTable, bookings, 'installation', currentSearchInstallation);
+            });
         }
     }
 
     // --- Authentication ---
     onAuthStateChanged(auth, user => {
+        console.log('Auth state changed:', user ? `User signed in: ${user.email}, UID: ${user.uid}` : 'No user signed in');
         if (user && ADMIN_UIDS.includes(user.uid)) {
             elements.authBtn.classList.add('hidden');
             elements.signoutBtn.classList.remove('hidden');
@@ -1451,13 +1469,23 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.adminContent.classList.remove('hidden');
             elements.loginPrompt.classList.add('hidden');
             elements.errorMessage.classList.remove('active');
-            loadBookings(currentMainTab).then(bookings => {
-                renderTable(
-                    currentMainTab === 'service' ? elements.serviceTable : elements.installationTable,
-                    bookings,
-                    currentMainTab,
-                    currentMainTab === 'service' ? currentSearchService : currentSearchInstallation
-                );
+
+            // Load both service and installation bookings to ensure all tabs are populated
+            Promise.all([
+                loadBookings('service', currentSubTabService).then(bookings => {
+                    if (currentMainTab === 'service') {
+                        renderTable(elements.serviceTable, bookings, 'service', currentSearchService);
+                    }
+                }),
+                loadBookings('installation', currentSubTabInstallation).then(bookings => {
+                    if (currentMainTab === 'installation') {
+                        renderTable(elements.installationTable, bookings, 'installation', currentSearchInstallation);
+                    }
+                })
+            ]).catch(error => {
+                console.error('Error loading initial bookings:', error);
+                elements.errorMessage.textContent = `Error loading bookings: ${error.message}`;
+                elements.errorMessage.classList.add('active');
             });
         } else if (user) {
             elements.authBtn.classList.add('hidden');
@@ -1587,6 +1615,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Tab and Search Events ---
     elements.mainTabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            console.log('Switching main tab to:', tab.getAttribute('data-main-tab'));
             elements.mainTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             currentMainTab = tab.getAttribute('data-main-tab');
@@ -1598,7 +1627,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const subTab = currentMainTab === 'service' ? currentSubTabService : currentSubTabInstallation;
             subTabs.forEach(t => t.classList.toggle('active', t.getAttribute('data-tab') === subTab));
 
-            loadBookings(currentMainTab).then(bookings => {
+            loadBookings(currentMainTab, subTab).then(bookings => {
                 renderTable(
                     currentMainTab === 'service' ? elements.serviceTable : elements.installationTable,
                     bookings,
@@ -1611,10 +1640,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     elements.subTabsService.forEach(tab => {
         tab.addEventListener('click', () => {
+            console.log('Switching service sub-tab to:', tab.getAttribute('data-tab'));
             elements.subTabsService.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             currentSubTabService = tab.getAttribute('data-tab');
-            loadBookings('service').then(bookings => {
+            loadBookings('service', currentSubTabService).then(bookings => {
                 renderTable(elements.serviceTable, bookings, 'service', currentSearchService);
             });
         });
@@ -1622,10 +1652,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     elements.subTabsInstallation.forEach(tab => {
         tab.addEventListener('click', () => {
+            console.log('Switching installation sub-tab to:', tab.getAttribute('data-tab'));
             elements.subTabsInstallation.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
             currentSubTabInstallation = tab.getAttribute('data-tab');
-            loadBookings('installation').then(bookings => {
+            loadBookings('installation', currentSubTabInstallation).then(bookings => {
                 renderTable(elements.installationTable, bookings, 'installation', currentSearchInstallation);
             });
         });
@@ -1633,22 +1664,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     elements.searchBtnService.addEventListener('click', () => {
         currentSearchService = elements.phoneSearchService.value.trim();
-        renderTable(elements.serviceTable, bookingCache.service.data, 'service', currentSearchService);
+        console.log('Searching service bookings with phone:', currentSearchService);
+        renderTable(elements.serviceTable, bookingCache.service[currentSubTabService.toLowerCase()], 'service', currentSearchService);
     });
 
     elements.searchBtnInstallation.addEventListener('click', () => {
         currentSearchInstallation = elements.phoneSearchInstallation.value.trim();
-        renderTable(elements.installationTable, bookingCache.installation.data, 'installation', currentSearchInstallation);
+        console.log('Searching installation bookings with phone:', currentSearchInstallation);
+        renderTable(elements.installationTable, bookingCache.installation[currentSubTabInstallation.toLowerCase()], 'installation', currentSearchInstallation);
     });
 
     elements.phoneSearchService.addEventListener('input', debounce(() => {
         currentSearchService = elements.phoneSearchService.value.trim();
-        renderTable(elements.serviceTable, bookingCache.service.data, 'service', currentSearchService);
+        console.log('Debounced search service bookings with phone:', currentSearchService);
+        renderTable(elements.serviceTable, bookingCache.service[currentSubTabService.toLowerCase()], 'service', currentSearchService);
     }, 500));
 
     elements.phoneSearchInstallation.addEventListener('input', debounce(() => {
         currentSearchInstallation = elements.phoneSearchInstallation.value.trim();
-        renderTable(elements.installationTable, bookingCache.installation.data, 'installation', currentSearchInstallation);
+        console.log('Debounced search installation bookings with phone:', currentSearchInstallation);
+        renderTable(elements.installationTable, bookingCache.installation[currentSubTabInstallation.toLowerCase()], 'installation', currentSearchInstallation);
     }, 500));
 });
 </script>
