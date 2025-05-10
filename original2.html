@@ -927,19 +927,30 @@
     </footer>
 
     <script>
-document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded');
 
-    // Detect keypad opening on mobile
+    // Detect keypad opening on mobile and ensure table is scrollable
     function handleKeyboardVisibility() {
         const inputs = document.querySelectorAll('.admin-table input, .admin-table textarea');
         inputs.forEach(input => {
             input.addEventListener('focus', () => {
                 document.body.classList.add('keyboard-active');
-                console.log('Keypad opened, body class added');
+                // Scroll table into view
+                const tableContainer = input.closest('.table-container');
+                if (tableContainer) {
+                    tableContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    // Ensure horizontal scrolling is possible
+                    tableContainer.style.overflowX = 'auto';
+                }
+                console.log('Keypad opened, body class added, table scrolled into view');
             });
             input.addEventListener('blur', () => {
                 document.body.classList.remove('keyboard-active');
+                const tableContainer = input.closest('.table-container');
+                if (tableContainer) {
+                    tableContainer.style.overflowX = 'auto'; // Maintain horizontal scrolling
+                }
                 console.log('Keypad closed, body class removed');
             });
         });
