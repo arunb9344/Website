@@ -845,21 +845,6 @@
         </div>
     </div>
 
-
-    <!-- Email Confirmation Modal -->
-<div id="email-confirm-modal" class="modal">
-    <div class="modal-content auth-modal-content relative">
-        <i class="fas fa-times-circle close-modal" onclick="closeEmailConfirmModal()"></i>
-        <h2 class="text-2xl font-bold text-center mb-6">Resend Invoice Email</h2>
-        <p class="text-center text-sm mb-6">This booking is already marked as Completed and has an invoice. Would you like to resend the invoice email?</p>
-        <div class="flex justify-center gap-4">
-            <button id="send-email-btn" class="auth-button py-2 px-4">Send Email</button>
-            <button id="dont-send-btn" class="auth-button py-2 px-4 bg-gray-600 hover:bg-gray-700">Don't Send</button>
-        </div>
-    </div>
-</div>
-
-
     <!-- Admin Section -->
     <section id="admin-section" class="py-12 md:py-16 bg-gray-100">
         <div class="container mx-auto px-4">
@@ -961,643 +946,659 @@
     </footer>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded');
+document.addEventListener('DOMContentLoaded', () => {
+console.log('DOM fully loaded');
 
-    // Detect keypad opening on mobile and ensure table is scrollable
-    function handleKeyboardVisibility() {
-        const inputs = document.querySelectorAll('.admin-table input, .admin-table textarea');
-        inputs.forEach(input => {
-            input.addEventListener('focus', () => {
-                document.body.classList.add('keyboard-active');
-                // Scroll table into view
-                const tableContainer = input.closest('.table-container');
-                if (tableContainer) {
-                    tableContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    // Ensure horizontal scrolling is possible
-                    tableContainer.style.overflowX = 'auto';
-                }
-                console.log('Keypad opened, body class added, table scrolled into view');
-            });
-            input.addEventListener('blur', () => {
-                document.body.classList.remove('keyboard-active');
-                const tableContainer = input.closest('.table-container');
-                if (tableContainer) {
-                    tableContainer.style.overflowX = 'auto'; // Maintain horizontal scrolling
-                }
-                console.log('Keypad closed, body class removed');
-            });
+// Detect keypad opening on mobile and ensure table is scrollable
+function handleKeyboardVisibility() {
+    const inputs = document.querySelectorAll('.admin-table input, .admin-table textarea');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            document.body.classList.add('keyboard-active');
+            // Scroll table into view
+            const tableContainer = input.closest('.table-container');
+            if (tableContainer) {
+                tableContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // Ensure horizontal scrolling is possible
+                tableContainer.style.overflowX = 'auto';
+            }
+            console.log('Keypad opened, body class added, table scrolled into view');
         });
-    }
-    handleKeyboardVisibility();
-
-    // Mobile menu toggle
-    window.toggleMenu = function() {
-        const menu = document.getElementById('mobile-menu');
-        if (menu) {
-            menu.classList.toggle('hidden');
-            console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
-        } else {
-            console.error('Mobile menu not found');
-        }
-    };
-
-    // Auth Modal Functions
-    window.openAuthModal = function(mode = 'signin') {
-        const signinForm = document.getElementById('signin-form');
-        const signupForm = document.getElementById('signup-form');
-        const authModal = document.getElementById('auth-modal');
-        signinForm.classList.toggle('hidden', mode !== 'signin');
-        signupForm.classList.toggle('hidden', mode !== 'signup');
-        authModal.classList.add('active');
-        document.getElementById('signin-result').textContent = '';
-        document.getElementById('signup-result').textContent = '';
-        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-        console.log('Auth modal opened in', mode, 'mode');
-    };
-
-    window.closeAuthModal = function() {
-        const authModal = document.getElementById('auth-modal');
-        authModal.classList.remove('active');
-        document.getElementById('signin-email').value = '';
-        document.getElementById('signin-password').value = '';
-        document.getElementById('signup-email').value = '';
-        document.getElementById('signup-password').value = '';
-        console.log('Auth modal closed');
-    };
-
-    window.toggleAuthForm = function(mode) {
-        const signinForm = document.getElementById('signin-form');
-        const signupForm = document.getElementById('signup-form');
-        signinForm.classList.toggle('hidden', mode !== 'signin');
-        signupForm.classList.toggle('hidden', mode !== 'signup');
-        document.getElementById('signin-result').textContent = '';
-        document.getElementById('signup-result').textContent = '';
-        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-        console.log('Toggled to', mode, 'form');
-    };
-
-
-// Email Confirm Modal Functions
-let emailConfirmResolve = null;
-
-window.openEmailConfirmModal = function() {
-    return new Promise((resolve) => {
-        const emailConfirmModal = document.getElementById('email-confirm-modal');
-        emailConfirmModal.classList.add('active');
-        emailConfirmResolve = resolve;
-        console.log('Email confirm modal opened');
+        input.addEventListener('blur', () => {
+            document.body.classList.remove('keyboard-active');
+            const tableContainer = input.closest('.table-container');
+            if (tableContainer) {
+                tableContainer.style.overflowX = 'auto'; // Maintain horizontal scrolling
+            }
+            console.log('Keypad closed, body class removed');
+        });
     });
+}
+handleKeyboardVisibility();
+
+// Mobile menu toggle
+window.toggleMenu = function() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) {
+        menu.classList.toggle('hidden');
+        console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
+    } else {
+        console.error('Mobile menu not found');
+    }
 };
 
-window.closeEmailConfirmModal = function() {
-    const emailConfirmModal = document.getElementById('email-confirm-modal');
-    emailConfirmModal.classList.remove('active');
-    if (emailConfirmResolve) {
-        emailConfirmResolve(false);
-        emailConfirmResolve = null;
-    }
-    console.log('Email confirm modal closed');
+// Auth Modal Functions
+window.openAuthModal = function(mode = 'signin') {
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    const authModal = document.getElementById('auth-modal');
+    signinForm.classList.toggle('hidden', mode !== 'signin');
+    signupForm.classList.toggle('hidden', mode !== 'signup');
+    authModal.classList.add('active');
+    document.getElementById('signin-result').textContent = '';
+    document.getElementById('signup-result').textContent = '';
+    document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+    console.log('Auth modal opened in', mode, 'mode');
 };
 
+window.closeAuthModal = function() {
+    const authModal = document.getElementById('auth-modal');
+    authModal.classList.remove('active');
+    document.getElementById('signin-email').value = '';
+    document.getElementById('signin-password').value = '';
+    document.getElementById('signup-email').value = '';
+    document.getElementById('signup-password').value = '';
+    console.log('Auth modal closed');
+};
 
-    // Elements
-    const authBtn = document.getElementById('auth-btn');
-    const signoutBtn = document.getElementById('signout-btn');
-    const userEmail = document.getElementById('user-email');
-    const adminContent = document.getElementById('admin-content');
-    const errorMessage = document.getElementById('error-message');
-    const successMessage = document.getElementById('success-message');
-    const serviceTable = document.getElementById('service-table').querySelector('tbody');
-    const installationTable = document.getElementById('installation-table').querySelector('tbody');
-    const phoneSearchService = document.getElementById('phone-search-service');
-    const searchBtnService = document.getElementById('search-btn-service');
-    const phoneSearchInstallation = document.getElementById('phone-search-installation');
-    const searchBtnInstallation = document.getElementById('search-btn-installation');
-    const mainTabs = document.querySelectorAll('.main-tab');
-    const subTabsService = document.querySelectorAll('#service-content .sub-tab');
-    const subTabsInstallation = document.querySelectorAll('#installation-content .sub-tab');
-    const signinBtn = document.getElementById('signin-btn');
-    const googleSigninBtn = document.getElementById('google-signin-btn');
-    const signupBtn = document.getElementById('signup-btn');
-    const signinEmail = document.getElementById('signin-email');
-    const signinPassword = document.getElementById('signin-password');
-    const signupEmail = document.getElementById('signup-email');
-    const signupPassword = document.getElementById('signup-password');
-    const signinResult = document.getElementById('signin-result');
-    const signupResult = document.getElementById('signup-result');
-    const loginPrompt = document.getElementById('login-prompt');
+window.toggleAuthForm = function(mode) {
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    signinForm.classList.toggle('hidden', mode !== 'signin');
+    signupForm.classList.toggle('hidden', mode !== 'signup');
+    document.getElementById('signin-result').textContent = '';
+    document.getElementById('signup-result').textContent = '';
+    document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+    console.log('Toggled to', mode, 'form');
+};
 
-    // Verify elements
-    const requiredElements = [
-        { id: 'auth-btn', element: authBtn },
-        { id: 'signout-btn', element: signoutBtn },
-        { id: 'user-email', element: userEmail },
-        { id: 'admin-content', element: adminContent },
-        { id: 'error-message', element: errorMessage },
-        { id: 'success-message', element: successMessage },
-        { id: 'service-table', element: serviceTable },
-        { id: 'installation-table', element: installationTable },
-        { id: 'phone-search-service', element: phoneSearchService },
-        { id: 'search-btn-service', element: searchBtnService },
-        { id: 'phone-search-installation', element: phoneSearchInstallation },
-        { id: 'search-btn-installation', element: searchBtnInstallation },
-        { id: 'signin-btn', element: signinBtn },
-        { id: 'google-signin-btn', element: googleSigninBtn },
-        { id: 'signup-btn', element: signupBtn },
-        { id: 'login-prompt', element: loginPrompt }
-    ];
+// Elements
+const authBtn = document.getElementById('auth-btn');
+const signoutBtn = document.getElementById('signout-btn');
+const userEmail = document.getElementById('user-email');
+const adminContent = document.getElementById('admin-content');
+const errorMessage = document.getElementById('error-message');
+const successMessage = document.getElementById('success-message');
+const serviceTable = document.getElementById('service-table').querySelector('tbody');
+const installationTable = document.getElementById('installation-table').querySelector('tbody');
+const phoneSearchService = document.getElementById('phone-search-service');
+const searchBtnService = document.getElementById('search-btn-service');
+const phoneSearchInstallation = document.getElementById('phone-search-installation');
+const searchBtnInstallation = document.getElementById('search-btn-installation');
+const mainTabs = document.querySelectorAll('.main-tab');
+const subTabsService = document.querySelectorAll('#service-content .sub-tab');
+const subTabsInstallation = document.querySelectorAll('#installation-content .sub-tab');
+const signinBtn = document.getElementById('signin-btn');
+const googleSigninBtn = document.getElementById('google-signin-btn');
+const signupBtn = document.getElementById('signup-btn');
+const signinEmail = document.getElementById('signin-email');
+const signinPassword = document.getElementById('signin-password');
+const signupEmail = document.getElementById('signup-email');
+const signupPassword = document.getElementById('signup-password');
+const signinResult = document.getElementById('signin-result');
+const signupResult = document.getElementById('signup-result');
+const loginPrompt = document.getElementById('login-prompt');
 
-    const missingElements = requiredElements.filter(item => !item.element);
-    if (missingElements.length > 0) {
-        console.error('Missing DOM elements:', missingElements.map(item => item.id));
-        errorMessage.textContent = 'Error: Page elements missing. Please reload.';
-        errorMessage.classList.add('active');
-        return;
-    }
+// Verify elements
+const requiredElements = [
+    { id: 'auth-btn', element: authBtn },
+    { id: 'signout-btn', element: signoutBtn },
+    { id: 'user-email', element: userEmail },
+    { id: 'admin-content', element: adminContent },
+    { id: 'error-message', element: errorMessage },
+    { id: 'success-message', element: successMessage },
+    { id: 'service-table', element: serviceTable },
+    { id: 'installation-table', element: installationTable },
+    { id: 'phone-search-service', element: phoneSearchService },
+    { id: 'search-btn-service', element: searchBtnService },
+    { id: 'phone-search-installation', element: phoneSearchInstallation },
+    { id: 'search-btn-installation', element: searchBtnInstallation },
+    { id: 'signin-btn', element: signinBtn },
+    { id: 'google-signin-btn', element: googleSigninBtn },
+    { id: 'signup-btn', element: signupBtn },
+    { id: 'login-prompt', element: loginPrompt }
+];
 
-    // Firebase Services
-    const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc, increment, getDoc, setDoc } = window.firebaseServices || {};
+const missingElements = requiredElements.filter(item => !item.element);
+if (missingElements.length > 0) {
+    console.error('Missing DOM elements:', missingElements.map(item => item.id));
+    errorMessage.textContent = 'Error: Page elements missing. Please reload.';
+    errorMessage.classList.add('active');
+    return;
+}
 
-    if (!auth || !db) {
-        console.error('Firebase services not initialized');
-        errorMessage.textContent = 'Error: Firebase not initialized. Please try again later.';
-        errorMessage.classList.add('active');
-        return;
-    }
+// Firebase Services
+const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, getDocs, query, orderBy, where, doc, updateDoc, increment, getDoc, setDoc } = window.firebaseServices || {};
 
-    // Admin UIDs
-    const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o1', 'XuTILJTW6xf0fmSXXjQtRAD5xdH3'];
+if (!auth || !db) {
+    console.error('Firebase services not initialized');
+    errorMessage.textContent = 'Error: Firebase not initialized. Please try again later.';
+    errorMessage.classList.add('active');
+    return;
+}
 
-    // Store bookings and current state
-    let serviceBookings = [];
-    let installationBookings = [];
-    let currentMainTab = 'service';
-    let currentSubTabService = 'pending';
-    let currentSubTabInstallation = 'pending';
-    let currentSearchService = '';
-    let currentSearchInstallation = '';
+// Admin UIDs
+const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o1', 'XuTILJTW6xf0fmSXXjQtRAD5xdH3'];
 
-    // Debounce function
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
+// Store bookings and current state
+let serviceBookings = [];
+let installationBookings = [];
+let currentMainTab = 'service';
+let currentSubTabService = 'pending';
+let currentSubTabInstallation = 'pending';
+let currentSearchService = '';
+let currentSearchInstallation = '';
+
+// Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
             clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
+            func(...args);
         };
-    }
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
 
-    // Generate Invoice Number
-    async function generateInvoiceNumber() {
-        const counterRef = doc(db, 'counters', 'invoice');
-        try {
-            const counterDoc = await getDoc(counterRef);
-            let currentCount;
-            if (!counterDoc.exists()) {
-                currentCount = 149;
-                await setDoc(counterRef, { count: currentCount });
-            } else {
-                currentCount = counterDoc.data().count || 149;
-            }
-            currentCount += 1;
-            const invoiceNumber = `INV-${currentCount.toString().padStart(6, '0')}`;
-            await setDoc(counterRef, { count: currentCount }, { merge: true });
-            console.log('Generated invoice number:', invoiceNumber);
-            return invoiceNumber;
-        } catch (error) {
-            console.error('Error generating invoice number:', error.code, error.message);
-            errorMessage.textContent = `Error generating invoice number: ${error.message}`;
-            errorMessage.classList.add('active');
-            throw error;
-        }
-    }
+// Custom Confirm Modal for Invoice Sending
+function createCustomConfirmModal(message) {
+    return new Promise((resolve) => {
+        const modal = document.createElement('div');
+        modal.className = 'modal';
+        modal.innerHTML = `
+            <div class="modal-content auth-modal-content relative">
+                <i class="fas fa-times-circle close-modal" onclick="this.closest('.modal').remove()"></i>
+                <h2 class="text-xl font-bold text-center mb-4">Invoice Confirmation</h2>
+                <p class="text-center mb-6">${message}</p>
+                <div class="flex justify-center gap-4">
+                    <button id="send-invoice-btn" class="auth-button py-2 px-4">Send Invoice</button>
+                    <button id="skip-sending-btn" class="py-2 px-4 rounded bg-gray-300 hover:bg-gray-400 text-gray-800">Skip Sending</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        modal.classList.add('active');
 
-    // Send Service Invoice Email
-    async function sendServiceInvoiceEmail(booking) {
-        console.log('Attempting to send service invoice email for booking:', booking);
-        if (!booking.email) {
-            console.warn('No email provided for booking:', booking.id);
-            errorMessage.textContent = 'Cannot send invoice: No email provided.';
-            errorMessage.classList.add('active');
-            return false;
-        }
+        const sendButton = modal.querySelector('#send-invoice-btn');
+        const skipButton = modal.querySelector('#skip-sending-btn');
+        const closeButton = modal.querySelector('.close-modal');
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(booking.email)) {
-            console.warn('Invalid email format for booking:', booking.id, 'Email:', booking.email);
-            errorMessage.textContent = 'Cannot send invoice: Invalid email format.';
-            errorMessage.classList.add('active');
-            return false;
-        }
+        sendButton.addEventListener('click', () => {
+            modal.remove();
+            resolve(true);
+        });
 
-        try {
-            const token = await auth.currentUser.getIdToken();
-            const response = await fetch('/api/send-invoice', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    toEmail: booking.email,
-                    customerName: booking.name || 'Customer',
-                    invoiceNumber: booking.invoiceNumber || 'N/A',
-                    invoiceDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('/').join('/'),
-                    amount: booking.amount || 0,
-                    issue: booking.issue || 'N/A',
-                    solution: booking.solution || 'N/A',
-                    address: booking.address || 'N/A',
-                    customerType: booking.customerType || 'N/A',
-                    comments: booking.comments || 'N/A'
-                })
-            });
+        skipButton.addEventListener('click', () => {
+            modal.remove();
+            resolve(false);
+        });
 
-            const result = await response.json();
-            console.log('Service API response:', response.status, result);
+        closeButton.addEventListener('click', () => {
+            modal.remove();
+            resolve(false);
+        });
+    });
+}
 
-            if (!response.ok) {
-                throw new Error(result.error || 'Failed to send service invoice email');
-            }
-
-            console.log('Service email sent successfully to:', booking.email);
-            successMessage.textContent = `Service invoice sent to ${booking.email}!`;
-            successMessage.classList.add('active');
-            errorMessage.classList.remove('active');
-
-            setTimeout(() => {
-                successMessage.classList.remove('active');
-            }, 3000);
-
-            return true;
-        } catch (error) {
-            console.error('Service email sending error:', error);
-            errorMessage.textContent = `Failed to send service invoice email: ${error.message}`;
-            errorMessage.classList.add('active');
-            successMessage.classList.remove('active');
-            return false;
-        }
-    }
-
-    // Send Installation Invoice Email
-    async function sendInstallationInvoiceEmail(booking) {
-        console.log('Attempting to send installation invoice email for booking:', booking);
-        if (!booking.email) {
-            console.warn('No email provided for booking:', booking.id);
-            errorMessage.textContent = 'Cannot send installation invoice: No email provided.';
-            errorMessage.classList.add('active');
-            return false;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(booking.email)) {
-            console.warn('Invalid email format for booking:', booking.id, 'Email:', booking.email);
-            errorMessage.textContent = 'Cannot send installation invoice: Invalid email format.';
-            errorMessage.classList.add('active');
-            return false;
-        }
-
-        try {
-            const token = await auth.currentUser.getIdToken();
-            const response = await fetch('/api/send-installation-invoice', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    toEmail: booking.email,
-                    customerName: booking.name || 'Customer',
-                    invoiceNumber: booking.invoiceNumber || 'N/A',
-                    invoiceDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('/').join('/'),
-                    numCameras: booking.numCameras || 0,
-                    price: booking.price || 0,
-                    serialNumber: booking.serialNumber || 'N/A',
-                    address: booking.address || 'N/A',
-                    installationType: booking.installationType || 'N/A',
-                    preferredDate: booking.preferredDate || 'N/A',
-                    comments: booking.comments || 'N/A',
-                    phone: booking.phone || 'N/A'
-                })
-            });
-
-            const result = await response.json();
-            console.log('Installation API response:', response.status, result);
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Failed to send installation invoice email');
-            }
-
-            console.log('Installation email sent successfully to:', booking.email);
-            successMessage.textContent = `Installation invoice sent to ${booking.email}!`;
-            successMessage.classList.add('active');
-            errorMessage.classList.remove('active');
-
-            setTimeout(() => {
-                successMessage.classList.remove('active');
-            }, 3000);
-
-            return true;
-        } catch (error) {
-            console.error('Installation email sending error:', error);
-            errorMessage.textContent = `Failed to send installation invoice email: ${error.message}`;
-            errorMessage.classList.add('active');
-            successMessage.classList.remove('active');
-            return false;
-        }
-    }
-
-    // Authentication State
-    onAuthStateChanged(auth, user => {
-        console.log('Auth state changed:', user ? `User signed in: ${user.email}, UID: ${user.uid}` : 'No user signed in');
-        if (user && ADMIN_UIDS.includes(user.uid)) {
-            console.log('Admin signed in:', user.email, 'UID:', user.uid);
-            authBtn.classList.add('hidden');
-            signoutBtn.classList.remove('hidden');
-            userEmail.textContent = user.email;
-            adminContent.classList.remove('hidden');
-            loginPrompt.classList.add('hidden');
-            errorMessage.classList.remove('active');
-            loadServiceBookings();
-            loadInstallationBookings();
-        } else if (user) {
-            console.log('Non-admin user signed in:', user.email, 'UID:', user.uid);
-            authBtn.classList.add('hidden');
-            signoutBtn.classList.remove('hidden');
-            userEmail.textContent = user.email;
-            adminContent.classList.add('hidden');
-            loginPrompt.classList.remove('hidden');
-            errorMessage.textContent = 'Unauthorized access. Admin privileges required.';
-            errorMessage.classList.add('active');
-            serviceTable.innerHTML = '';
-            installationTable.innerHTML = '';
+// Generate Invoice Number
+async function generateInvoiceNumber() {
+    const counterRef = doc(db, 'counters', 'invoice');
+    try {
+        const counterDoc = await getDoc(counterRef);
+        let currentCount;
+        if (!counterDoc.exists()) {
+            currentCount = 149;
+            await setDoc(counterRef, { count: currentCount });
         } else {
-            console.log('No user signed in');
-            authBtn.classList.remove('hidden');
-            signoutBtn.classList.add('hidden');
-            userEmail.textContent = '';
-            adminContent.classList.add('hidden');
-            loginPrompt.classList.remove('hidden');
-            errorMessage.textContent = 'Please sign in as admin to access the panel.';
-            errorMessage.classList.add('active');
-            serviceTable.innerHTML = '';
-            installationTable.innerHTML = '';
+            currentCount = counterDoc.data().count || 149;
         }
-    });
+        currentCount += 1;
+        const invoiceNumber = `INV-${currentCount.toString().padStart(6, '0')}`;
+        await setDoc(counterRef, { count: currentCount }, { merge: true });
+        console.log('Generated invoice number:', invoiceNumber);
+        return invoiceNumber;
+    } catch (error) {
+        console.error('Error generating invoice number:', error.code, error.message);
+        errorMessage.textContent = `Error generating invoice number: ${error.message}`;
+        errorMessage.classList.add('active');
+        throw error;
+    }
+}
 
-    // Open Sign-In Modal
-    authBtn.addEventListener('click', () => openAuthModal('signin'));
-
-    // Sign In
-    signinBtn.addEventListener('click', () => {
-        const email = signinEmail.value.trim();
-        const password = signinPassword.value.trim();
-        signinResult.textContent = '';
-        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-
-        if (!email) {
-            document.getElementById('signin-email-error').classList.add('active');
-            return;
-        }
-        if (!password) {
-            document.getElementById('signin-password-error').classList.add('active');
-            return;
-        }
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                signinResult.textContent = 'Signed in successfully!';
-                signinResult.style.color = '#16a34a';
-                closeAuthModal();
-            })
-            .catch(error => {
-                console.error('Sign-in error:', error.code, error.message);
-                signinResult.textContent = error.message;
-                signinResult.style.color = '#dc2626';
-            });
-    });
-
-    // Google Sign In
-    googleSigninBtn.addEventListener('click', () => {
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then(() => {
-                signinResult.textContent = 'Signed in with Google successfully!';
-                signinResult.style.color = '#16a34a';
-                closeAuthModal();
-            })
-            .catch(error => {
-                console.error('Google Sign-in error:', error.code, error.message);
-                signinResult.textContent = error.message;
-                signinResult.style.color = '#dc2626';
-            });
-    });
-
-    // Sign Up
-    signupBtn.addEventListener('click', () => {
-        const email = signupEmail.value.trim();
-        const password = signupPassword.value.trim();
-        signupResult.textContent = '';
-        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-
-        if (!email) {
-            document.getElementById('signup-email-error').classList.add('active');
-            return;
-        }
-        if (!password || password.length < 6) {
-            document.getElementById('signup-password-error').classList.add('active');
-            return;
-        }
-
-        createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                signupResult.textContent = 'Account created successfully!';
-                signupResult.style.color = '#16a34a';
-                closeAuthModal();
-            })
-            .catch(error => {
-                console.error('Sign-up error:', error.code, error.message);
-                signupResult.textContent = error.message;
-                signupResult.style.color = '#dc2626';
-            });
-    });
-
-    // Sign Out
-    signoutBtn.addEventListener('click', () => {
-        signOut(auth)
-            .then(() => {
-                console.log('Admin signed out');
-            })
-            .catch(error => {
-                console.error('Sign-out error:', error.code, error.message);
-                errorMessage.textContent = `Error signing out: ${error.message}`;
-                errorMessage.classList.add('active');
-            });
-    });
-
-    // Load Service Bookings
-    async function loadServiceBookings() {
-        console.log('Loading service bookings for tab:', currentSubTabService);
-        try {
-            let q;
-            if (currentSubTabService === 'all') {
-                q = query(collection(db, 'bookings'), orderBy('timestamp', 'desc'));
-            } else {
-                q = query(collection(db, 'bookings'), where('status', '==', currentSubTabService.charAt(0).toUpperCase() + currentSubTabService.slice(1)), orderBy('timestamp', 'desc'));
-            }
-            const querySnapshot = await getDocs(q);
-            console.log('Service Firestore query returned', querySnapshot.size, 'documents');
-            serviceBookings = [];
-            querySnapshot.forEach(doc => {
-                serviceBookings.push({ id: doc.id, ...doc.data() });
-            });
-            renderServiceBookings();
-        } catch (error) {
-            console.error('Service Firestore query error:', error.code, error.message);
-            serviceTable.innerHTML = `<tr><td colspan="10" class="text-center text-red-600">Error loading service bookings: ${error.message}</td></tr>`;
-            errorMessage.textContent = `Error loading service bookings: ${error.message}`;
-            errorMessage.classList.add('active');
-        }
+// Send Service Invoice Email
+async function sendServiceInvoiceEmail(booking) {
+    console.log('Attempting to send service invoice email for booking:', booking);
+    if (!booking.email) {
+        console.warn('No email provided for booking:', booking.id);
+        errorMessage.textContent = 'Cannot send invoice: No email provided.';
+        errorMessage.classList.add('active');
+        return false;
     }
 
-    // Load Installation Bookings
-    async function loadInstallationBookings() {
-        console.log('Loading installation bookings for tab:', currentSubTabInstallation);
-        try {
-            let q;
-            if (currentSubTabInstallation === 'all') {
-                q = query(collection(db, 'installations'), orderBy('timestamp', 'desc'));
-            } else {
-                q = query(collection(db, 'installations'), where('status', '==', currentSubTabInstallation.charAt(0).toUpperCase() + currentSubTabInstallation.slice(1)), orderBy('timestamp', 'desc'));
-            }
-            const querySnapshot = await getDocs(q);
-            console.log('Installation Firestore query returned', querySnapshot.size, 'documents');
-            installationBookings = [];
-            querySnapshot.forEach(doc => {
-                installationBookings.push({ id: doc.id, ...doc.data() });
-            });
-            renderInstallationBookings();
-        } catch (error) {
-            console.error('Installation Firestore query error:', error.code, error.message);
-            installationTable.innerHTML = `<tr><td colspan="9" class="text-center text-red-600">Error loading installation bookings: ${error.message}</td></tr>`;
-            errorMessage.textContent = `Error loading installation bookings: ${error.message}`;
-            errorMessage.classList.add('active');
-        }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(booking.email)) {
+        console.warn('Invalid email format for booking:', booking.id, 'Email:', booking.email);
+        errorMessage.textContent = 'Cannot send invoice: Invalid email format.';
+        errorMessage.classList.add('active');
+        return false;
     }
 
-    // Render Service Bookings
-    function renderServiceBookings() {
-        console.log('Rendering service bookings:', serviceBookings.length);
-        let filteredBookings = serviceBookings;
-        if (currentSearchService) {
-            filteredBookings = serviceBookings.filter(booking =>
-                booking.phone.includes(currentSearchService.replace(/\D/g, ''))
-            );
+    try {
+        const token = await auth.currentUser.getIdToken();
+        const response = await fetch('/api/send-invoice', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                toEmail: booking.email,
+                customerName: booking.name || 'Customer',
+                invoiceNumber: booking.invoiceNumber || 'N/A',
+                invoiceDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('/').join('/'),
+                amount: booking.amount || 0,
+                issue: booking.issue || 'N/A',
+                solution: booking.solution || 'N/A',
+                address: booking.address || 'N/A',
+                customerType: booking.customerType || 'N/A',
+                comments: booking.comments || 'N/A'
+            })
+        });
+
+        const result = await response.json();
+        console.log('Service API response:', response.status, result);
+
+        if (!response.ok) {
+            throw new Error(result.error || 'Failed to send service invoice email');
         }
+
+        console.log('Service email sent successfully to:', booking.email);
+        successMessage.textContent = `Service invoice sent to ${booking.email}!`;
+        successMessage.classList.add('active');
+        errorMessage.classList.remove('active');
+
+        setTimeout(() => {
+            successMessage.classList.remove('active');
+        }, 3000);
+
+        return true;
+    } catch (error) {
+        console.error('Service email sending error:', error);
+        errorMessage.textContent = `Failed to send service invoice email: ${error.message}`;
+        errorMessage.classList.add('active');
+        successMessage.classList.remove('active');
+        return false;
+    }
+}
+
+// Send Installation Invoice Email
+async function sendInstallationInvoiceEmail(booking) {
+    console.log('Attempting to send installation invoice email for booking:', booking);
+    if (!booking.email) {
+        console.warn('No email provided for booking:', booking.id);
+        errorMessage.textContent = 'Cannot send installation invoice: No email provided.';
+        errorMessage.classList.add('active');
+        return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(booking.email)) {
+        console.warn('Invalid email format for booking:', booking.id, 'Email:', booking.email);
+        errorMessage.textContent = 'Cannot send installation invoice: Invalid email format.';
+        errorMessage.classList.add('active');
+        return false;
+    }
+
+    try {
+        const token = await auth.currentUser.getIdToken();
+        const response = await fetch('/api/send-installation-invoice', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                toEmail: booking.email,
+                customerName: booking.name || 'Customer',
+                invoiceNumber: booking.invoiceNumber || 'N/A',
+                invoiceDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('/').join('/'),
+                numCameras: booking.numCameras || 0,
+                price: booking.price || 0,
+                serialNumber: booking.serialNumber || 'N/A',
+                address: booking.address || 'N/A',
+                installationType: booking.installationType || 'N/A',
+                preferredDate: booking.preferredDate || 'N/A',
+                comments: booking.comments || 'N/A',
+                phone: booking.phone || 'N/A'
+            })
+        });
+
+        const result = await response.json();
+        console.log('Installation API response:', response.status, result);
+
+        if (!response.ok) {
+            throw new Error(result.error || 'Failed to send installation invoice email');
+        }
+
+        console.log('Installation email sent successfully to:', booking.email);
+        successMessage.textContent = `Installation invoice sent to ${booking.email}!`;
+        successMessage.classList.add('active');
+        errorMessage.classList.remove('active');
+
+        setTimeout(() => {
+            successMessage.classList.remove('active');
+        }, 3000);
+
+        return true;
+    } catch (error) {
+        console.error('Installation email sending error:', error);
+        errorMessage.textContent = `Failed to send installation invoice email: ${error.message}`;
+        errorMessage.classList.add('active');
+        successMessage.classList.remove('active');
+        return false;
+    }
+}
+
+// Authentication State
+onAuthStateChanged(auth, user => {
+    console.log('Auth state changed:', user ? `User signed in: ${user.email}, UID: ${user.uid}` : 'No user signed in');
+    if (user && ADMIN_UIDS.includes(user.uid)) {
+        console.log('Admin signed in:', user.email, 'UID:', user.uid);
+        authBtn.classList.add('hidden');
+        signoutBtn.classList.remove('hidden');
+        userEmail.textContent = user.email;
+        adminContent.classList.remove('hidden');
+        loginPrompt.classList.add('hidden');
+        errorMessage.classList.remove('active');
+        loadServiceBookings();
+        loadInstallationBookings();
+    } else if (user) {
+        console.log('Non-admin user signed in:', user.email, 'UID:', user.uid);
+        authBtn.classList.add('hidden');
+        signoutBtn.classList.remove('hidden');
+        userEmail.textContent = user.email;
+        adminContent.classList.add('hidden');
+        loginPrompt.classList.remove('hidden');
+        errorMessage.textContent = 'Unauthorized access. Admin privileges required.';
+        errorMessage.classList.add('active');
         serviceTable.innerHTML = '';
-        if (filteredBookings.length === 0) {
-            serviceTable.innerHTML = `<tr><td colspan="10" class="text-center">No service bookings found.</td></tr>`;
-            return;
-        }
-        filteredBookings.forEach(booking => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${new Date(booking.timestamp.toDate()).toLocaleDateString('en-GB')}</td>
-                <td>${booking.name || 'N/A'}</td>
-                <td>${booking.phone || 'N/A'}</td>
-                <td>${booking.issue || 'N/A'}</td>
-                <td>${booking.customerType || 'N/A'}</td>
-                <td>${booking.comments || 'N/A'}</td>
-                <td><textarea class="solution-textarea" data-id="${booking.id}" placeholder="Enter Solution">${booking.solution || ''}</textarea></td>
-                <td><input type="number" class="amount-input" data-id="${booking.id}" value="${booking.amount || ''}" min="0" placeholder="Enter Amount"></td>
-                <td>
-                    <select class="status-select" data-id="${booking.id}">
-                        <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                        <option value="Completed" ${booking.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                        <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-                    </select>
-                </td>
-                <td><button class="save-btn" data-id="${booking.id}">Save</button></td>
-            `;
-            serviceTable.appendChild(row);
-        });
-
-        // Attach event listeners to save buttons
-        document.querySelectorAll('.save-btn').forEach(button => {
-            button.addEventListener('click', async () => {
-                const bookingId = button.getAttribute('data-id');
-                await updateServiceBooking(bookingId);
-            });
-        });
-    }
-
-    // Render Installation Bookings
-    function renderInstallationBookings() {
-        console.log('Rendering installation bookings:', installationBookings.length);
-        let filteredBookings = installationBookings;
-        if (currentSearchInstallation) {
-            filteredBookings = installationBookings.filter(booking =>
-                booking.phone.includes(currentSearchInstallation.replace(/\D/g, ''))
-            );
-        }
         installationTable.innerHTML = '';
-        if (filteredBookings.length === 0) {
-            installationTable.innerHTML = `<tr><td colspan="9" class="text-center">No installation bookings found.</td></tr>`;
-            return;
-        }
-        filteredBookings.forEach(booking => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${new Date(booking.timestamp.toDate()).toLocaleDateString('en-GB')}</td>
-                <td>${booking.name || 'N/A'}</td>
-                <td>${booking.phone || 'N/A'}</td>
-                <td>${booking.address || 'N/A'}</td>
-                <td><input type="number" class="num-cameras-input" data-id="${booking.id}" value="${booking.numCameras || ''}" min="1" placeholder="Enter Number of Cameras"></td>
-                <td><input type="number" class="price-input" data-id="${booking.id}" value="${booking.price || ''}" min="0" placeholder="Enter Price"></td>
-                <td><input type="text" class="serial-number-input" data-id="${booking.id}" value="${booking.serialNumber || ''}" placeholder="Enter Serial Number"></td>
-                <td>
-                    <select class="status-select" data-id="${booking.id}">
-                        <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                        <option value="Completed" ${booking.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                        <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
-                    </select>
-                </td>
-                <td><button class="save-btn" data-id="${booking.id}">Save</button></td>
-            `;
-            installationTable.appendChild(row);
-        });
+    } else {
+        console.log('No user signed in');
+        authBtn.classList.remove('hidden');
+        signoutBtn.classList.add('hidden');
+        userEmail.textContent = '';
+        adminContent.classList.add('hidden');
+        loginPrompt.classList.remove('hidden');
+        errorMessage.textContent = 'Please sign in as admin to access the panel.';
+        errorMessage.classList.add('active');
+        serviceTable.innerHTML = '';
+        installationTable.innerHTML = '';
+    }
+});
 
-        // Attach event listeners to save buttons
-        document.querySelectorAll('.save-btn').forEach(button => {
-            button.addEventListener('click', async () => {
-                const bookingId = button.getAttribute('data-id');
-                await updateInstallationBooking(bookingId);
-            });
-        });
+// Open Sign-In Modal
+authBtn.addEventListener('click', () => openAuthModal('signin'));
+
+// Sign In
+signinBtn.addEventListener('click', () => {
+    const email = signinEmail.value.trim();
+    const password = signinPassword.value.trim();
+    signinResult.textContent = '';
+    document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+    if (!email) {
+        document.getElementById('signin-email-error').classList.add('active');
+        return;
+    }
+    if (!password) {
+        document.getElementById('signin-password-error').classList.add('active');
+        return;
     }
 
-    // Switch to Pending Tab
-    function switchToPendingTab() {
-        if (currentMainTab === 'service') {
-            currentSubTabService = 'pending';
-            subTabsService.forEach(tab => {
-                tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
-            });
-            loadServiceBookings();
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            signinResult.textContent = 'Signed in successfully!';
+            signinResult.style.color = '#16a34a';
+            closeAuthModal();
+        })
+        .catch(error => {
+            console.error('Sign-in error:', error.code, error.message);
+            signinResult.textContent = error.message;
+            signinResult.style.color = '#dc2626';
+        });
+});
+
+// Google Sign In
+googleSigninBtn.addEventListener('click', () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+        .then(() => {
+            signinResult.textContent = 'Signed in with Google successfully!';
+            signinResult.style.color = '#16a34a';
+            closeAuthModal();
+        })
+        .catch(error => {
+            console.error('Google Sign-in error:', error.code, error.message);
+            signinResult.textContent = error.message;
+            signinResult.style.color = '#dc2626';
+        });
+});
+
+// Sign Up
+signupBtn.addEventListener('click', () => {
+    const email = signupEmail.value.trim();
+    const password = signupPassword.value.trim();
+    signupResult.textContent = '';
+    document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+    if (!email) {
+        document.getElementById('signup-email-error').classList.add('active');
+        return;
+    }
+    if (!password || password.length < 6) {
+        document.getElementById('signup-password-error').classList.add('active');
+        return;
+    }
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+            signupResult.textContent = 'Account created successfully!';
+            signupResult.style.color = '#16a34a';
+            closeAuthModal();
+        })
+        .catch(error => {
+            console.error('Sign-up error:', error.code, error.message);
+            signupResult.textContent = error.message;
+            signupResult.style.color = '#dc2626';
+        });
+});
+
+// Sign Out
+signoutBtn.addEventListener('click', () => {
+    signOut(auth)
+        .then(() => {
+            console.log('Admin signed out');
+        })
+        .catch(error => {
+            console.error('Sign-out error:', error.code, error.message);
+            errorMessage.textContent = `Error signing out: ${error.message}`;
+            errorMessage.classList.add('active');
+        });
+});
+
+// Load Service Bookings
+async function loadServiceBookings() {
+    console.log('Loading service bookings for tab:', currentSubTabService);
+    try {
+        let q;
+        if (currentSubTabService === 'all') {
+            q = query(collection(db, 'bookings'), orderBy('timestamp', 'desc'));
         } else {
-            currentSubTabInstallation = 'pending';
-            subTabsInstallation.forEach(tab => {
-                tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
-            });
-            loadInstallationBookings();
+            q = query(collection(db, 'bookings'), where('status', '==', currentSubTabService.charAt(0).toUpperCase() + currentSubTabService.slice(1)), orderBy('timestamp', 'desc'));
         }
-        console.log(`Switched to Pending tab for ${currentMainTab}`);
+        const querySnapshot = await getDocs(q);
+        console.log('Service Firestore query returned', querySnapshot.size, 'documents');
+        serviceBookings = [];
+        querySnapshot.forEach(doc => {
+            serviceBookings.push({ id: doc.id, ...doc.data() });
+        });
+        renderServiceBookings();
+    } catch (error) {
+        console.error('Service Firestore query error:', error.code, error.message);
+        serviceTable.innerHTML = `<tr><td colspan="10" class="text-center text-red-600">Error loading service bookings: ${error.message}</td></tr>`;
+        errorMessage.textContent = `Error loading service bookings: ${error.message}`;
+        errorMessage.classList.add('active');
     }
+}
 
-    // Update Service Booking
+// Load Installation Bookings
+async function loadInstallationBookings() {
+    console.log('Loading installation bookings for tab:', currentSubTabInstallation);
+    try {
+        let q;
+        if (currentSubTabInstallation === 'all') {
+            q = query(collection(db, 'installations'), orderBy('timestamp', 'desc'));
+        } else {
+            q = query(collection(db, 'installations'), where('status', '==', currentSubTabInstallation.charAt(0).toUpperCase() + currentSubTabInstallation.slice(1)), orderBy('timestamp', 'desc'));
+        }
+        const querySnapshot = await getDocs(q);
+        console.log('Installation Firestore query returned', querySnapshot.size, 'documents');
+        installationBookings = [];
+        querySnapshot.forEach(doc => {
+            installationBookings.push({ id: doc.id, ...doc.data() });
+        });
+        renderInstallationBookings();
+    } catch (error) {
+        console.error('Installation Firestore query error:', error.code, error.message);
+        installationTable.innerHTML = `<tr><td colspan="9" class="text-center text-red-600">Error loading installation bookings: ${error.message}</td></tr>`;
+        errorMessage.textContent = `Error loading installation bookings: ${error.message}`;
+        errorMessage.classList.add('active');
+    }
+}
+
+// Render Service Bookings
+function renderServiceBookings() {
+    console.log('Rendering service bookings:', serviceBookings.length);
+    let filteredBookings = serviceBookings;
+    if (currentSearchService) {
+        filteredBookings = serviceBookings.filter(booking =>
+            booking.phone.includes(currentSearchService.replace(/\D/g, ''))
+        );
+    }
+    serviceTable.innerHTML = '';
+    if (filteredBookings.length === 0) {
+        serviceTable.innerHTML = `<tr><td colspan="10" class="text-center">No service bookings found.</td></tr>`;
+        return;
+    }
+    filteredBookings.forEach(booking => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${new Date(booking.timestamp.toDate()).toLocaleDateString('en-GB')}</td>
+            <td>${booking.name || 'N/A'}</td>
+            <td>${booking.phone || 'N/A'}</td>
+            <td>${booking.issue || 'N/A'}</td>
+            <td>${booking.customerType || 'N/A'}</td>
+            <td>${booking.comments || 'N/A'}</td>
+            <td><textarea class="solution-textarea" data-id="${booking.id}" placeholder="Enter Solution">${booking.solution || ''}</textarea></td>
+            <td><input type="number" class="amount-input" data-id="${booking.id}" value="${booking.amount || ''}" min="0" placeholder="Enter Amount"></td>
+            <td>
+                <select class="status-select" data-id="${booking.id}">
+                    <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                    <option value="Completed" ${booking.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                    <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                </select>
+            </td>
+            <td><button class="save-btn" data-id="${booking.id}">Save</button></td>
+        `;
+        serviceTable.appendChild(row);
+    });
+
+    // Attach event listeners to save buttons
+    document.querySelectorAll('.save-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const bookingId = button.getAttribute('data-id');
+            await updateServiceBooking(bookingId);
+        });
+    });
+}
+
+// Render Installation Bookings
+function renderInstallationBookings() {
+    console.log('Rendering installation bookings:', installationBookings.length);
+    let filteredBookings = installationBookings;
+    if (currentSearchInstallation) {
+        filteredBookings = installationBookings.filter(booking =>
+            booking.phone.includes(currentSearchInstallation.replace(/\D/g, ''))
+        );
+    }
+    installationTable.innerHTML = '';
+    if (filteredBookings.length === 0) {
+        installationTable.innerHTML = `<tr><td colspan="9" class="text-center">No installation bookings found.</td></tr>`;
+        return;
+    }
+    filteredBookings.forEach(booking => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${new Date(booking.timestamp.toDate()).toLocaleDateString('en-GB')}</td>
+            <td>${booking.name || 'N/A'}</td>
+            <td>${booking.phone || 'N/A'}</td>
+            <td>${booking.address || 'N/A'}</td>
+            <td><input type="number" class="num-cameras-input" data-id="${booking.id}" value="${booking.numCameras || ''}" min="1" placeholder="Enter Number of Cameras"></td>
+            <td><input type="number" class="price-input" data-id="${booking.id}" value="${booking.price || ''}" min="0" placeholder="Enter Price"></td>
+            <td><input type="text" class="serial-number-input" data-id="${booking.id}" value="${booking.serialNumber || ''}" placeholder="Enter Serial Number"></td>
+            <td>
+                <select class="status-select" data-id="${booking.id}">
+                    <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                    <option value="Completed" ${booking.status === 'Completed' ? 'selected' : ''}>Completed</option>
+                    <option value="Cancelled" ${booking.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                </select>
+            </td>
+            <td><button class="save-btn" data-id="${booking.id}">Save</button></td>
+        `;
+        installationTable.appendChild(row);
+    });
+
+    // Attach event listeners to save buttons
+    document.querySelectorAll('.save-btn').forEach(button => {
+        button.addEventListener('click', async () => {
+            const bookingId = button.getAttribute('data-id');
+            await updateInstallationBooking(bookingId);
+        });
+    });
+}
+
+// Switch to Pending Tab
+function switchToPendingTab() {
+    if (currentMainTab === 'service') {
+        currentSubTabService = 'pending';
+        subTabsService.forEach(tab => {
+            tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
+        });
+        loadServiceBookings();
+    } else {
+        currentSubTabInstallation = 'pending';
+        subTabsInstallation.forEach(tab => {
+            tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
+        });
+        loadInstallationBookings();
+    }
+    console.log(`Switched to Pending tab for ${currentMainTab}`);
+}
+
+// Update Service Booking
 async function updateServiceBooking(bookingId) {
     console.log('Updating service booking:', bookingId);
     const row = serviceTable.querySelector(`tr .save-btn[data-id="${bookingId}"]`).closest('tr');
@@ -1624,7 +1625,7 @@ async function updateServiceBooking(bookingId) {
                 updateData.invoiceNumber = invoiceNumber;
                 shouldSendEmail = true;
             } else {
-                shouldSendEmail = await openEmailConfirmModal();
+                shouldSendEmail = await createCustomConfirmModal('This booking is already marked as Completed and has an invoice. Would you like to resend the invoice email?');
             }
         }
 
@@ -1653,7 +1654,7 @@ async function updateServiceBooking(bookingId) {
         successMessage.classList.remove('active');
     }
 }
-   
+
 // Update Installation Booking
 async function updateInstallationBooking(bookingId) {
     console.log('Updating installation booking:', bookingId);
@@ -1682,7 +1683,7 @@ async function updateInstallationBooking(bookingId) {
                 updateData.invoiceNumber = invoiceNumber;
                 shouldSendEmail = true;
             } else {
-                shouldSendEmail = await openEmailConfirmModal();
+                shouldSendEmail = await createCustomConfirmModal('This booking is already marked as Completed and has an invoice. Would you like to resend the invoice email?');
             }
         }
 
@@ -1715,85 +1716,67 @@ async function updateInstallationBooking(bookingId) {
         successMessage.classList.remove('active');
     }
 }
-    // Main Tab Switching
-    mainTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            mainTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentMainTab = tab.getAttribute('data-main-tab');
-            document.getElementById('service-content').classList.toggle('hidden', currentMainTab !== 'service');
-            document.getElementById('installation-content').classList.toggle('hidden', currentMainTab !== 'installation');
-            console.log('Switched to main tab:', currentMainTab);
-        });
+
+// Main Tab Switching
+mainTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        mainTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentMainTab = tab.getAttribute('data-main-tab');
+        document.getElementById('service-content').classList.toggle('hidden', currentMainTab !== 'service');
+        document.getElementById('installation-content').classList.toggle('hidden', currentMainTab !== 'installation');
+        console.log('Switched to main tab:', currentMainTab);
     });
-
-    // Sub Tab Switching (Service)
-    subTabsService.forEach(tab => {
-        tab.addEventListener('click', () => {
-            subTabsService.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentSubTabService = tab.getAttribute('data-tab');
-            console.log('Switched to service sub-tab:', currentSubTabService);
-            loadServiceBookings();
-        });
-    });
-
-    // Sub Tab Switching (Installation)
-    subTabsInstallation.forEach(tab => {
-        tab.addEventListener('click', () => {
-            subTabsInstallation.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            currentSubTabInstallation = tab.getAttribute('data-tab');
-            console.log('Switched to installation sub-tab:', currentSubTabInstallation);
-            loadInstallationBookings();
-        });
-    });
-
-    // Search Service Bookings
-    searchBtnService.addEventListener('click', () => {
-        currentSearchService = phoneSearchService.value.trim();
-        console.log('Searching service bookings with phone:', currentSearchService);
-        renderServiceBookings();
-    });
-
-    // Search Installation Bookings
-    searchBtnInstallation.addEventListener('click', () => {
-        currentSearchInstallation = phoneSearchInstallation.value.trim();
-        console.log('Searching installation bookings with phone:', currentSearchInstallation);
-        renderInstallationBookings();
-    });
-
-    // Debounced search on input
-    phoneSearchService.addEventListener('input', debounce(() => {
-        currentSearchService = phoneSearchService.value.trim();
-        console.log('Debounced search service bookings with phone:', currentSearchService);
-        renderServiceBookings();
-    }, 500));
-
-    phoneSearchInstallation.addEventListener('input', debounce(() => {
-        currentSearchInstallation = phoneSearchInstallation.value.trim();
-        console.log('Debounced search installation bookings with phone:', currentSearchInstallation);
-        renderInstallationBookings();
-    }, 500));
 });
 
-// Email Confirmation Modal Button Listeners
-document.getElementById('send-email-btn').addEventListener('click', () => {
-    if (emailConfirmResolve) {
-        emailConfirmResolve(true);
-        emailConfirmResolve = null;
-    }
-    document.getElementById('email-confirm-modal').classList.remove('active');
-    console.log('Send Email button clicked');
+// Sub Tab Switching (Service)
+subTabsService.forEach(tab => {
+    tab.addEventListener('click', () => {
+        subTabsService.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentSubTabService = tab.getAttribute('data-tab');
+        console.log('Switched to service sub-tab:', currentSubTabService);
+        loadServiceBookings();
+    });
 });
 
-document.getElementById('dont-send-btn').addEventListener('click', () => {
-    if (emailConfirmResolve) {
-        emailConfirmResolve(false);
-        emailConfirmResolve = null;
-    }
-    document.getElementById('email-confirm-modal').classList.remove('active');
-    console.log('Don\'t Send button clicked');
+// Sub Tab Switching (Installation)
+subTabsInstallation.forEach(tab => {
+    tab.addEventListener('click', () => {
+        subTabsInstallation.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentSubTabInstallation = tab.getAttribute('data-tab');
+        console.log('Switched to installation sub-tab:', currentSubTabInstallation);
+        loadInstallationBookings();
+    });
+});
+
+// Search Service Bookings
+searchBtnService.addEventListener('click', () => {
+    currentSearchService = phoneSearchService.value.trim();
+    console.log('Searching service bookings with phone:', currentSearchService);
+    renderServiceBookings();
+});
+
+// Search Installation Bookings
+searchBtnInstallation.addEventListener('click', () => {
+    currentSearchInstallation = phoneSearchInstallation.value.trim();
+    console.log('Searching installation bookings with phone:', currentSearchInstallation);
+    renderInstallationBookings();
+});
+
+// Debounced search on input
+phoneSearchService.addEventListener('input', debounce(() => {
+    currentSearchService = phoneSearchService.value.trim();
+    console.log('Debounced search service bookings with phone:', currentSearchService);
+    renderServiceBookings();
+}, 500));
+
+phoneSearchInstallation.addEventListener('input', debounce(() => {
+    currentSearchInstallation = phoneSearchInstallation.value.trim();
+    console.log('Debounced search installation bookings with phone:', currentSearchInstallation);
+    renderInstallationBookings();
+}, 500));
 });
 </script>
 </body>
