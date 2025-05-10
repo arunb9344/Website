@@ -1296,7 +1296,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
-        // Sign Out
+    // Sign Out
     signoutBtn.addEventListener('click', () => {
         signOut(auth)
             .then(() => {
@@ -1487,9 +1487,19 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const bookingRef = doc(db, 'bookings', bookingId);
             let updateData = { solution, amount, status };
-            if (status === 'Completed' && !booking.invoiceNumber) {
-                const invoiceNumber = await generateInvoiceNumber();
-                updateData.invoiceNumber = invoiceNumber;
+            let shouldSendEmail = false;
+
+            if (status === 'Completed') {
+                if (!booking.invoiceNumber) {
+                    // First time being marked as Completed
+                    const invoiceNumber = await generateInvoiceNumber();
+                    updateData.invoiceNumber = invoiceNumber;
+                    shouldSendEmail = true;
+                } else {
+                    // Already has an invoice number; prompt to resend email
+                    const confirmResend = confirm('This booking is already marked as Completed and has an invoice. Would you like to resend the invoice email?');
+                    shouldSendEmail = confirmResend;
+                }
             }
 
             await updateDoc(bookingRef, updateData);
@@ -1498,8 +1508,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update local booking
             Object.assign(booking, updateData);
 
-            // Send invoice email if completed
-            if (status === 'Completed' && updateData.invoiceNumber) {
+            // Send invoice email if needed
+            if (shouldSendEmail) {
                 await sendServiceInvoiceEmail({ ...booking, ...updateData });
             }
 
@@ -1541,9 +1551,19 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const bookingRef = doc(db, 'installations', bookingId);
             let updateData = { numCameras, price, serialNumber, status };
-            if (status === 'Completed' && !booking.invoiceNumber) {
-                const invoiceNumber = await generateInvoiceNumber();
-                updateData.invoiceNumber = invoiceNumber;
+            let shouldSendEmail = false;
+
+            if (status === 'Completed') {
+                if (!booking.invoiceNumber) {
+                    // First time being marked as Completed
+                    const invoiceNumber = await generateInvoiceNumber();
+                    updateData.invoiceNumber = invoiceNumber;
+                    shouldSendEmail = true;
+                } else {
+                    // Already has an invoice number; prompt to resend email
+                    const confirmResend = confirm('This booking is already marked as Completed and has an invoice. Would you like to resend the invoice email?');
+                    shouldSendEmail = confirmResend;
+                }
             }
 
             await updateDoc(bookingRef, updateData);
@@ -1552,8 +1572,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update local booking
             Object.assign(booking, updateData);
 
-            // Send invoice email if completed
-            if (status === 'Completed' && updateData.invoiceNumber) {
+            // Send invoice email if needed
+            if (shouldSendEmail) {
                 await sendInstallationInvoiceEmail({ ...booking, ...updateData });
             }
 
