@@ -175,12 +175,12 @@
         touch-action: pan-x pan-y; /* Allow both horizontal and vertical touch scrolling */
     }
     .table-container {
-        max-height: calc(100vh - 300px); /* Adjusted for better mobile fit */
-        overflow-y: auto; /* Ensure vertical scrolling */
-        overflow-x: auto; /* Keep horizontal scrolling */
+        max-height: none; /* Remove max-height to avoid unnecessary table scrolling */
+        overflow-x: auto; /* Keep horizontal scrolling for wide tables */
+        overflow-y: visible; /* Allow page scrolling instead of table scrolling */
         -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
         position: relative;
-        overscroll-behavior: contain; /* Prevent overscrolling parent elements */
+        overscroll-behavior-x: contain; /* Prevent horizontal overscroll affecting page */
     }
     .admin-table th,
     .admin-table td {
@@ -522,7 +522,8 @@
     background: #ffffff;
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: auto; /* Allow both x and y scrolling */
+    overflow-x: auto; /* Allow horizontal scrolling */
+    overflow-y: visible; /* Allow page-level vertical scrolling */
     border: 1px solid transparent;
     border-image: linear-gradient(to right, #2563eb, #4f46e5) 1;
 }
@@ -530,7 +531,7 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    table-layout: auto; /* Allow table to adjust to content */
+    table-layout: auto;
 }
 .admin-table th,
 .admin-table td {
