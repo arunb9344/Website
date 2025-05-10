@@ -847,92 +847,93 @@
 
     <!-- Admin Section -->
     <section id="admin-section" class="py-12 md:py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <div class="booking-header">
-                <h2 class="text-2xl md:text-3xl font-bold">Admin Panel - Booking Management</h2>
-                <p class="mt-2 text-sm md:text-base">Manage CCTV service and installation bookings for EyeTech Securities</p>
+    <div class="container mx-auto px-4">
+        <div class="booking-header">
+            <h2 class="text-2xl md:text-3xl font-bold">Admin Panel - Booking Management</h2>
+            <p class="mt-2 text-sm md:text-base">Manage CCTV service and installation bookings for EyeTech Securities</p>
+        </div>
+        <p id="login-prompt" class="login-prompt hidden">Please sign in as admin to access the panel.</p>
+        <div class="centered-auth-button">
+            <button id="auth-btn" class="auth-button hidden" onclick="openAuthModal('signin')">Sign In</button>
+        </div>
+        <p id="error-message" class="error-message text-center mb-4"></p>
+        <p id="success-message" class="success-message text-center mb-4"></p>
+        <div id="admin-content" class="hidden">
+            <div class="flex mb-6">
+                <div class="main-tab active" data-main-tab="service">Service Bookings</div>
+                <div class="main-tab" data-main-tab="installation">Installation Bookings</div>
             </div>
-            <p id="login-prompt" class="login-prompt hidden">Please sign in as admin to access the panel.</p>
-            <div class="centered-auth-button">
-                <button id="auth-btn" class="auth-button hidden" onclick="openAuthModal('signin')">Sign In</button>
+            <div id="service-content" class="tab-content">
+                <div class="search-container">
+                    <input type="text" id="phone-search-service" placeholder="Search by phone number" class="focus:ring-2 focus:ring-blue-500">
+                    <button id="search-btn-service" class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        Search
+                    </button>
+                </div>
+                <div class="tab-container">
+                    <div class="sub-tab active" data-tab="pending">Pending</div>
+                    <div class="sub-tab" data-tab="cancelled">Cancelled</div>
+                    <div class="sub-tab" data-tab="completed">Completed</div>
+                    <div class="sub-tab" data-tab="all">All Bookings</div>
+                </div>
+                <div class="table-container">
+                    <table id="service-table" class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Issue</th>
+                                <th>Customer Type</th>
+                                <th>Comments</th>
+                                <th>Solution</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
             </div>
-            <p id="error-message" class="error-message text-center mb-4"></p>
-            <p id="success-message" class="success-message text-center mb-4"></p>
-            <div id="admin-content" class="hidden">
-                <div class="flex mb-6">
-                    <div class="main-tab active" data-main-tab="service">Service Bookings</div>
-                    <div class="main-tab" data-main-tab="installation">Installation Bookings</div>
+            <div id="installation-content" class="tab-content hidden">
+                <div class="search-container">
+                    <input type="text" id="phone-search-installation" placeholder="Search by phone number" class="focus:ring-2 focus:ring-blue-500">
+                    <button id="search-btn-installation" class="flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        Search
+                    </button>
                 </div>
-                <div id="service-content" class="tab-content">
-                    <div class="search-container">
-                        <input type="text" id="phone-search-service" placeholder="Search by phone number" class="focus:ring-2 focus:ring-blue-500">
-                        <button id="search-btn-service" class="flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            Search
-                        </button>
-                    </div>
-                    <div class="tab-container">
-                        <div class="sub-tab active" data-tab="pending">Pending</div>
-                        <div class="sub-tab" data-tab="cancelled">Cancelled</div>
-                        <div class="sub-tab" data-tab="completed">Completed</div>
-                        <div class="sub-tab" data-tab="all">All Bookings</div>
-                    </div>
-                    <div class="table-container">
-                        <table id="service-table" class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Issue</th>
-                                    <th>Customer Type</th>
-                                    <th>Comments</th>
-                                    <th>Solution</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+                <div class="tab-container">
+                    <div class="sub-tab active" data-tab="pending">Pending</div>
+                    <div class="sub-tab" data-tab="cancelled">Cancelled</div>
+                    <div class="sub-tab" data-tab="completed">Completed</div>
+                    <div class="sub-tab" data-tab="all">All Bookings</div>
                 </div>
-                <div id="installation-content" class="tab-content hidden">
-                    <div class="search-container">
-                        <input type="text" id="phone-search-installation" placeholder="Search by phone number" class="focus:ring-2 focus:ring-blue-500">
-                        <button id="search-btn-installation" class="flex items-center">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            Search
-                        </button>
-                    </div>
-                    <div class="tab-container">
-                        <div class="sub-tab active" data-tab="pending">Pending</div>
-                        <div class="sub-tab" data-tab="cancelled">Cancelled</div>
-                        <div class="sub-tab" data-tab="completed">Completed</div>
-                        <div class="sub-tab" data-tab="all">All Bookings</div>
-                    </div>
-                    <div class="table-container">
-                        <table id="installation-table" class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Address</th>
-                                    <th>Number of Cameras</th>
-                                    <th>Price</th>
-                                    <th>DVR/NVR Serial Number</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+                <div class="table-container">
+                    <table id="installation-table" class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Number of Cameras</th>
+                                <th>Price</th>
+                                <th>DVR/NVR Serial Number</th>
+                                <th>Passwords</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-6">
@@ -1277,7 +1278,6 @@ async function sendInstallationInvoiceEmail(booking) {
                 numCameras: booking.numCameras || 0,
                 price: booking.price || 0,
                 serialNumber: booking.serialNumber || 'N/A',
-                passwords: booking.passwords || 'N/A', // Added passwords field
                 address: booking.address || 'N/A',
                 installationType: booking.installationType || 'N/A',
                 preferredDate: booking.preferredDate || 'N/A',
@@ -1560,7 +1560,7 @@ function renderInstallationBookings() {
             <td><input type="number" class="num-cameras-input" data-id="${booking.id}" value="${booking.numCameras || ''}" min="1" placeholder="Enter Number of Cameras"></td>
             <td><input type="number" class="price-input" data-id="${booking.id}" value="${booking.price || ''}" min="0" placeholder="Enter Price"></td>
             <td><input type="text" class="serial-number-input" data-id="${booking.id}" value="${booking.serialNumber || ''}" placeholder="Enter Serial Number"></td>
-            <td><input type="text" class="passwords-input" data-id="${booking.id}" value="${booking.passwords || ''}" placeholder="Enter Passwords"></td>
+            <td><input type="text" class="passwords-input" data-id="${booking.id}" value="${booking.passwords || ''}" placeholder="Enter DVR/Camera Password"></td>
             <td>
                 <select class="status-select" data-id="${booking.id}">
                     <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
@@ -1781,6 +1781,7 @@ phoneSearchInstallation.addEventListener('input', debounce(() => {
     renderInstallationBookings();
 }, 500));
 });
+</script>
 </script>
 </body>
 </html>
