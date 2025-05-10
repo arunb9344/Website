@@ -218,10 +218,10 @@
     }
     .tab-container {
         display: flex;
-        flex-wrap: wrap; /* Allow wrapping to avoid scrolling */
+        flex-wrap: wrap;
         gap: 0.5rem;
         padding-bottom: 0.5rem;
-        overflow-x: visible; /* Disable horizontal scrolling */
+        overflow-x: visible;
     }
     .main-tab {
         padding: 0.5rem 1rem;
@@ -230,17 +230,22 @@
         border-radius: 0.5rem;
     }
     .sub-tab {
-        padding: 0.4rem 0.8rem; /* Reduced for mobile fit */
-        font-size: 0.75rem; /* Smaller font for mobile */
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
         font-weight: 600;
         border-radius: 0.5rem;
         border: 2px solid transparent;
-        flex: 1; /* Distribute space evenly */
+        flex: 1;
         text-align: center;
+        background-color: #e5e7eb; /* Darker default background */
+    }
+    .sub-tab:hover {
+        background-color: #bfdbfe; /* Darker hover background */
+        transform: translateY(-1px);
     }
     .sub-tab.active {
         border-color: #1e3a8a;
-        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        background: linear-gradient(135deg, #1e3a8a, #3b82f6); /* Darker active gradient */
         color: #ffffff;
     }
     .booking-header {
@@ -472,7 +477,7 @@
     padding: 0.5rem 1.25rem;
     border-radius: 0.5rem;
     transition: all 0.3s ease;
-    background-color: #f3f4f6;
+    background-color: #e5e7eb;
     font-size: 0.875rem;
     font-weight: 500;
     color: #374151;
@@ -480,11 +485,11 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .sub-tab:hover {
-    background-color: #dbeafe;
+    background-color: #bfdbfe;
     transform: translateY(-1px);
 }
 .sub-tab.active {
-    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
     color: #ffffff;
     font-weight: 600;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
