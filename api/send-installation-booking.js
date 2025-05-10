@@ -6,7 +6,6 @@ export default async function handler(req, res) {
   }
 
   const {
-    toEmail, // Admin email address
     customerName,
     phone,
     email,
@@ -18,7 +17,7 @@ export default async function handler(req, res) {
   } = req.body;
 
   // Validate required fields
-  if (!toEmail || !customerName || !phone || !email || !address || !installationType || !numCameras || !preferredDate || !comments) {
+  if (!customerName || !phone || !email || !address || !installationType || !numCameras || !preferredDate || !comments) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
@@ -47,7 +46,7 @@ export default async function handler(req, res) {
 
     // Send email
     await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log('Installation booking email sent to:', toEmail);
+    console.log('Installation booking email sent to: eyetechsecurities@gmail.com');
 
     return res.status(200).json({ message: 'Installation booking email sent successfully' });
   } catch (error) {
