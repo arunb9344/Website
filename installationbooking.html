@@ -160,13 +160,29 @@
     .customer-type-container label {
         margin-left: 0;
     }
+    .history-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
     .history-table {
         display: block;
         overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
     }
     .history-table th,
     .history-table td {
-        min-width: 120px;
+        min-width: 150px; /* Increased to ensure columns are wide enough */
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
+    .history-table thead {
+        display: table;
+        width: 100%;
+    }
+    .history-table tbody {
+        display: table;
+        width: 100%;
     }
     .form-container {
         padding: 1.5rem;
@@ -197,6 +213,12 @@
         display: flex;
         flex-direction: row;
         gap: 1.5rem;
+    }
+    .history-table th,
+    .history-table td {
+        min-width: 120px;
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
     }
 }
 .nav-active {
