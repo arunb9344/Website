@@ -646,56 +646,54 @@
                 </div>
                 <p id="result" class="success-message"></p>
                 <form id="installation-form" method="POST" class="hidden">
-                    <input type="hidden" name="status" value="Pending">
-                    <input type="hidden" name="solution" value="">
-                    <input type="hidden" name="amount" value="0">
-                    <div class="mb-4">
-                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                        <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
-                        <p id="name-error" class="error-message">Please enter your name.</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" class="mt-1 p-2 w-full border rounded-md" required pattern="[0-9]{10}">
-                        <p id="phone-error" class="error-message">Please enter a valid 10-digit phone number.</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md" required>
-                        <p id="email-error" class="error-message">Please enter a valid email address.</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="address" class="block text-sm font-medium text-gray-700">Full Address</label>
-                        <textarea id="address" name="address" rows="3" class="mt-1 p-2 w-full border rounded-md" required></textarea>
-                        <p id="address-error" class="error-message">Please enter your full address.</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="installationType" class="block text-sm font-medium text-gray-700">Installation Type</label>
-                        <select id="installationType" name="installationType" class="mt-1 p-2 w-full border rounded-md" required>
-                            <option value="" disabled selected>Select installation type</option>
-                            <option value="Residential">Residential</option>
-                            <option value="Commercial">Commercial</option>
-                            <option value="Industrial">Industrial</option>
-                        </select>
-                        <p id="installationType-error" class="error-message">Please select an installation type.</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="numCameras" class="block text-sm font-medium text-gray-700">Number of Cameras</label>
-                        <input type="number" id="numCameras" name="numCameras" class="mt-1 p-2 w-full border rounded-md" required min="1">
-                        <p id="numCameras-error" class="error-message">Please enter a valid number of cameras (minimum 1).</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="preferredDate" class="block text-sm font-medium text-gray-700">Preferred Installation Date</label>
-                        <input type="date" id="preferredDate" name="preferredDate" class="mt-1 p-2 w-full border rounded-md" required>
-                        <p id="preferredDate-error" class="error-message">Please select a valid date.</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
-                        <textarea id="comments" name="comments" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
-                        <p id="comments-error" class="error-message">Please enter your comments.</p>
-                    </div>
-                    <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
-                </form>
+    <input type="hidden" name="status" value="Pending">
+    <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
+        <p id="name-error" class="error-message">Please enter your name.</p>
+    </div>
+    <div class="mb-4">
+        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+        <input type="tel" id="phone" name="phone" class="mt-1 p-2 w-full border rounded-md" required pattern="[0-9]{10}">
+        <p id="phone-error" class="error-message">Please enter a valid 10-digit phone number.</p>
+    </div>
+    <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md" required>
+        <p id="email-error" class="error-message">Please enter a valid email address.</p>
+    </div>
+    <div class="mb-4">
+        <label for="address" class="block text-sm font-medium text-gray-700">Full Address</label>
+        <textarea id="address" name="address" rows="3" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+        <p id="address-error" class="error-message">Please enter your full address.</p>
+    </div>
+    <div class="mb-4">
+        <label for="installationType" class="block text-sm font-medium text-gray-700">Installation Type</label>
+        <select id="installationType" name="installationType" class="mt-1 p-2 w-full border rounded-md" required>
+            <option value="" disabled selected>Select installation type</option>
+            <option value="Residential">Residential</option>
+            <option value="Commercial">Commercial</option>
+            <option value="Industrial">Industrial</option>
+        </select>
+        <p id="installationType-error" class="error-message">Please select an installation type.</p>
+    </div>
+    <div class="mb-4">
+        <label for="numCameras" class="block text-sm font-medium text-gray-700">Number of Cameras</label>
+        <input type="number" id="numCameras" name="numCameras" class="mt-1 p-2 w-full border rounded-md" required min="1">
+        <p id="numCameras-error" class="error-message">Please enter a valid number of cameras (minimum 1).</p>
+    </div>
+    <div class="mb-4">
+        <label for="preferredDate" class="block text-sm font-medium text-gray-700">Preferred Installation Date</label>
+        <input type="date" id="preferredDate" name="preferredDate" class="mt-1 p-2 w-full border rounded-md" required>
+        <p id="preferredDate-error" class="error-message">Please select a valid date.</p>
+    </div>
+    <div class="mb-4">
+        <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
+        <textarea id="comments" name="comments" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+        <p id="comments-error" class="error-message">Please enter your comments.</p>
+    </div>
+    <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
+</form>
                 <!-- Confirmation Modal -->
                 <div id="confirmation-modal" class="modal">
                     <div class="modal-content">
@@ -735,425 +733,431 @@
     <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded');
+    console.log('DOM fully loaded');
 
-            // Mobile menu toggle
-            window.toggleMenu = function() {
-                const menu = document.getElementById('mobile-menu');
-                if (menu) {
-                    menu.classList.toggle('hidden');
-                    console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
-                } else {
-                    console.error('Mobile menu not found');
-                }
-            };
+    // Mobile menu toggle
+    window.toggleMenu = function() {
+        const menu = document.getElementById('mobile-menu');
+        if (menu) {
+            menu.classList.toggle('hidden');
+            console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
+        } else {
+            console.error('Mobile menu not found');
+        }
+    };
 
-            // Form elements
-            const form = document.getElementById('installation-form');
-            const result = document.getElementById('result');
-            const previewBtn = document.getElementById('preview-btn');
-            const agreeBtn = document.getElementById('agree-btn');
-            const cancelBtn = document.getElementById('cancel-btn');
-            const confirmationModal = document.getElementById('confirmation-modal');
-            const cancelModal = document.getElementById('cancel-modal');
-            const loginPrompt = document.getElementById('login-prompt');
+    // Form elements
+    const form = document.getElementById('installation-form');
+    const result = document.getElementById('result');
+    const previewBtn = document.getElementById('preview-btn');
+    const agreeBtn = document.getElementById('agree-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const cancelModal = document.getElementById('cancel-modal');
+    const loginPrompt = document.getElementById('login-prompt');
 
-            // Auth elements
-            const authModal = document.getElementById('auth-modal');
-            const authBtn = document.getElementById('auth-btn');
-            const signoutBtn = document.getElementById('signout-btn');
-            const signinForm = document.getElementById('signin-form');
-            const signupForm = document.getElementById('signup-form');
-            const signinBtn = document.getElementById('signin-btn');
-            const googleSigninBtn = document.getElementById('google-signin-btn');
-            const signupBtn = document.getElementById('signup-btn');
-            const signinEmail = document.getElementById('signin-email');
-            const signinPassword = document.getElementById('signin-password');
-            const signupEmail = document.getElementById('signup-email');
-            const signupPassword = document.getElementById('signup-password');
-            const signinResult = document.getElementById('signin-result');
-            const signupResult = document.getElementById('signup-result');
-            const userEmail = document.getElementById('user-email');
-            const historySection = document.getElementById('history-section');
-            const bookingHistory = document.getElementById('booking-history');
+    // Auth elements
+    const authModal = document.getElementById('auth-modal');
+    const authBtn = document.getElementById('auth-btn');
+    const signoutBtn = document.getElementById('signout-btn');
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    const signinBtn = document.getElementById('signin-btn');
+    const googleSigninBtn = document.getElementById('google-signin-btn');
+    const signupBtn = document.getElementById('signup-btn');
+    const signinEmail = document.getElementById('signin-email');
+    const signinPassword = document.getElementById('signin-password');
+    const signupEmail = document.getElementById('signup-email');
+    const signupPassword = document.getElementById('signup-password');
+    const signinResult = document.getElementById('signin-result');
+    const signupResult = document.getElementById('signup-result');
+    const userEmail = document.getElementById('user-email');
+    const historySection = document.getElementById('history-section');
+    const bookingHistory = document.getElementById('booking-history');
 
-            // Verify critical elements
-            const requiredElements = [
-                { id: 'installation-form', element: form },
-                { id: 'result', element: result },
-                { id: 'preview-btn', element: previewBtn },
-                { id: 'agree-btn', element: agreeBtn },
-                { id: 'cancel-btn', element: cancelBtn },
-                { id: 'confirmation-modal', element: confirmationModal },
-                { id: 'cancel-modal', element: cancelModal },
-                { id: 'login-prompt', element: loginPrompt },
-                { id: 'auth-modal', element: authModal },
-                { id: 'auth-btn', element: authBtn },
-                { id: 'signout-btn', element: signoutBtn },
-                { id: 'signin-form', element: signinForm },
-                { id: 'signup-form', element: signupForm },
-                { id: 'signin-btn', element: signinBtn },
-                { id: 'google-signin-btn', element: googleSigninBtn },
-                { id: 'signup-btn', element: signupBtn },
-                { id: 'user-email', element: userEmail },
-                { id: 'history-section', element: historySection },
-                { id: 'booking-history', element: bookingHistory }
-            ];
+    // Verify critical elements
+    const requiredElements = [
+        { id: 'installation-form', element: form },
+        { id: 'result', element: result },
+        { id: 'preview-btn', element: previewBtn },
+        { id: 'agree-btn', element: agreeBtn },
+        { id: 'cancel-btn', element: cancelBtn },
+        { id: 'confirmation-modal', element: confirmationModal },
+        { id: 'cancel-modal', element: cancelModal },
+        { id: 'login-prompt', element: loginPrompt },
+        { id: 'auth-modal', element: authModal },
+        { id: 'auth-btn', element: authBtn },
+        { id: 'signout-btn', element: signoutBtn },
+        { id: 'signin-form', element: signinForm },
+        { id: 'signup-form', element: signupForm },
+        { id: 'signin-btn', element: signinBtn },
+        { id: 'google-signin-btn', element: googleSigninBtn },
+        { id: 'signup-btn', element: signupBtn },
+        { id: 'user-email', element: userEmail },
+        { id: 'history-section', element: historySection },
+        { id: 'booking-history', element: bookingHistory }
+    ];
 
-            const missingElements = requiredElements.filter(item => !item.element);
-            if (missingElements.length > 0) {
-                console.error('Missing DOM elements:', missingElements.map(item => item.id));
-                if (result) {
-                    result.textContent = 'Error: Page failed to load correctly. Please refresh.';
-                    result.style.color = '#dc2626';
-                    result.classList.add('active');
-                }
-                return;
-            }
+    const missingElements = requiredElements.filter(item => !item.element);
+    if (missingElements.length > 0) {
+        console.error('Missing DOM elements:', missingElements.map(item => item.id));
+        if (result) {
+            result.textContent = 'Error: Page failed to load correctly. Please refresh.';
+            result.style.color = '#dc2626';
+            result.classList.add('active');
+        }
+        return;
+    }
 
-            // Firebase Services
-            const firebaseServices = window.firebaseServices;
-            if (!firebaseServices || !firebaseServices.auth || !firebaseServices.db) {
-                console.error('Firebase services not initialized');
-                signinResult.textContent = 'Error: Firebase not initialized. Please try again later.';
+    // Firebase Services
+    const firebaseServices = window.firebaseServices;
+    if (!firebaseServices || !firebaseServices.auth || !firebaseServices.db) {
+        console.error('Firebase services not initialized');
+        signinResult.textContent = 'Error: Firebase not initialized. Please try again later.';
+        signinResult.style.color = '#dc2626';
+        return;
+    }
+
+    const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, addDoc, query, where, orderBy, getDocs } = firebaseServices;
+
+    // Auth Modal Functions
+    window.openAuthModal = function(mode = 'signin') {
+        signinForm.classList.toggle('hidden', mode !== 'signin');
+        signupForm.classList.toggle('hidden', mode !== 'signup');
+        authModal.classList.add('active');
+        signinResult.textContent = '';
+        signupResult.textContent = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+        console.log('Auth modal opened in', mode, 'mode');
+    };
+
+    window.closeAuthModal = function() {
+        authModal.classList.remove('active');
+        signinEmail.value = '';
+        signinPassword.value = '';
+        signupEmail.value = '';
+        signupPassword.value = '';
+        console.log('Auth modal closed');
+    };
+
+    window.toggleAuthForm = function(mode) {
+        signinForm.classList.toggle('hidden', mode !== 'signin');
+        signupForm.classList.toggle('hidden', mode !== 'signup');
+        signinResult.textContent = '';
+        signupResult.textContent = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+        console.log('Toggled to', mode, 'form');
+    };
+
+    // Cancel Modal Functions
+    window.closeCancelModal = function() {
+        cancelModal.classList.remove('active');
+        console.log('Cancel modal closed');
+    };
+
+    // Firebase Authentication State
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            console.log('User signed in:', user.email);
+            authBtn.classList.add('hidden');
+            signoutBtn.classList.remove('hidden');
+            userEmail.textContent = user.email;
+            historySection.classList.remove('hidden');
+            form.classList.remove('hidden');
+            loginPrompt.classList.add('hidden');
+            loadBookingHistory(user.uid);
+        } else {
+            console.log('No user signed in');
+            authBtn.classList.remove('hidden');
+            signoutBtn.classList.add('hidden');
+            userEmail.textContent = '';
+            historySection.classList.add('hidden');
+            form.classList.add('hidden');
+            loginPrompt.classList.remove('hidden');
+            bookingHistory.innerHTML = '';
+        }
+    });
+
+    // Open Sign-In Modal
+    authBtn.addEventListener('click', () => openAuthModal('signin'));
+
+    // Sign In
+    signinBtn.addEventListener('click', () => {
+        const email = signinEmail.value.trim();
+        const password = signinPassword.value.trim();
+        signinResult.textContent = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+        if (!email) {
+            document.getElementById('signin-email-error').classList.add('active');
+            return;
+        }
+        if (!password) {
+            document.getElementById('signin-password-error').classList.add('active');
+            return;
+        }
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                signinResult.textContent = 'Signed in successfully!';
+                signinResult.style.color = '#16a34a';
+                closeAuthModal();
+            })
+            .catch(error => {
+                console.error('Sign-in error:', error.code, error.message);
+                signinResult.textContent = error.message;
                 signinResult.style.color = '#dc2626';
-                return;
-            }
-
-            const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, addDoc, query, where, orderBy, getDocs } = firebaseServices;
-
-            // Auth Modal Functions
-            window.openAuthModal = function(mode = 'signin') {
-                signinForm.classList.toggle('hidden', mode !== 'signin');
-                signupForm.classList.toggle('hidden', mode !== 'signup');
-                authModal.classList.add('active');
-                signinResult.textContent = '';
-                signupResult.textContent = '';
-                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-                console.log('Auth modal opened in', mode, 'mode');
-            };
-
-            window.closeAuthModal = function() {
-                authModal.classList.remove('active');
-                signinEmail.value = '';
-                signinPassword.value = '';
-                signupEmail.value = '';
-                signupPassword.value = '';
-                console.log('Auth modal closed');
-            };
-
-            window.toggleAuthForm = function(mode) {
-                signinForm.classList.toggle('hidden', mode !== 'signin');
-                signupForm.classList.toggle('hidden', mode !== 'signup');
-                signinResult.textContent = '';
-                signupResult.textContent = '';
-                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-                console.log('Toggled to', mode, 'form');
-            };
-
-            // Cancel Modal Functions
-            window.closeCancelModal = function() {
-                cancelModal.classList.remove('active');
-                console.log('Cancel modal closed');
-            };
-
-            // Firebase Authentication State
-            onAuthStateChanged(auth, user => {
-                if (user) {
-                    console.log('User signed in:', user.email);
-                    authBtn.classList.add('hidden');
-                    signoutBtn.classList.remove('hidden');
-                    userEmail.textContent = user.email;
-                    historySection.classList.remove('hidden');
-                    form.classList.remove('hidden');
-                    loginPrompt.classList.add('hidden');
-                    loadBookingHistory(user.uid);
-                } else {
-                    console.log('No user signed in');
-                    authBtn.classList.remove('hidden');
-                    signoutBtn.classList.add('hidden');
-                    userEmail.textContent = '';
-                    historySection.classList.add('hidden');
-                    form.classList.add('hidden');
-                    loginPrompt.classList.remove('hidden');
-                    bookingHistory.innerHTML = '';
-                }
             });
+    });
 
-            // Open Sign-In Modal
-            authBtn.addEventListener('click', () => openAuthModal('signin'));
+    // Google Sign In
+    googleSigninBtn.addEventListener('click', () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+            .then(() => {
+                signinResult.textContent = 'Signed in with Google successfully!';
+                signinResult.style.color = '#16a34a';
+                closeAuthModal();
+            })
+            .catch(error => {
+                console.error('Google Sign-in error:', error.code, error.message);
+                signinResult.textContent = error.message;
+                signinResult.style.color = '#dc2626';
+            });
+    });
 
-            // Sign In
-            signinBtn.addEventListener('click', () => {
-                const email = signinEmail.value.trim();
-                const password = signinPassword.value.trim();
-                signinResult.textContent = '';
-                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+    // Sign Up
+    signupBtn.addEventListener('click', () => {
+        const email = signupEmail.value.trim();
+        const password = signupPassword.value.trim();
+        signupResult.textContent = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
 
-                if (!email) {
-                    document.getElementById('signin-email-error').classList.add('active');
+        if (!email) {
+            document.getElementById('signup-email-error').classList.add('active');
+            return;
+        }
+        if (!password || password.length < 6) {
+            document.getElementById('signup-password-error').classList.add('active');
+            return;
+        }
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                signupResult.textContent = 'Account created successfully!';
+                signupResult.style.color = '#16a34a';
+                closeAuthModal();
+            })
+            .catch(error => {
+                console.error('Sign-up error:', error.code, error.message);
+                signupResult.textContent = error.message;
+                signupResult.style.color = '#dc2626';
+            });
+    });
+
+    // Sign Out
+    signoutBtn.addEventListener('click', () => {
+        signOut(auth)
+            .then(() => {
+                console.log('User signed out');
+            })
+            .catch(error => {
+                console.error('Sign-out error:', error.code, error.message);
+                alert('Error signing out: ' + error.message);
+            });
+    });
+
+    // Load Booking History
+    function loadBookingHistory(uid) {
+        console.log('Loading installation booking history for user:', uid);
+        if (!uid) {
+            console.error('No user ID provided');
+            bookingHistory.innerHTML = '<tr><td colspan="12" class="text-center text-red-600">Error: Please sign in to view history.</td></tr>';
+            return;
+        }
+
+        const q = query(collection(db, 'installations'), where('userId', '==', uid), orderBy('timestamp', 'desc'));
+        getDocs(q)
+            .then(querySnapshot => {
+                console.log('Firestore query returned', querySnapshot.size, 'documents');
+                bookingHistory.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Installation Type</th>
+                            <th>No. of Cameras</th>
+                            <th>Price</th>
+                            <th>Invoice Number</th>
+                            <th>DVR/NVR Serial Number</th>
+                            <th>Password</th>
+                            <th>Preferred Date</th>
+                            <th>Comments</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                if (querySnapshot.empty) {
+                    bookingHistory.innerHTML += '<tr><td colspan="12" class="text-center text-gray-700">No installation bookings found.</td></tr>';
                     return;
                 }
-                if (!password) {
-                    document.getElementById('signin-password-error').classList.add('active');
-                    return;
-                }
-
-                signInWithEmailAndPassword(auth, email, password)
-                    .then(() => {
-                        signinResult.textContent = 'Signed in successfully!';
-                        signinResult.style.color = '#16a34a';
-                        closeAuthModal();
-                    })
-                    .catch(error => {
-                        console.error('Sign-in error:', error.code, error.message);
-                        signinResult.textContent = error.message;
-                        signinResult.style.color = '#dc2626';
-                    });
+                querySnapshot.forEach(doc => {
+                    const booking = doc.data();
+                    console.log('Installation booking document:', booking);
+                    const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
+                    const preferredDate = booking.preferredDate ? new Date(booking.preferredDate).toLocaleDateString() : 'N/A';
+                    const statusClass = booking.status === 'Completed' ? 'status-completed' :
+                                       booking.status === 'Pending' ? 'status-pending' :
+                                       booking.status === 'Cancelled' ? 'status-cancelled' : '';
+                    bookingHistory.innerHTML += `
+                        <tr class="${statusClass}">
+                            <td>${date}</td>
+                            <td>${booking.name || 'N/A'}</td>
+                            <td>${booking.phone || 'N/A'}</td>
+                            <td>${booking.installationType || 'N/A'}</td>
+                            <td>${booking.numCameras || 'N/A'}</td>
+                            <td>${booking.price ? `₹${booking.price}` : 'N/A'}</td>
+                            <td>${booking.invoiceNumber || 'N/A'}</td>
+                            <td>${booking.serialNumber || 'N/A'}</td>
+                            <td>${booking.passwords || 'N/A'}</td>
+                            <td>${preferredDate}</td>
+                            <td>${booking.comments || 'N/A'}</td>
+                            <td>${booking.status || 'Pending'}</td>
+                        </tr>
+                    `;
+                });
+                bookingHistory.innerHTML += '</tbody>';
+            })
+            .catch(error => {
+                console.error('Firestore query error:', error.code, error.message);
+                bookingHistory.innerHTML = `<tr><td colspan="12" class="text-center text-red-600">Error loading history: ${error.message}</td></tr>`;
             });
+    }
 
-            // Google Sign In
-            googleSigninBtn.addEventListener('click', () => {
-                const provider = new GoogleAuthProvider();
-                signInWithPopup(auth, provider)
-                    .then(() => {
-                        signinResult.textContent = 'Signed in with Google successfully!';
-                        signinResult.style.color = '#16a34a';
-                        closeAuthModal();
-                    })
-                    .catch(error => {
-                        console.error('Google Sign-in error:', error.code, error.message);
-                        signinResult.textContent = error.message;
-                        signinResult.style.color = '#dc2626';
-                    });
+    // Preview button
+    previewBtn.addEventListener('click', () => {
+        console.log('Preview button clicked');
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+        result.classList.remove('active');
+
+        // Validate inputs
+        let hasError = false;
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const installationType = document.getElementById('installationType').value;
+        const numCameras = document.getElementById('numCameras').value;
+        const preferredDate = document.getElementById('preferredDate').value;
+        const comments = document.getElementById('comments').value.trim();
+
+        if (!name) {
+            document.getElementById('name-error').classList.add('active');
+            hasError = true;
+        }
+        if (!phone || !/^[0-9]{10}$/.test(phone)) {
+            document.getElementById('phone-error').classList.add('active');
+            hasError = true;
+        }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            document.getElementById('email-error').classList.add('active');
+            hasError = true;
+        }
+        if (!address) {
+            document.getElementById('address-error').classList.add('active');
+            hasError = true;
+        }
+        if (!installationType) {
+            document.getElementById('installationType-error').classList.add('active');
+            hasError = true;
+        }
+        if (!numCameras || numCameras < 1) {
+            document.getElementById('numCameras-error').classList.add('active');
+            hasError = true;
+        }
+        if (!preferredDate) {
+            document.getElementById('preferredDate-error').classList.add('active');
+            hasError = true;
+        }
+        if (!comments) {
+            document.getElementById('comments-error').classList.add('active');
+            hasError = true;
+        }
+
+        if (hasError) {
+            console.log('Validation errors detected');
+            return;
+        }
+
+        // Show confirmation modal
+        confirmationModal.classList.add('active');
+        console.log('Confirmation modal displayed');
+    });
+
+    // Agree button (Firestore storage only)
+    agreeBtn.addEventListener('click', async () => {
+        console.log('Agree & Proceed button clicked');
+        const user = auth.currentUser;
+        if (!user) {
+            console.error('No user signed in');
+            result.textContent = 'Error: Please sign in to submit a booking.';
+            result.style.color = '#dc2626';
+            result.classList.add('active');
+            confirmationModal.classList.remove('active');
+            openAuthModal('signin');
+            return;
+        }
+
+        const bookingData = {
+            name: document.getElementById('name').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            address: document.getElementById('address').value.trim(),
+            installationType: document.getElementById('installationType').value,
+            numCameras: parseInt(document.getElementById('numCameras').value),
+            preferredDate: document.getElementById('preferredDate').value,
+            comments: document.getElementById('comments').value.trim(),
+            status: 'Pending'
+        };
+        console.log('Form data:', bookingData);
+
+        try {
+            // Store in Firestore
+            const docRef = await addDoc(collection(db, 'installations'), {
+                userId: user.uid,
+                ...bookingData,
+                timestamp: new Date()
             });
+            console.log('Booking stored in Firestore for user:', user.uid, 'Doc ID:', docRef.id);
 
-            // Sign Up
-            signupBtn.addEventListener('click', () => {
-                const email = signupEmail.value.trim();
-                const password = signupPassword.value.trim();
-                signupResult.textContent = '';
-                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+            // Show success message and redirect
+            result.textContent = 'Booking submitted successfully!';
+            result.classList.add('active');
+            form.reset();
+            confirmationModal.classList.remove('active');
+            setTimeout(() => {
+                window.location.href = 'thankyou.html';
+                console.log('Redirecting to thankyou.html');
+            }, 500);
+        } catch (error) {
+            console.error('Submission error:', error.code, error.message);
+            result.textContent = `Error: ${error.message}`;
+            result.style.color = '#dc2626';
+            result.classList.add('active');
+            confirmationModal.classList.remove('active');
+        }
+    });
 
-                if (!email) {
-                    document.getElementById('signup-email-error').classList.add('active');
-                    return;
-                }
-                if (!password || password.length < 6) {
-                    document.getElementById('signup-password-error').classList.add('active');
-                    return;
-                }
-
-                createUserWithEmailAndPassword(auth, email, password)
-                    .then(() => {
-                        signupResult.textContent = 'Account created successfully!';
-                        signupResult.style.color = '#16a34a';
-                        closeAuthModal();
-                    })
-                    .catch(error => {
-                        console.error('Sign-up error:', error.code, error.message);
-                        signupResult.textContent = error.message;
-                        signupResult.style.color = '#dc2626';
-                    });
-            });
-
-            // Sign Out
-            signoutBtn.addEventListener('click', () => {
-                signOut(auth)
-                    .then(() => {
-                        console.log('User signed out');
-                    })
-                    .catch(error => {
-                        console.error('Sign-out error:', error.code, error.message);
-                        alert('Error signing out: ' + error.message);
-                    });
-            });
-
-            // Load Booking History
-            function loadBookingHistory(uid) {
-                console.log('Loading installation booking history for user:', uid);
-                if (!uid) {
-                    console.error('No user ID provided');
-                    bookingHistory.innerHTML = '<tr><td colspan="8" class="text-center text-red-600">Error: Please sign in to view history.</td></tr>';
-                    return;
-                }
-
-                const q = query(collection(db, 'installations'), where('userId', '==', uid), orderBy('timestamp', 'desc'));
-                getDocs(q)
-                    .then(querySnapshot => {
-                        console.log('Firestore query returned', querySnapshot.size, 'documents');
-                        bookingHistory.innerHTML = `
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Installation Type</th>
-                                    <th>No. of Cameras</th>
-                                    <th>Preferred Date</th>
-                                    <th>Comments</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                        `;
-                        if (querySnapshot.empty) {
-                            bookingHistory.innerHTML += '<tr><td colspan="8" class="text-center text-gray-700">No installation bookings found.</td></tr>';
-                            return;
-                        }
-                        querySnapshot.forEach(doc => {
-                            const booking = doc.data();
-                            console.log('Installation booking document:', booking);
-                            const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
-                            const preferredDate = booking.preferredDate ? new Date(booking.preferredDate).toLocaleDateString() : 'N/A';
-                            const statusClass = booking.status === 'Completed' ? 'status-completed' :
-                                               booking.status === 'Pending' ? 'status-pending' :
-                                               booking.status === 'Cancelled' ? 'status-cancelled' : '';
-                            bookingHistory.innerHTML += `
-                                <tr class="${statusClass}">
-                                    <td>${date}</td>
-                                    <td>${booking.name || 'N/A'}</td>
-                                    <td>${booking.phone || 'N/A'}</td>
-                                    <td>${booking.installationType || 'N/A'}</td>
-                                    <td>${booking.numCameras || 'N/A'}</td>
-                                    <td>${preferredDate}</td>
-                                    <td>${booking.comments || 'N/A'}</td>
-                                    <td>${booking.status || 'Pending'}</td>
-                                </tr>
-                            `;
-                        });
-                        bookingHistory.innerHTML += '</tbody>';
-                    })
-                    .catch(error => {
-                        console.error('Firestore query error:', error.code, error.message);
-                        bookingHistory.innerHTML = `<tr><td colspan="8" class="text-center text-red-600">Error loading history: ${error.message}</td></tr>`;
-                    });
-            }
-
-            // Preview button
-            previewBtn.addEventListener('click', () => {
-                console.log('Preview button clicked');
-                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-                result.classList.remove('active');
-
-                // Validate inputs
-                let hasError = false;
-                const name = document.getElementById('name').value.trim();
-                const phone = document.getElementById('phone').value.trim();
-                const email = document.getElementById('email').value.trim();
-                const address = document.getElementById('address').value.trim();
-                const installationType = document.getElementById('installationType').value;
-                const numCameras = document.getElementById('numCameras').value;
-                const preferredDate = document.getElementById('preferredDate').value;
-                const comments = document.getElementById('comments').value.trim();
-
-                if (!name) {
-                    document.getElementById('name-error').classList.add('active');
-                    hasError = true;
-                }
-                if (!phone || !/^[0-9]{10}$/.test(phone)) {
-                    document.getElementById('phone-error').classList.add('active');
-                    hasError = true;
-                }
-                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    document.getElementById('email-error').classList.add('active');
-                    hasError = true;
-                }
-                if (!address) {
-                    document.getElementById('address-error').classList.add('active');
-                    hasError = true;
-                }
-                if (!installationType) {
-                    document.getElementById('installationType-error').classList.add('active');
-                    hasError = true;
-                }
-                if (!numCameras || numCameras < 1) {
-                    document.getElementById('numCameras-error').classList.add('active');
-                    hasError = true;
-                }
-                if (!preferredDate) {
-                    document.getElementById('preferredDate-error').classList.add('active');
-                    hasError = true;
-                }
-                if (!comments) {
-                    document.getElementById('comments-error').classList.add('active');
-                    hasError = true;
-                }
-
-                if (hasError) {
-                    console.log('Validation errors detected');
-                    return;
-                }
-
-                // Show confirmation modal
-                confirmationModal.classList.add('active');
-                console.log('Confirmation modal displayed');
-            });
-
-            // Agree button (Firestore storage only)
-            agreeBtn.addEventListener('click', async () => {
-                console.log('Agree & Proceed button clicked');
-                const user = auth.currentUser;
-                if (!user) {
-                    console.error('No user signed in');
-                    result.textContent = 'Error: Please sign in to submit a booking.';
-                    result.style.color = '#dc2626';
-                    result.classList.add('active');
-                    confirmationModal.classList.remove('active');
-                    openAuthModal('signin');
-                    return;
-                }
-
-                const bookingData = {
-                    name: document.getElementById('name').value.trim(),
-                    phone: document.getElementById('phone').value.trim(),
-                    email: document.getElementById('email').value.trim(),
-                    address: document.getElementById('address').value.trim(),
-                    installationType: document.getElementById('installationType').value,
-                    numCameras: parseInt(document.getElementById('numCameras').value),
-                    preferredDate: document.getElementById('preferredDate').value,
-                    comments: document.getElementById('comments').value.trim(),
-                    status: 'Pending',
-                    solution: '',
-                    amount: 0
-                };
-                console.log('Form data:', bookingData);
-
-                try {
-                    // Store in Firestore
-                    const docRef = await addDoc(collection(db, 'installations'), {
-                        userId: user.uid,
-                        ...bookingData,
-                        timestamp: new Date()
-                    });
-                    console.log('Booking stored in Firestore for user:', user.uid, 'Doc ID:', docRef.id);
-
-                    // Show success message and redirect
-                    result.textContent = 'Booking submitted successfully!';
-                    result.classList.add('active');
-                    form.reset();
-                    confirmationModal.classList.remove('active');
-                    setTimeout(() => {
-                        window.location.href = 'thankyou.html';
-                        console.log('Redirecting to thankyou.html');
-                    }, 500);
-                } catch (error) {
-                    console.error('Submission error:', error.code, error.message);
-                    result.textContent = `Error: ${error.message}`;
-                    result.style.color = '#dc2626';
-                    result.classList.add('active');
-                    confirmationModal.classList.remove('active');
-                }
-            });
-
-            // Cancel button
-            cancelBtn.addEventListener('click', () => {
-                console.log('Cancel button clicked');
-                confirmationModal.classList.remove('active');
-                cancelModal.classList.add('active');
-                console.log('Cancel modal displayed');
-            });
-        });
+    // Cancel button
+    cancelBtn.addEventListener('click', () => {
+        console.log('Cancel button clicked');
+        confirmationModal.classList.remove('active');
+        cancelModal.classList.add('active');
+        console.log('Cancel modal displayed');
+    });
+});
     </script>
 </body>
 </html>
