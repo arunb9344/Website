@@ -58,7 +58,7 @@ const generatePDF = (booking) => {
         .font('Helvetica')
         .text(booking.customerName, 50, 190)
         .text(booking.address, 50, 205, { width: 250 })
-        .text(`Phone: ${booking.phone || 'N/A'}`, 50, 235) // Added phone number
+        .text(`Phone: ${booking.phone || 'N/A'}`, 50, 235)
         .text(`Email: ${booking.toEmail}`, 50, 250);
 
       // Table Header
@@ -69,56 +69,55 @@ const generatePDF = (booking) => {
         .fillColor('#ffffff')
         .rect(50, tableTop, 500, 20)
         .fill('#003087')
-        .text('Description', 55, tableTop + 6)
-        .text('Quantity', 350, tableTop + 6)
-        .text('Amount (INR)', 450, tableTop + 6, { align: 'right' });
+        .text('Description', 55, tableTop + 6, { width: 290 })
+        .text('Quantity', 350, tableTop + 6, { width: 60, align: 'left' })
+        .text('Amount (INR)', 450, tableTop + 6, { width: 100, align: 'right' });
 
       // Table Row
       const rowTop = tableTop + 20;
+      const description = `CCTV Installation (${booking.installationType})${booking.comments ? ' - ' + booking.comments : ''}`;
       doc
         .fontSize(10)
         .font('Helvetica')
         .fillColor('#333333')
         .rect(50, rowTop, 500, 20)
         .fill('#f5f5f5')
-        .text(`CCTV Installation - ${booking.installationType}`, 55, rowTop + 6)
-        .text(`${booking.numCameras}`, 350, rowTop + 6)
-        .text(`${booking.price.toFixed(2)}`, 450, rowTop + 6, { align: 'right' });
+        .text(description, 55, rowTop + 6, { width: 290 })
+        .text(`${booking.numCameras}`, 350, rowTop + 6, { width: 60, align: 'left' })
+        .text(`${booking.price.toFixed(2)}`, 450, rowTop + 6, { width: 100, align: 'right' });
 
-      // Installation Details
+      // Total Amount
       doc
         .fontSize(12)
         .font('Helvetica-Bold')
         .fillColor('#333333')
-        .text('Installation Details:', 50, rowTop + 40)
+        .text(`Total Amount: INR ${booking.price.toFixed(2)}`, 450, rowTop + 40, { width: 100, align: 'right' });
+
+      // CCTV System Section
+      doc
+        .fontSize(12)
+        .font('Helvetica-Bold')
+        .fillColor('#333333')
+        .text('CCTV System:', 50, rowTop + 70)
         .fontSize(10)
         .font('Helvetica')
-        .text(`Number of Cameras: ${booking.numCameras}`, 50, rowTop + 60) // Added Number of Cameras
-        .text(`Serial Number: ${booking.serialNumber}`, 50, rowTop + 75)
-        .text(`Comments: ${booking.comments || 'None'}`, 50, rowTop + 90, { width: 500 });
-
-      // Total
-      doc
-        .fontSize(12)
-        .font('Helvetica-Bold')
-        .fillColor('#333333')
-        .text(`Total: INR ${booking.price.toFixed(2)}`, 450, rowTop + 130, { align: 'right' });
+        .text(`Number of Cameras: ${booking.numCameras}`, 50, rowTop + 90)
+        .text(`Serial Number: ${booking.serialNumber}`, 50, rowTop + 105);
 
       // Terms & Conditions
       doc
         .fontSize(12)
         .font('Helvetica-Bold')
         .fillColor('#333333')
-        .text('Warranties & Services', 50, rowTop + 160)
+        .text('Warranties & Services', 50, rowTop + 135)
         .fontSize(10)
         .font('Helvetica')
-        .text('• 2 Years Manufacturing Warranty for Camera, DVR, SMPS, POE, NVR.', 50, rowTop + 180)
-        .text('• 3 Years Manufacturing Warranty for Hard Disk above 1TB.', 50, rowTop + 195)
-        .text('• 2 Years Manufacturing Warranty for Hard Disk above 500GB HDD', 50, rowTop + 210)
-        .text('• 1 Year Manufacturer Warranty for Biometrics.', 50, rowTop + 225)
-        .text('• 1 Year Free Service for CCTV Camera System.', 50, rowTop + 240)
+        .text('• 2 Years Manufacturing Warranty for Camera, DVR, SMPS, POE, NVR.', 50, rowTop + 155)
+        .text('• 3 Years Manufacturing Warranty for Hard Disk above 1TB.', 50, rowTop + 170)
+        .text('• 2 Years Manufacturing Warranty for Hard Disk above 500GB HDD', 50, rowTop + 185)
+        .text('• 1 Year Manufacturer Warranty for Biometrics.', 50, rowTop + 200)
+        .text('• 1 Year Free Service for CCTV Camera System.', 50, rowTop + 215);
 
-        
       // Footer
       doc
         .fontSize(10)
@@ -126,7 +125,7 @@ const generatePDF = (booking) => {
         .fillColor('#333333')
         .text('Thank you for choosing EyeTech Securities!', 50, doc.page.height - 100, { align: 'center' })
         .text('For queries, contact us at eyetechsecurities@gmail.com or +91-9962835944', 50, doc.page.height - 85, { align: 'center' })
-        .text('This is System Generated Invoice, Hence no Signature is Required', 50, doc.page.height - 70, { align: 'center' }); // Added Regards
+        .text('This is System Generated Invoice, Hence no Signature is Required', 50, doc.page.height - 70, { align: 'center' });
 
       doc.end();
     } catch (err) {
