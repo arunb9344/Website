@@ -95,7 +95,7 @@
     <meta name="twitter:title" content="Installation Booking - Eye Tech Securities">
     <meta name="twitter:description" content="Book CCTV installation services with EyeTech Securities in Chennai. Secure, reliable solutions.">
     <meta name="twitter:image" content="https://www.eyetechsecurities.in/eyetech%20logo%20jpg.webp">
-    <meta name="twitter:image:alt" content="Eye Tech Securities Logo">
+    <meta name="twitter:image:alt" content="EyeTech Securities Logo">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.eyetechsecurities.in/installationbooking.html">
@@ -151,380 +151,337 @@
     </script>
 
     <style>
-    @media (max-width: 639px) {
-        .customer-type-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        @media (max-width: 639px) {
+            .customer-type-container {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .customer-type-container label {
+                margin-left: 0;
+            }
+            .history-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .history-table th,
+            .history-table td {
+                min-width: 120px;
+            }
+            .form-container {
+                padding: 1.5rem;
+            }
+            .booking-header {
+                padding: 1.5rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+            #installation-form label {
+                font-size: 0.875rem;
+            }
+            #preview-btn {
+                padding: 0.75rem;
+            }
+            .login-prompt {
+                font-size: 1rem;
+                padding: 0.75rem;
+            }
+            .auth-button {
+                padding: 0.5rem 1.5rem;
+                font-size: 0.875rem;
+            }
         }
-        .customer-type-container label {
-            margin-left: 0;
+        @media (min-width: 640px) {
+            .customer-type-container {
+                display: flex;
+                flex-direction: row;
+                gap: 1.5rem;
+            }
         }
-        .history-table-container {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            width: 100%;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1); /* Visual cue for scrolling */
-        }
-        .history-table {
-            display: table;
-            width: max-content; /* Ensures table expands to fit content */
-            table-layout: fixed; /* Consistent column widths */
-        }
-        .history-table th,
-        .history-table td {
-            min-width: 80px; /* Reduced for mobile */
-            font-size: 0.75rem;
-            padding: 0.5rem; /* Reduced padding for compactness */
+        .nav-active {
+            background-color: #2563eb;
+            transform: scale(1.05);
         }
         .form-container {
-            padding: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid transparent;
+            border-image: linear-gradient(to right, #2563eb, #4f46e5) 1;
         }
-        .booking-header {
-            padding: 1.5rem;
+        .error-message {
+            color: #dc2626;
+            font-size: 0.875rem;
+            background: #fef2f2;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .error-message.active {
+            display: block;
+        }
+        .success-message {
+            color: #16a34a;
+            font-size: 1rem;
+            text-align: center;
+            background: #ecfdf5;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        .success-message.active {
+            display: block;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.active {
+            display: block;
+            opacity: 1;
         }
         .modal-content {
-            padding: 1.5rem;
+            background-color: #ffffff;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 350px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
         }
-        #installation-form label {
-            font-size: 0.875rem;
+        .modal.active .modal-content {
+            transform: translateY(0);
         }
-        #preview-btn {
-            padding: 0.75rem;
+        .confirmation-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
         }
-        .login-prompt {
-            font-size: 1rem;
-            padding: 0.75rem;
+        .confirmation-buttons button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .confirmation-buttons button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .auth-modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         .auth-button {
-            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: #ffffff;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+        }
+        .auth-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .google-button {
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .google-button:hover {
+            background-color: #f3f4f6;
+            transform: scale(1.05);
+        }
+        .toggle-auth {
+            cursor: pointer;
+            color: #2563eb;
+            transition: color 0.2s ease;
+        }
+        .toggle-auth:hover {
+            color: #1d4ed8;
+        }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 1.5rem;
+            transition: color 0.2s ease;
+        }
+        .close-modal:hover {
+            color: #374151;
+        }
+        .floating-label-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .floating-label {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            color: #6b7280;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            pointer-events: none;
+        }
+        .floating-label-group input:not(:placeholder-shown) + .floating-label,
+        .floating-label-group input:focus + .floating-label {
+            top: -0.75rem;
+            left: 0.5rem;
+            font-size: 0.75rem;
+            color: #2563eb;
+            background: #ffffff;
+            padding: 0 0.25rem;
+        }
+        .floating-label-group input {
+            border: none;
+            border-bottom: 2px solid #d1d5db;
+            border-radius: 0;
+            padding: 0.75rem;
+            width: 100%;
             font-size: 0.875rem;
         }
-    }
-    @media (min-width: 640px) {
-        .customer-type-container {
-            display: flex;
-            flex-direction: row;
-            gap: 1.5rem;
+        .floating-label-group input:focus {
+            outline: none;
+            border-bottom: 2px solid #2563eb;
+        }
+        #installation-form input,
+        #installation-form textarea,
+        #installation-form select {
+            transition: all 0.3s ease;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+        }
+        #installation-form input:focus,
+        #installation-form textarea:focus,
+        #installation-form select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        #installation-form input:hover,
+        #installation-form textarea:hover,
+        #installation-form select:hover {
+            transform: scale(1.02);
+        }
+        #installation-form label {
+            font-weight: 600;
+            color: #1f2937;
+            transition: all 0.2s ease;
+        }
+        #installation-form input:not(:placeholder-shown) + label,
+        #installation-form textarea:not(:placeholder-shown) + label,
+        #installation-form select:not(:placeholder-shown) + label {
+            transform: translateY(-0.5rem);
+            font-size: 0.75rem;
+        }
+        #preview-btn {
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            transition: all 0.3s ease;
+        }
+        #preview-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .booking-header {
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: #ffffff;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .login-prompt {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #dc2626;
+            background: #fef2f2;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid transparent;
+            border-image: linear-gradient(to right, #dc2626, #f87171) 1;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .centered-auth-button {
+            text-align: center;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        .history-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #ffffff;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .history-table th,
         .history-table td {
-            min-width: 120px; /* Larger width for desktop */
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
         }
-    }
-    .nav-active {
-        background-color: #2563eb;
-        transform: scale(1.05);
-    }
-    .form-container {
-        max-width: 600px;
-        margin: 0 auto;
-        background: #ffffff;
-        padding: 2.5rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        border: 1px solid transparent;
-        border-image: linear-gradient(to right, #2563eb, #4f46e5) 1;
-    }
-    .error-message {
-        color: #dc2626;
-        font-size: 0.875rem;
-        background: #fef2f2;
-        padding: 0.5rem;
-        border-radius: 0.375rem;
-        margin-top: 0.25rem;
-        display: none;
-    }
-    .error-message.active {
-        display: block;
-    }
-    .success-message {
-        color: #16a34a;
-        font-size: 1rem;
-        text-align: center;
-        background: #ecfdf5;
-        padding: 0.75rem;
-        border-radius: 0.375rem;
-        margin-bottom: 1rem;
-        display: none;
-    }
-    .success-message.active {
-        display: block;
-    }
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.5);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-    .modal.active {
-        display: block;
-        opacity: 1;
-    }
-    .modal-content {
-        background-color: #ffffff;
-        margin: 5% auto;
-        padding: 2rem;
-        border-radius: 0.75rem;
-        width: 90%;
-        max-width: 350px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        transform: translateY(-50px);
-        transition: transform 0.3s ease;
-    }
-    .modal.active .modal-content {
-        transform: translateY(0);
-    }
-    .confirmation-buttons {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: 1.5rem;
-    }
-    .confirmation-buttons button {
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-    .confirmation-buttons button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .auth-modal-content {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    .auth-button {
-        transition: all 0.3s ease;
-        border-radius: 0.5rem;
-        font-weight: 500;
-        background: linear-gradient(to right, #2563eb, #4f46e5);
-        color: #ffffff;
-        padding: 0.75rem 2rem;
-        font-size: 1rem;
-    }
-    .auth-button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    .google-button {
-        background-color: #ffffff;
-        border: 1px solid #d1d5db;
-        color: #374151;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-    }
-    .google-button:hover {
-        background-color: #f3f4f6;
-        transform: scale(1.05);
-    }
-    .toggle-auth {
-        cursor: pointer;
-        color: #2563eb;
-        transition: color 0.2s ease;
-    }
-    .toggle-auth:hover {
-        color: #1d4ed8;
-    }
-    .close-modal {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        cursor: pointer;
-        color: #6b7280;
-        font-size: 1.5rem;
-        transition: color 0.2s ease;
-    }
-    .close-modal:hover {
-        color: #374151;
-    }
-    .floating-label-group {
-        position: relative;
-        margin-bottom: 1.5rem;
-    }
-    .floating-label {
-        position: absolute;
-        top: 0.75rem;
-        left: 0.75rem;
-        color: #6b7280;
-        font-size: 0.875rem;
-        transition: all 0.2s ease;
-        pointer-events: none;
-    }
-    .floating-label-group input:not(:placeholder-shown) + .floating-label,
-    .floating-label-group input:focus + .floating-label {
-        top: -0.75rem;
-        left: 0.5rem;
-        font-size: 0.75rem;
-        color: #2563eb;
-        background: #ffffff;
-        padding: 0 0.25rem;
-    }
-    .floating-label-group input {
-        border: none;
-        border-bottom: 2px solid #d1d5db;
-        border-radius: 0;
-        padding: 0.75rem;
-        width: 100%;
-        font-size: 0.875rem;
-    }
-    .floating-label-group input:focus {
-        outline: none;
-        border-bottom: 2px solid #2563eb;
-    }
-    #installation-form input,
-    #installation-form textarea,
-    #installation-form select {
-        transition: all 0.3s ease;
-        border: 1px solid #d1d5db;
-        border-radius: 0.375rem;
-        padding: 0.75rem;
-    }
-    #installation-form input:focus,
-    #installation-form textarea:focus,
-    #installation-form select:focus {
-        outline: none;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-    #installation-form input:hover,
-    #installation-form textarea:hover,
-    #installation-form select:hover {
-        transform: scale(1.02);
-    }
-    #installation-form label {
-        font-weight: 600;
-        color: #1f2937;
-        transition: all 0.2s ease;
-    }
-    #installation-form input:not(:placeholder-shown) + label,
-    #installation-form textarea:not(:placeholder-shown) + label,
-    #installation-form select:not(:placeholder-shown) + label {
-        transform: translateY(-0.5rem);
-        font-size: 0.75rem;
-    }
-    #preview-btn {
-        background: linear-gradient(to right, #2563eb, #4f46e5);
-        transition: all 0.3s ease;
-    }
-    #preview-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-    .booking-header {
-        background: linear-gradient(to right, #2563eb, #4f46e5);
-        color: #ffffff;
-        padding: 2rem;
-        border-radius: 0.75rem;
-        text-align: center;
-        margin-bottom: 2rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-    .login-prompt {
-        font-size: 1.125rem;
-        font-weight: 600;
-        color: #dc2626;
-        background: #fef2f2;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border: 1px solid transparent;
-        border-image: linear-gradient(to right, #dc2626, #f87171) 1;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    .centered-auth-button {
-        text-align: center;
-        max-width: 200px;
-        margin: 0 auto;
-    }
-    .history-table-container {
-        position: relative;
-        padding-bottom: 1rem;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        width: 100%;
-        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    .history-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        background: #ffffff;
-        border-radius: 0.5rem;
-        overflow: hidden;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        table-layout: fixed;
-    }
-    .history-table th,
-    .history-table td {
-        padding: 0.75rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid #e5e7eb;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .history-table th {
-        background: #2563eb;
-        color: #ffffff;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.875rem;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-    }
-    .history-table tr:last-child td {
-        border-bottom: none;
-    }
-    .history-table tr:hover {
-        background: #f9fafb;
-    }
-    .history-table td {
-        font-size: 0.875rem;
-    }
-    .history-table td:nth-child(11) { /* Comments column */
-        white-space: normal;
-        max-width: 150px; /* Reduced for mobile */
-        word-wrap: break-word;
-    }
-    .history-table-container::-webkit-scrollbar {
-        height: 8px;
-    }
-    .history-table-container::-webkit-scrollbar-thumb {
-        background: #2563eb;
-        border-radius: 4px;
-    }
-    .history-table-container::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-    .status-completed td {
-        color: #16a34a;
-    }
-    .status-pending td {
-        color: #f59e0b;
-    }
-    .status-cancelled td {
-        color: #dc2626;
-    }
-    .status-completed td:last-child,
-    .status-pending td:last-child,
-    .status-cancelled td:last-child {
-        font-weight: 700;
-    }
-</style>
+        .history-table th {
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+        .history-table tr:hover {
+            background: #f9fafb;
+        }
+        .history-table td {
+            font-size: 0.875rem;
+        }
+        .status-completed td {
+            color: #16a34a;
+        }
+        .status-pending td {
+            color: #f59e0b;
+        }
+        .status-cancelled td {
+            color: #dc2626;
+        }
+        .status-completed td:last-child,
+        .status-pending td:last-child,
+        .status-cancelled td:last-child {
+            font-weight: 700;
+        }
+    </style>
 </head>
 <body class="font-sans">
     <!-- Navigation -->
@@ -586,7 +543,7 @@
                 <span>Packages</span>
             </a>
             <a href="Blog/blog.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 22" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 <span>Blog</span>
             </a>
             <a href="about.html" class="flex items-center space-x-2 py-2 hover:bg-blue-600 rounded-md px-3">
@@ -689,54 +646,54 @@
                 </div>
                 <p id="result" class="success-message"></p>
                 <form id="installation-form" method="POST" class="hidden">
-    <input type="hidden" name="status" value="Pending">
-    <div class="mb-4">
-        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-        <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
-        <p id="name-error" class="error-message">Please enter your name.</p>
-    </div>
-    <div class="mb-4">
-        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-        <input type="tel" id="phone" name="phone" class="mt-1 p-2 w-full border rounded-md" required pattern="[0-9]{10}">
-        <p id="phone-error" class="error-message">Please enter a valid 10-digit phone number.</p>
-    </div>
-    <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md" required>
-        <p id="email-error" class="error-message">Please enter a valid email address.</p>
-    </div>
-    <div class="mb-4">
-        <label for="address" class="block text-sm font-medium text-gray-700">Full Address</label>
-        <textarea id="address" name="address" rows="3" class="mt-1 p-2 w-full border rounded-md" required></textarea>
-        <p id="address-error" class="error-message">Please enter your full address.</p>
-    </div>
-    <div class="mb-4">
-        <label for="installationType" class="block text-sm font-medium text-gray-700">Installation Type</label>
-        <select id="installationType" name="installationType" class="mt-1 p-2 w-full border rounded-md" required>
-            <option value="" disabled selected>Select installation type</option>
-            <option value="Residential">Residential</option>
-            <option value="Commercial">Commercial</option>
-            <option value="Industrial">Industrial</option>
-        </select>
-        <p id="installationType-error" class="error-message">Please select an installation type.</p>
-    </div>
-    <div class="mb-4">
-        <label for="numCameras" class="block text-sm font-medium text-gray-700">Number of Cameras</label>
-        <input type="number" id="numCameras" name="numCameras" class="mt-1 p-2 w-full border rounded-md" required min="1">
-        <p id="numCameras-error" class="error-message">Please enter a valid number of cameras (minimum 1).</p>
-    </div>
-    <div class="mb-4">
-        <label for="preferredDate" class="block text-sm font-medium text-gray-700">Preferred Installation Date</label>
-        <input type="date" id="preferredDate" name="preferredDate" class="mt-1 p-2 w-full border rounded-md" required>
-        <p id="preferredDate-error" class="error-message">Please select a valid date.</p>
-    </div>
-    <div class="mb-4">
-        <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
-        <textarea id="comments" name="comments" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
-        <p id="comments-error" class="error-message">Please enter your comments.</p>
-    </div>
-    <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
-</form>
+                    <input type="hidden" name="status" value="Pending">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                        <input type="text" id="name" name="name" class="mt-1 p-2 w-full border rounded-md" required>
+                        <p id="name-error" class="error-message">Please enter your name.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="mt-1 p-2 w-full border rounded-md" required pattern="[0-9]{10}">
+                        <p id="phone-error" class="error-message">Please enter a valid 10-digit phone number.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" class="mt-1 p-2 w-full border rounded-md" required>
+                        <p id="email-error" class="error-message">Please enter a valid email address.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-sm font-medium text-gray-700">Full Address</label>
+                        <textarea id="address" name="address" rows="3" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+                        <p id="address-error" class="error-message">Please enter your full address.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="installationType" class="block text-sm font-medium text-gray-700">Installation Type</label>
+                        <select id="installationType" name="installationType" class="mt-1 p-2 w-full border rounded-md" required>
+                            <option value="" disabled selected>Select installation type</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Industrial">Industrial</option>
+                        </select>
+                        <p id="installationType-error" class="error-message">Please select an installation type.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="numCameras" class="block text-sm font-medium text-gray-700">Number of Cameras</label>
+                        <input type="number" id="numCameras" name="numCameras" class="mt-1 p-2 w-full border rounded-md" required min="1">
+                        <p id="numCameras-error" class="error-message">Please enter a valid number of cameras (minimum 1).</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="preferredDate" class="block text-sm font-medium text-gray-700">Preferred Installation Date</label>
+                        <input type="date" id="preferredDate" name="preferredDate" class="mt-1 p-2 w-full border rounded-md" required>
+                        <p id="preferredDate-error" class="error-message">Please select a valid date.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
+                        <textarea id="comments" name="comments" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+                        <p id="comments-error" class="error-message">Please enter your comments.</p>
+                    </div>
+                    <button type="button" id="preview-btn" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full">Preview Submission</button>
+                </form>
                 <!-- Confirmation Modal -->
                 <div id="confirmation-modal" class="modal">
                     <div class="modal-content">
@@ -775,434 +732,413 @@
 
     <!-- JavaScript -->
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM fully loaded');
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM fully loaded');
 
-        // Mobile menu toggle
-        window.toggleMenu = function() {
-            const menu = document.getElementById('mobile-menu');
-            if (menu) {
-                menu.classList.toggle('hidden');
-                console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
-            } else {
-                console.error('Mobile menu not found');
-            }
-        };
-
-        // Form elements
-        const form = document.getElementById('installation-form');
-        const result = document.getElementById('result');
-        const previewBtn = document.getElementById('preview-btn');
-        const agreeBtn = document.getElementById('agree-btn');
-        const cancelBtn = document.getElementById('cancel-btn');
-        const confirmationModal = document.getElementById('confirmation-modal');
-        const cancelModal = document.getElementById('cancel-modal');
-        const loginPrompt = document.getElementById('login-prompt');
-
-        // Auth elements
-        const authModal = document.getElementById('auth-modal');
-        const authBtn = document.getElementById('auth-btn');
-        const signoutBtn = document.getElementById('signout-btn');
-        const signinForm = document.getElementById('signin-form');
-        const signupForm = document.getElementById('signup-form');
-        const signinBtn = document.getElementById('signin-btn');
-        const googleSigninBtn = document.getElementById('google-signin-btn');
-        const signupBtn = document.getElementById('signup-btn');
-        const signinEmail = document.getElementById('signin-email');
-        const signinPassword = document.getElementById('signin-password');
-        const signupEmail = document.getElementById('signup-email');
-        const signupPassword = document.getElementById('signup-password');
-        const signinResult = document.getElementById('signin-result');
-        const signupResult = document.getElementById('signup-result');
-        const userEmail = document.getElementById('user-email');
-        const historySection = document.getElementById('history-section');
-        const bookingHistory = document.getElementById('booking-history');
-
-        // Verify critical elements
-        const requiredElements = [
-            { id: 'installation-form', element: form },
-            { id: 'result', element: result },
-            { id: 'preview-btn', element: previewBtn },
-            { id: 'agree-btn', element: agreeBtn },
-            { id: 'cancel-btn', element: cancelBtn },
-            { id: 'confirmation-modal', element: confirmationModal },
-            { id: 'cancel-modal', element: cancelModal },
-            { id: 'login-prompt', element: loginPrompt },
-            { id: 'auth-modal', element: authModal },
-            { id: 'auth-btn', element: authBtn },
-            { id: 'signout-btn', element: signoutBtn },
-            { id: 'signin-form', element: signinForm },
-            { id: 'signup-form', element: signupForm },
-            { id: 'signin-btn', element: signinBtn },
-            { id: 'google-signin-btn', element: googleSigninBtn },
-            { id: 'signup-btn', element: signupBtn },
-            { id: 'user-email', element: userEmail },
-            { id: 'history-section', element: historySection },
-            { id: 'booking-history', element: bookingHistory }
-        ];
-
-        const missingElements = requiredElements.filter(item => !item.element);
-        if (missingElements.length > 0) {
-            console.error('Missing DOM elements:', missingElements.map(item => item.id));
-            if (result) {
-                result.textContent = 'Error: Page failed to load correctly. Please refresh.';
-                result.style.color = '#dc2626';
-                result.classList.add('active');
-            }
-            return;
-        }
-
-        // Firebase Services
-        const firebaseServices = window.firebaseServices;
-        if (!firebaseServices || !firebaseServices.auth || !firebaseServices.db) {
-            console.error('Firebase services not initialized');
-            signinResult.textContent = 'Error: Firebase not initialized. Please try again later.';
-            signinResult.style.color = '#dc2626';
-            return;
-        }
-
-        const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, addDoc, query, where, orderBy, getDocs } = firebaseServices;
-
-        // Auth Modal Functions
-        window.openAuthModal = function(mode = 'signin') {
-            signinForm.classList.toggle('hidden', mode !== 'signin');
-            signupForm.classList.toggle('hidden', mode !== 'signup');
-            authModal.classList.add('active');
-            signinResult.textContent = '';
-            signupResult.textContent = '';
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-            console.log('Auth modal opened in', mode, 'mode');
-        };
-
-        window.closeAuthModal = function() {
-            authModal.classList.remove('active');
-            signinEmail.value = '';
-            signinPassword.value = '';
-            signupEmail.value = '';
-            signupPassword.value = '';
-            console.log('Auth modal closed');
-        };
-
-        window.toggleAuthForm = function(mode) {
-            signinForm.classList.toggle('hidden', mode !== 'signin');
-            signupForm.classList.toggle('hidden', mode !== 'signup');
-            signinResult.textContent = '';
-            signupResult.textContent = '';
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-            console.log('Toggled to', mode, 'form');
-        };
-
-        // Cancel Modal Functions
-        window.closeCancelModal = function() {
-            cancelModal.classList.remove('active');
-            console.log('Cancel modal closed');
-        };
-
-        // Firebase Authentication State
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                console.log('User signed in:', user.email);
-                authBtn.classList.add('hidden');
-                signoutBtn.classList.remove('hidden');
-                userEmail.textContent = user.email;
-                historySection.classList.remove('hidden');
-                form.classList.remove('hidden');
-                loginPrompt.classList.add('hidden');
-                loadBookingHistory(user.uid);
-            } else {
-                console.log('No user signed in');
-                authBtn.classList.remove('hidden');
-                signoutBtn.classList.add('hidden');
-                userEmail.textContent = '';
-                historySection.classList.add('hidden');
-                form.classList.add('hidden');
-                loginPrompt.classList.remove('hidden');
-                bookingHistory.innerHTML = '';
-            }
-        });
-
-        // Open Sign-In Modal
-        authBtn.addEventListener('click', () => openAuthModal('signin'));
-
-        // Sign In
-        signinBtn.addEventListener('click', () => {
-            const email = signinEmail.value.trim();
-            const password = signinPassword.value.trim();
-            signinResult.textContent = '';
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-
-            if (!email) {
-                document.getElementById('signin-email-error').classList.add('active');
-                return;
-            }
-            if (!password) {
-                document.getElementById('signin-password-error').classList.add('active');
-                return;
-            }
-
-            signInWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    signinResult.textContent = 'Signed in successfully!';
-                    signinResult.style.color = '#16a34a';
-                    closeAuthModal();
-                })
-                .catch(error => {
-                    console.error('Sign-in error:', error.code, error.message);
-                    signinResult.textContent = error.message;
-                    signinResult.style.color = '#dc2626';
-                });
-        });
-
-        // Google Sign In
-        googleSigninBtn.addEventListener('click', () => {
-            const provider = new GoogleAuthProvider();
-            signInWithPopup(auth, provider)
-                .then(() => {
-                    signinResult.textContent = 'Signed in with Google successfully!';
-                    signinResult.style.color = '#16a34a';
-                    closeAuthModal();
-                })
-                .catch(error => {
-                    console.error('Google Sign-in error:', error.code, error.message);
-                    signinResult.textContent = error.message;
-                    signinResult.style.color = '#dc2626';
-                });
-        });
-
-        // Sign Up
-        signupBtn.addEventListener('click', () => {
-            const email = signupEmail.value.trim();
-            const password = signupPassword.value.trim();
-            signupResult.textContent = '';
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-
-            if (!email) {
-                document.getElementById('signup-email-error').classList.add('active');
-                return;
-            }
-            if (!password || password.length < 6) {
-                document.getElementById('signup-password-error').classList.add('active');
-                return;
-            }
-
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    signupResult.textContent = 'Account created successfully!';
-                    signupResult.style.color = '#16a34a';
-                    closeAuthModal();
-                })
-                .catch(error => {
-                    console.error('Sign-up error:', error.code, error.message);
-                    signupResult.textContent = error.message;
-                    signupResult.style.color = '#dc2626';
-                });
-        });
-
-        // Sign Out
-        signoutBtn.addEventListener('click', () => {
-            signOut(auth)
-                .then(() => {
-                    console.log('User signed out');
-                })
-                .catch(error => {
-                    console.error('Sign-out error:', error.code, error.message);
-                    alert('Error signing out: ' + error.message);
-                });
-        });
-
-        // Load Booking History
-        function loadBookingHistory(uid) {
-            console.log('Loading installation booking history for user:', uid);
-            if (!uid) {
-                console.error('No user ID provided');
-                bookingHistory.innerHTML = '<tr><td colspan="12" class="text-center text-red-600">Error: Please sign in to view history.</td></tr>';
-                return;
-            }
-
-            const q = query(collection(db, 'installations'), where('userId', '==', uid), orderBy('timestamp', 'desc'));
-            getDocs(q)
-                .then(querySnapshot => {
-                    console.log('Firestore query returned', querySnapshot.size, 'documents');
-                    bookingHistory.innerHTML = `
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Phone</th>
-                                <th>Installation Type</th>
-                                <th>No. of Cameras</th>
-                                <th>Price</th>
-                                <th>Invoice Number</th>
-                                <th>DVR/NVR Serial Number</th>
-                                <th>Password</th>
-                                <th>Preferred Date</th>
-                                <th>Comments</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                    `;
-                    console.log('Table initialized with 12 columns');
-                    if (querySnapshot.empty) {
-                        bookingHistory.innerHTML += '<tr><td colspan="12" class="text-center text-gray-700">No installation bookings found.</td></tr>';
-                        return;
-                    }
-                    querySnapshot.forEach(doc => {
-                        const booking = doc.data();
-                        console.log('Rendering booking:', booking);
-                        const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
-                        const preferredDate = booking.preferredDate ? new Date(booking.preferredDate).toLocaleDateString() : 'N/A';
-                        const statusClass = booking.status === 'Completed' ? 'status-completed' :
-                                           booking.status === 'Pending' ? 'status-pending' :
-                                           booking.status === 'Cancelled' ? 'status-cancelled' : '';
-                        bookingHistory.innerHTML += `
-                            <tr class="${statusClass}">
-                                <td>${date}</td>
-                                <td>${booking.name || 'N/A'}</td>
-                                <td>${booking.phone || 'N/A'}</td>
-                                <td>${booking.installationType || 'N/A'}</td>
-                                <td>${booking.numCameras || 'N/A'}</td>
-                                <td>${booking.price ? `₹${booking.price}` : 'N/A'}</td>
-                                <td>${booking.invoiceNumber || 'N/A'}</td>
-                                <td>${booking.serialNumber || 'N/A'}</td>
-                                <td>${booking.passwords || 'N/A'}</td>
-                                <td>${preferredDate}</td>
-                                <td>${booking.comments || 'N/A'}</td>
-                                <td>${booking.status || 'Pending'}</td>
-                            </tr>
-                        `;
-                    });
-                    bookingHistory.innerHTML += '</tbody>';
-                    console.log('Table rendering complete');
-                })
-                .catch(error => {
-                    console.error('Firestore query error:', error.code, error.message);
-                    bookingHistory.innerHTML = `<tr><td colspan="12" class="text-center text-red-600">Error loading history: ${error.message}</td></tr>`;
-                });
-        }
-
-        // Preview button
-        previewBtn.addEventListener('click', () => {
-            console.log('Preview button clicked');
-            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
-            result.classList.remove('active');
-
-            // Validate inputs
-            let hasError = false;
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const installationType = document.getElementById('installationType').value;
-            const numCameras = document.getElementById('numCameras').value;
-            const preferredDate = document.getElementById('preferredDate').value;
-            const comments = document.getElementById('comments').value.trim();
-
-            if (!name) {
-                document.getElementById('name-error').classList.add('active');
-                hasError = true;
-            }
-            if (!phone || !/^[0-9]{10}$/.test(phone)) {
-                document.getElementById('phone-error').classList.add('active');
-                hasError = true;
-            }
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                document.getElementById('email-error').classList.add('active');
-                hasError = true;
-            }
-            if (!address) {
-                document.getElementById('address-error').classList.add('active');
-                hasError = true;
-            }
-            if (!installationType) {
-                document.getElementById('installationType-error').classList.add('active');
-                hasError = true;
-            }
-            if (!numCameras || numCameras < 1) {
-                document.getElementById('numCameras-error').classList.add('active');
-                hasError = true;
-            }
-            if (!preferredDate) {
-               orange;                document.getElementById('preferredDate-error').classList.add('active');
-                hasError = true;
-            }
-            if (!comments) {
-                document.getElementById('comments-error').classList.add('active');
-                hasError = true;
-            }
-
-            if (hasError) {
-                console.log('Validation errors detected');
-                return;
-            }
-
-            // Show confirmation modal
-            confirmationModal.classList.add('active');
-            console.log('Confirmation modal displayed');
-        });
-
-        // Agree button (Firestore storage only)
-        agreeBtn.addEventListener('click', async () => {
-            console.log('Agree & Proceed button clicked');
-            const user = auth.currentUser;
-            if (!user) {
-                console.error('No user signed in');
-                result.textContent = 'Error: Please sign in to submit a booking.';
-                result.style.color = '#dc2626';
-                result.classList.add('active');
-                confirmationModal.classList.remove('active');
-                openAuthModal('signin');
-                return;
-            }
-
-            const bookingData = {
-                name: document.getElementById('name').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                address: document.getElementById('address').value.trim(),
-                installationType: document.getElementById('installationType').value,
-                numCameras: parseInt(document.getElementById('numCameras').value),
-                preferredDate: document.getElementById('preferredDate').value,
-                comments: document.getElementById('comments').value.trim(),
-                status: 'Pending'
+            // Mobile menu toggle
+            window.toggleMenu = function() {
+                const menu = document.getElementById('mobile-menu');
+                if (menu) {
+                    menu.classList.toggle('hidden');
+                    console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
+                } else {
+                    console.error('Mobile menu not found');
+                }
             };
-            console.log('Form data:', bookingData);
 
-            try {
-                // Store in Firestore
-                const docRef = await addDoc(collection(db, 'installations'), {
-                    userId: user.uid,
-                    ...bookingData,
-                    timestamp: new Date()
-                });
-                console.log('Booking stored in Firestore for user:', user.uid, 'Doc ID:', docRef.id);
+            // Form elements
+            const form = document.getElementById('installation-form');
+            const result = document.getElementById('result');
+            const previewBtn = document.getElementById('preview-btn');
+            const agreeBtn = document.getElementById('agree-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            const confirmationModal = document.getElementById('confirmation-modal');
+            const cancelModal = document.getElementById('cancel-modal');
+            const loginPrompt = document.getElementById('login-prompt');
 
-                // Show success message and redirect
-                result.textContent = 'Booking submitted successfully!';
-                result.classList.add('active');
-                form.reset();
-                confirmationModal.classList.remove('active');
-                setTimeout(() => {
-                    window.location.href = 'thankyou.html';
-                    console.log('Redirecting to thankyou.html');
-                }, 500);
-            } catch (error) {
-                console.error('Submission error:', error.code, error.message);
-                result.textContent = `Error: ${error.message}`;
-                result.style.color = '#dc2626';
-                result.classList.add('active');
-                confirmationModal.classList.remove('active');
+            // Auth elements
+            const authModal = document.getElementById('auth-modal');
+            const authBtn = document.getElementById('auth-btn');
+            const signoutBtn = document.getElementById('signout-btn');
+            const signinForm = document.getElementById('signin-form');
+            const signupForm = document.getElementById('signup-form');
+            const signinBtn = document.getElementById('signin-btn');
+            const googleSigninBtn = document.getElementById('google-signin-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            const signinEmail = document.getElementById('signin-email');
+            const signinPassword = document.getElementById('signin-password');
+            const signupEmail = document.getElementById('signup-email');
+            const signupPassword = document.getElementById('signup-password');
+            const signinResult = document.getElementById('signin-result');
+            const signupResult = document.getElementById('signup-result');
+            const userEmail = document.getElementById('user-email');
+            const historySection = document.getElementById('history-section');
+            const bookingHistory = document.getElementById('booking-history');
+
+            // Verify elements
+            console.log('Form:', form);
+            console.log('Result:', result);
+            console.log('Preview button:', previewBtn);
+            console.log('Agree button:', agreeBtn);
+            console.log('Cancel button:', cancelBtn);
+            console.log('Confirmation modal:', confirmationModal);
+            console.log('Cancel modal:', cancelModal);
+            console.log('Login prompt:', loginPrompt);
+            console.log('Auth modal:', authModal);
+            console.log('Auth button:', authBtn);
+            console.log('Signout button:', signoutBtn);
+            console.log('Signin form:', signinForm);
+            console.log('Signup form:', signupForm);
+            console.log('History section:', historySection);
+            console.log('Booking history:', bookingHistory);
+
+            if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationModal || !cancelModal ||
+                !loginPrompt || !authModal || !authBtn || !signoutBtn || !signinForm || !signupForm ||
+                !signinBtn || !googleSigninBtn || !signupBtn || !historySection || !bookingHistory) {
+                console.error('One or more elements not found');
+                return;
             }
-        });
 
-        // Cancel button
-        cancelBtn.addEventListener('click', () => {
-            console.log('Cancel button clicked');
-            confirmationModal.classList.remove('active');
-            cancelModal.classList.add('active');
-            console.log('Cancel modal displayed');
+            // Firebase Services
+            const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, addDoc, query, where, orderBy, getDocs } = window.firebaseServices || {};
+
+            if (!auth || !db) {
+                console.error('Firebase services not initialized');
+                signinResult.textContent = 'Error: Firebase not initialized. Please try again later.';
+                signinResult.style.color = '#dc2626';
+                return;
+            }
+
+            // Auth Modal Functions
+            window.openAuthModal = function(mode = 'signin') {
+                signinForm.classList.toggle('hidden', mode !== 'signin');
+                signupForm.classList.toggle('hidden', mode !== 'signup');
+                authModal.classList.add('active');
+                signinResult.textContent = '';
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                console.log('Auth modal opened in', mode, 'mode');
+            };
+
+            window.closeAuthModal = function() {
+                authModal.classList.remove('active');
+                signinEmail.value = '';
+                signinPassword.value = '';
+                signupEmail.value = '';
+                signupPassword.value = '';
+                console.log('Auth modal closed');
+            };
+
+            window.toggleAuthForm = function(mode) {
+                signinForm.classList.toggle('hidden', mode !== 'signin');
+                signupForm.classList.toggle('hidden', mode !== 'signup');
+                signinResult.textContent = '';
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                console.log('Toggled to', mode, 'form');
+            };
+
+            // Cancel Modal Functions
+            window.closeCancelModal = function() {
+                cancelModal.classList.remove('active');
+                console.log('Cancel modal closed');
+            };
+
+            // Firebase Authentication State
+            onAuthStateChanged(auth, user => {
+                if (user) {
+                    console.log('User signed in:', user.email);
+                    authBtn.classList.add('hidden');
+                    signoutBtn.classList.remove('hidden');
+                    userEmail.textContent = user.email;
+                    historySection.classList.remove('hidden');
+                    form.classList.remove('hidden');
+                    loginPrompt.classList.add('hidden');
+                    loadBookingHistory(user.uid);
+                } else {
+                    console.log('No user signed in');
+                    authBtn.classList.remove('hidden');
+                    signoutBtn.classList.add('hidden');
+                    userEmail.textContent = '';
+                    historySection.classList.add('hidden');
+                    form.classList.add('hidden');
+                    loginPrompt.classList.remove('hidden');
+                    bookingHistory.innerHTML = '';
+                }
+            });
+
+            // Open Sign-In Modal
+            authBtn.addEventListener('click', () => openAuthModal('signin'));
+
+            // Sign In
+            signinBtn.addEventListener('click', () => {
+                const email = signinEmail.value.trim();
+                const password = signinPassword.value.trim();
+                signinResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+                if (!email) {
+                    document.getElementById('signin-email-error').classList.add('active');
+                    return;
+                }
+                if (!password) {
+                    document.getElementById('signin-password-error').classList.add('active');
+                    return;
+                }
+
+                signInWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        signinResult.textContent = 'Signed in successfully!';
+                        signinResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Sign-in error:', error.code, error.message);
+                        signinResult.textContent = error.message;
+                        signinResult.style.color = '#dc2626';
+                    });
+            });
+
+            // Google Sign In
+            googleSigninBtn.addEventListener('click', () => {
+                const provider = new GoogleAuthProvider();
+                signInWithPopup(auth, provider)
+                    .then(() => {
+                        signinResult.textContent = 'Signed in with Google successfully!';
+                        signinResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Google Sign-in error:', error.code, error.message);
+                        signinResult.textContent = error.message;
+                        signinResult.style.color = '#dc2626';
+                    });
+            });
+
+            // Sign Up
+            signupBtn.addEventListener('click', () => {
+                const email = signupEmail.value.trim();
+                const password = signupPassword.value.trim();
+                signupResult.textContent = '';
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+                if (!email) {
+                    document.getElementById('signup-email-error').classList.add('active');
+                    return;
+                }
+                if (!password || password.length < 6) {
+                    document.getElementById('signup-password-error').classList.add('active');
+                    return;
+                }
+
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then(() => {
+                        signupResult.textContent = 'Account created successfully!';
+                        signupResult.style.color = '#16a34a';
+                        closeAuthModal();
+                    })
+                    .catch(error => {
+                        console.error('Sign-up error:', error.code, error.message);
+                        signupResult.textContent = error.message;
+                        signupResult.style.color = '#dc2626';
+                    });
+            });
+
+            // Sign Out
+            signoutBtn.addEventListener('click', () => {
+                signOut(auth)
+                    .then(() => {
+                        console.log('User signed out');
+                    })
+                    .catch(error => {
+                        console.error('Sign-out error:', error.code, error.message);
+                        alert('Error signing out: ' + error.message);
+                    });
+            });
+
+            // Load Booking History
+            function loadBookingHistory(uid) {
+                console.log('Loading installation booking history for user:', uid);
+                if (!uid) {
+                    console.error('No user ID provided');
+                    bookingHistory.innerHTML = '<tr><td colspan="8" class="text-center text-red-600">Error: Please sign in to view history.</td></tr>';
+                    return;
+                }
+
+                const q = query(collection(db, 'installations'), where('userId', '==', uid), orderBy('timestamp', 'desc'));
+                getDocs(q)
+                    .then(querySnapshot => {
+                        console.log('Firestore query returned', querySnapshot.size, 'documents');
+                        bookingHistory.innerHTML = `
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Installation Type</th>
+                                    <th>No. of Cameras</th>
+                                    <th>Preferred Date</th>
+                                    <th>Comments</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        `;
+                        if (querySnapshot.empty) {
+                            bookingHistory.innerHTML += '<tr><td colspan="8" class="text-center text-gray-700">No installation bookings found.</td></tr>';
+                            return;
+                        }
+                        querySnapshot.forEach(doc => {
+                            const booking = doc.data();
+                            console.log('Installation booking document:', booking);
+                            const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
+                            const preferredDate = booking.preferredDate ? new Date(booking.preferredDate).toLocaleDateString() : 'N/A';
+                            const statusClass = booking.status === 'Completed' ? 'status-completed' :
+                                               booking.status === 'Pending' ? 'status-pending' :
+                                               booking.status === 'Cancelled' ? 'status-cancelled' : '';
+                            bookingHistory.innerHTML += `
+                                <tr class="${statusClass}">
+                                    <td>${date}</td>
+                                    <td>${booking.name || 'N/A'}</td>
+                                    <td>${booking.phone || 'N/A'}</td>
+                                    <td>${booking.installationType || 'N/A'}</td>
+                                    <td>${booking.numCameras || 'N/A'}</td>
+                                    <td>${preferredDate}</td>
+                                    <td>${booking.comments || 'N/A'}</td>
+                                    <td>${booking.status || 'Pending'}</td>
+                                </tr>
+                            `;
+                        });
+                        bookingHistory.innerHTML += '</tbody>';
+                    })
+                    .catch(error => {
+                        console.error('Firestore query error:', error.code, error.message);
+                        bookingHistory.innerHTML = `<tr><td colspan="8" class="text-center text-red-600">Error loading history: ${error.message}</td></tr>`;
+                    });
+            }
+
+            // Preview button
+            previewBtn.addEventListener('click', () => {
+                console.log('Preview button clicked');
+                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+                result.classList.remove('active');
+
+                // Validate inputs
+                let hasError = false;
+                const name = document.getElementById('name').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const installationType = document.getElementById('installationType').value;
+                const numCameras = document.getElementById('numCameras').value;
+                const preferredDate = document.getElementById('preferredDate').value;
+                const comments = document.getElementById('comments').value.trim();
+
+                if (!name) {
+                    document.getElementById('name-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!phone || !/^[0-9]{10}$/.test(phone)) {
+                    document.getElementById('phone-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    document.getElementById('email-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!address) {
+                    document.getElementById('address-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!installationType) {
+                    document.getElementById('installationType-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!numCameras || numCameras < 1) {
+                    document.getElementById('numCameras-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!preferredDate) {
+                    document.getElementById('preferredDate-error').classList.add('active');
+                    hasError = true;
+                }
+                if (!comments) {
+                    document.getElementById('comments-error').classList.add('active');
+                    hasError = true;
+                }
+
+                if (hasError) {
+                    console.log('Validation errors detected');
+                    return;
+                }
+
+                // Show confirmation modal
+                confirmationModal.classList.add('active');
+                console.log('Confirmation modal displayed');
+            });
+
+            // Agree button (Firestore storage only)
+            agreeBtn.addEventListener('click', async () => {
+                console.log('Agree & Proceed button clicked');
+                const user = auth.currentUser;
+                if (!user) {
+                    console.error('No user signed in');
+                    result.textContent = 'Error: Please sign in to submit a booking.';
+                    result.style.color = '#dc2626';
+                    result.classList.add('active');
+                    confirmationModal.classList.remove('active');
+                    openAuthModal('signin');
+                    return;
+                }
+
+                const object = {
+                    name: document.getElementById('name').value.trim(),
+                    phone: document.getElementById('phone').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    address: document.getElementById('address').value.trim(),
+                    installationType: document.getElementById('installationType').value,
+                    numCameras: parseInt(document.getElementById('numCameras').value),
+                    preferredDate: document.getElementById('preferredDate').value,
+                    comments: document.getElementById('comments').value.trim(),
+                    status: 'Pending'
+                };
+                console.log('Form data:', object);
+
+                try {
+                    // Store in Firestore
+                    const docRef = await addDoc(collection(db, 'installations'), {
+                        userId: user.uid,
+                        ...object,
+                        timestamp: new Date()
+                    });
+                    console.log('Booking stored in Firestore for user:', user.uid, 'Doc ID:', docRef.id);
+
+                    // Complete booking process
+                    result.textContent = 'Booking submitted successfully!';
+                    result.classList.add('active');
+                    form.reset();
+                    confirmationModal.classList.remove('active');
+                    setTimeout(() => {
+                        window.location.href = 'thankyou.html';
+                        console.log('Redirecting to thankyou.html');
+                    }, 500);
+                } catch (error) {
+                    console.error('Submission error:', error.message);
+                    result.textContent = `Error: ${error.message}`;
+                    result.style.color = '#dc2626';
+                    result.classList.add('active');
+                    confirmationModal.classList.remove('active');
+                }
+            });
+
+            // Cancel button
+            cancelBtn.addEventListener('click', () => {
+                console.log('Cancel button clicked');
+                confirmationModal.classList.remove('active');
+                cancelModal.classList.add('active');
+                console.log('Cancel modal displayed');
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>
