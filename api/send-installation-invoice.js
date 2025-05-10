@@ -109,20 +109,16 @@ const generatePDF = (booking) => {
         .fontSize(12)
         .font('Helvetica-Bold')
         .fillColor('#333333')
-        .text('Terms & Conditions:', 50, rowTop + 160)
+        .text('Warranties & Services', 50, rowTop + 160)
         .fontSize(10)
         .font('Helvetica')
         .text('• 2 Years Manufacturing Warranty for Camera, DVR, SMPS, POE, NVR.', 50, rowTop + 180)
-        .text('• 3 Years Manufacturing Warranty for Hard Disk above 1TB. 2 Years Manufacturing Warranty for 500GB Hard Disk.', 50, rowTop + 195)
-        .text('• 1 Year Free Service for CCTV Camera System.', 50, rowTop + 210);
+        .text('• 3 Years Manufacturing Warranty for Hard Disk above 1TB.', 50, rowTop + 195)
+        .text('• 2 Years Manufacturing Warranty for Hard Disk above 500GB HDD', 50, rowTop + 210)
+        .text('• 1 Year Manufacturer Warranty for Biometrics.', 50, rowTop + 225)
+        .text('• 1 Year Free Service for CCTV Camera System.', 50, rowTop + 240)
 
-      // System-Generated Note
-      doc
-        .fontSize(10)
-        .font('Helvetica')
-        .fillColor('#333333')
-        .text('This is System Generated Invoice, Hence no Signature is Required', 50, rowTop + 240, { align: 'center' });
-
+        
       // Footer
       doc
         .fontSize(10)
@@ -130,8 +126,7 @@ const generatePDF = (booking) => {
         .fillColor('#333333')
         .text('Thank you for choosing EyeTech Securities!', 50, doc.page.height - 100, { align: 'center' })
         .text('For queries, contact us at eyetechsecurities@gmail.com or +91-9962835944', 50, doc.page.height - 85, { align: 'center' })
-        .text('Terms: Payment due within 30 days. Late payments may incur additional charges.', 50, doc.page.height - 70, { align: 'center' })
-        .text('Regards, Eye Tech Securities', 50, doc.page.height - 55, { align: 'center' }); // Added Regards
+        .text('This is System Generated Invoice, Hence no Signature is Required', 50, doc.page.height - 70, { align: 'center' }); // Added Regards
 
       doc.end();
     } catch (err) {
