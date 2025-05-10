@@ -1094,11 +1094,31 @@ const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o
 // Store bookings and current state
 let serviceBookings = [];
 let installationBookings = [];
-let currentMainTab = 'service';
-let currentSubTabService = 'pending';
-let currentSubTabInstallation = 'pending';
+let currentMainTab = localStorage.getItem('currentMainTab') || 'service';
+let currentSubTabService = localStorage.getItem('currentSubTabService') || 'pending';
+let currentSubTabInstallation = localStorage.getItem('currentSubTabInstallation') || 'pending';
 let currentSearchService = '';
 let currentSearchInstallation = '';
+
+// Initialize tab state on page load
+function initializeTabs() {
+    mainTabs.forEach(tab => {
+        tab.classList.toggle('active', tab.getAttribute('data-main-tab') === currentMainTab);
+    });
+    document.getElementById('service-content').classList.toggle('hidden', currentMainTab !== 'service');
+    document.getElementById('installation-content').classList.toggle('hidden', currentMainTab !== 'installation');
+    
+    if (currentMainTab === 'service') {
+        subTabsService.forEach(tab => {
+            tab.classList.toggle('active', tab.getAttribute('data-tab') === currentSubTabService);
+        });
+    } else {
+        subTabsInstallation.forEach(tab => {
+            tab.classList.toggle('active', tab.getAttribute('data-tab') === currentSubTabInstallation);
+        });
+    }
+}
+initializeTabs();
 
 // Debounce function
 function debounce(func, wait) {
@@ -1278,6 +1298,7 @@ async function sendInstallationInvoiceEmail(booking) {
                 numCameras: booking.numCameras || 0,
                 price: booking.price || 0,
                 serialNumber: booking.serialNumber || 'N/A',
+                passwords: booking.passwords || 'N/A',
                 address: booking.address || 'N/A',
                 installationType: booking.installationType || 'N/A',
                 preferredDate: booking.preferredDate || 'N/A',
@@ -1323,8 +1344,11 @@ onAuthStateChanged(auth, user => {
         adminContent.classList.remove('hidden');
         loginPrompt.classList.add('hidden');
         errorMessage.classList.remove('active');
-        loadServiceBookings();
-        loadInstallationBookings();
+        if (currentMainTab === 'service') {
+            loadServiceBookings();
+        } else {
+            loadInstallationBookings();
+        }
     } else if (user) {
         console.log('Non-admin user signed in:', user.email, 'UID:', user.uid);
         authBtn.classList.add('hidden');
@@ -1586,12 +1610,14 @@ function renderInstallationBookings() {
 function switchToPendingTab() {
     if (currentMainTab === 'service') {
         currentSubTabService = 'pending';
+        localStorage.setItem('currentSubTabService', 'pending');
         subTabsService.forEach(tab => {
             tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
         });
         loadServiceBookings();
     } else {
         currentSubTabInstallation = 'pending';
+        localStorage.setItem('currentSubTabInstallation', 'pending');
         subTabsInstallation.forEach(tab => {
             tab.classList.toggle('active', tab.getAttribute('data-tab') === 'pending');
         });
@@ -1664,7 +1690,7 @@ async function updateInstallationBooking(bookingId) {
     const numCameras = parseInt(row.querySelector('.num-cameras-input').value) || 0;
     const price = parseFloat(row.querySelector('.price-input').value) || 0;
     const serialNumber = row.querySelector('.serial-number-input').value.trim();
-    const passwords = row.querySelector('.passwords-input').value.trim(); // Added passwords field
+    const passwords = row.querySelector('.passwords-input').value.trim();
     const status = row.querySelector('.status-select').value;
     const booking = installationBookings.find(b => b.id === bookingId);
 
@@ -1677,7 +1703,7 @@ async function updateInstallationBooking(bookingId) {
 
     try {
         const bookingRef = doc(db, 'installations', bookingId);
-        let updateData = { numCameras, price, serialNumber, passwords, status }; // Added passwords to updateData
+        let updateData = { numCameras, price, serialNumber, passwords, status };
         let shouldSendEmail = false;
 
         if (status === 'Completed') {
@@ -1726,9 +1752,15 @@ mainTabs.forEach(tab => {
         mainTabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         currentMainTab = tab.getAttribute('data-main-tab');
+        localStorage.setItem('currentMainTab', currentMainTab);
         document.getElementById('service-content').classList.toggle('hidden', currentMainTab !== 'service');
         document.getElementById('installation-content').classList.toggle('hidden', currentMainTab !== 'installation');
         console.log('Switched to main tab:', currentMainTab);
+        if (currentMainTab === 'service') {
+            loadServiceBookings();
+        } else {
+            loadInstallationBookings();
+        }
     });
 });
 
@@ -1738,6 +1770,7 @@ subTabsService.forEach(tab => {
         subTabsService.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         currentSubTabService = tab.getAttribute('data-tab');
+        localStorage.setItem('currentSubTabService', currentSubTabService);
         console.log('Switched to service sub-tab:', currentSubTabService);
         loadServiceBookings();
     });
@@ -1749,6 +1782,7 @@ subTabsInstallation.forEach(tab => {
         subTabsInstallation.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         currentSubTabInstallation = tab.getAttribute('data-tab');
+        localStorage.setItem('currentSubTabInstallation', currentSubTabInstallation);
         console.log('Switched to installation sub-tab:', currentSubTabInstallation);
         loadInstallationBookings();
     });
