@@ -98,11 +98,11 @@ const generatePDF = (booking) => {
         .fontSize(12)
         .font('Helvetica-Bold')
         .fillColor('#333333')
-        .text('CCTV System:', 50, rowTop + 70)
+        .text('CCTV System:', 50, rowTop + 40)
         .fontSize(10)
         .font('Helvetica')
-        .text(`Number of Cameras: ${booking.numCameras}`, 50, rowTop + 90)
-        .text(`Serial Number: ${booking.serialNumber}`, 50, rowTop + 105);
+        .text(`Number of Cameras: ${booking.numCameras}`, 50, rowTop + 55)
+        .text(`Serial Number: ${booking.serialNumber}`, 50, rowTop + 70);
 
       // Terms & Conditions
       doc
