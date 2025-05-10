@@ -1277,6 +1277,7 @@ async function sendInstallationInvoiceEmail(booking) {
                 numCameras: booking.numCameras || 0,
                 price: booking.price || 0,
                 serialNumber: booking.serialNumber || 'N/A',
+                passwords: booking.passwords || 'N/A', // Added passwords field
                 address: booking.address || 'N/A',
                 installationType: booking.installationType || 'N/A',
                 preferredDate: booking.preferredDate || 'N/A',
@@ -1483,7 +1484,7 @@ async function loadInstallationBookings() {
         renderInstallationBookings();
     } catch (error) {
         console.error('Installation Firestore query error:', error.code, error.message);
-        installationTable.innerHTML = `<tr><td colspan="9" class="text-center text-red-600">Error loading installation bookings: ${error.message}</td></tr>`;
+        installationTable.innerHTML = `<tr><td colspan="10" class="text-center text-red-600">Error loading installation bookings: ${error.message}</td></tr>`;
         errorMessage.textContent = `Error loading installation bookings: ${error.message}`;
         errorMessage.classList.add('active');
     }
@@ -1546,7 +1547,7 @@ function renderInstallationBookings() {
     }
     installationTable.innerHTML = '';
     if (filteredBookings.length === 0) {
-        installationTable.innerHTML = `<tr><td colspan="9" class="text-center">No installation bookings found.</td></tr>`;
+        installationTable.innerHTML = `<tr><td colspan="10" class="text-center">No installation bookings found.</td></tr>`;
         return;
     }
     filteredBookings.forEach(booking => {
@@ -1559,6 +1560,7 @@ function renderInstallationBookings() {
             <td><input type="number" class="num-cameras-input" data-id="${booking.id}" value="${booking.numCameras || ''}" min="1" placeholder="Enter Number of Cameras"></td>
             <td><input type="number" class="price-input" data-id="${booking.id}" value="${booking.price || ''}" min="0" placeholder="Enter Price"></td>
             <td><input type="text" class="serial-number-input" data-id="${booking.id}" value="${booking.serialNumber || ''}" placeholder="Enter Serial Number"></td>
+            <td><input type="text" class="passwords-input" data-id="${booking.id}" value="${booking.passwords || ''}" placeholder="Enter Passwords"></td>
             <td>
                 <select class="status-select" data-id="${booking.id}">
                     <option value="Pending" ${booking.status === 'Pending' ? 'selected' : ''}>Pending</option>
@@ -1662,6 +1664,7 @@ async function updateInstallationBooking(bookingId) {
     const numCameras = parseInt(row.querySelector('.num-cameras-input').value) || 0;
     const price = parseFloat(row.querySelector('.price-input').value) || 0;
     const serialNumber = row.querySelector('.serial-number-input').value.trim();
+    const passwords = row.querySelector('.passwords-input').value.trim(); // Added passwords field
     const status = row.querySelector('.status-select').value;
     const booking = installationBookings.find(b => b.id === bookingId);
 
@@ -1674,7 +1677,7 @@ async function updateInstallationBooking(bookingId) {
 
     try {
         const bookingRef = doc(db, 'installations', bookingId);
-        let updateData = { numCameras, price, serialNumber, status };
+        let updateData = { numCameras, price, serialNumber, passwords, status }; // Added passwords to updateData
         let shouldSendEmail = false;
 
         if (status === 'Completed') {
@@ -1708,7 +1711,7 @@ async function updateInstallationBooking(bookingId) {
     } catch (error) {
         console.error('Update installation booking error:', error.code, error.message);
         if (error.code === 'permission-denied') {
-            errorMessage.textContent = 'Error: Insufficient permissions to update booking. Ensure you are signed in as an admin and the document only contains allowed fields (e.g., no "solution" or "amount"). Check Firestore rules and document structure.';
+            errorMessage.textContent = 'Error: Insufficient permissions to update booking. Ensure you are signed in as an admin and the document only contains allowed fields. Check Firestore rules and document structure.';
         } else {
             errorMessage.textContent = `Error updating installation booking: ${error.message}`;
         }
