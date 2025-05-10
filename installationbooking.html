@@ -732,62 +732,428 @@
 
     <!-- JavaScript -->
     <script>
-        const Brevo = require('@getbrevo/brevo');
+        document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded');
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const {
-    name,
-    phone,
-    email,
-    address,
-    installationType,
-    numCameras,
-    preferredDate,
-    comments
-  } = req.body;
-
-  // Validate required fields
-  if (!name || !phone || !email || !address || !installationType || !numCameras || !preferredDate || !comments) {
-    return res.status(400).json({ error: 'Missing required fields' });
-  }
-
-  try {
-    // Initialize Brevo client
-    const apiInstance = new Brevo.TransactionalEmailsApi();
-    const apiKey = apiInstance.authentications['apiKey'];
-    apiKey.apiKey = process.env.BREVO_API_KEY;
-
-    // Configure email with template ID
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
-    sendSmtpEmail.sender = { name: 'EyeTech Securities', email: 'no-reply@eyetechsecurities.in' };
-    sendSmtpEmail.to = [{ email: 'eyetechsecurities@gmail.com' }];
-    sendSmtpEmail.subject = 'New Installation Booking Submission';
-    sendSmtpEmail.templateId = parseInt(process.env.BREVO_INSTALLATION_BOOKING_TEMPLATE_ID);
-    sendSmtpEmail.params = {
-      customerName: name, // Map 'name' to 'customerName' for Brevo template
-      phone,
-      email,
-      address,
-      installationType,
-      numCameras: parseInt(numCameras),
-      preferredDate: preferredDate || 'N/A',
-      comments: comments || 'None'
+    // Mobile menu toggle
+    window.toggleMenu = function() {
+        const menu = document.getElementById('mobile-menu');
+        if (menu) {
+            menu.classList.toggle('hidden');
+            console.log('Mobile menu toggled:', menu.classList.contains('hidden') ? 'Hidden' : 'Visible');
+        } else {
+            console.error('Mobile menu not found');
+        }
     };
 
-    // Send email
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
-    console.log('Installation booking email sent to: eyetechsecurities@gmail.com');
+    // Form elements
+    const form = document.getElementById('installation-form');
+    const result = document.getElementById('result');
+    const previewBtn = document.getElementById('preview-btn');
+    const agreeBtn = document.getElementById('agree-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const cancelModal = document.getElementById('cancel-modal');
+    const loginPrompt = document.getElementById('login-prompt');
 
-    return res.status(200).json({ message: 'Installation booking email sent successfully' });
-  } catch (error) {
-    console.error('Error sending installation booking email:', error);
-    return res.status(500).json({ error: `Failed to send installation booking email: ${error.message}` });
-  }
-}
+    // Auth elements
+    const authModal = document.getElementById('auth-modal');
+    const authBtn = document.getElementById('auth-btn');
+    const signoutBtn = document.getElementById('signout-btn');
+    const signinForm = document.getElementById('signin-form');
+    const signupForm = document.getElementById('signup-form');
+    const signinBtn = document.getElementById('signin-btn');
+    const googleSigninBtn = document.getElementById('google-signin-btn');
+    const signupBtn = document.getElementById('signup-btn');
+    const signinEmail = document.getElementById('signin-email');
+    const signinPassword = document.getElementById('signin-password');
+    const signupEmail = document.getElementById('signup-email');
+    const signupPassword = document.getElementById('signup-password');
+    const signinResult = document.getElementById('signin-result');
+    const signupResult = document.getElementById('signup-result');
+    const userEmail = document.getElementById('user-email');
+    const historySection = document.getElementById('history-section');
+    const bookingHistory = document.getElementById('booking-history');
+
+    // Verify elements
+    console.log('Form:', form);
+    console.log('Result:', result);
+    console.log('Preview button:', previewBtn);
+    console.log('Agree button:', agreeBtn);
+    console.log('Cancel button:', cancelBtn);
+    console.log('Confirmation modal:', confirmationModal);
+    console.log('Cancel modal:', cancelModal);
+    console.log('Login prompt:', loginPrompt);
+    console.log('Auth modal:', authModal);
+    console.log('Auth button:', authBtn);
+    console.log('Signout button:', signoutBtn);
+    console.log('Signin form:', signinForm);
+    console.log('Signup form:', signupForm);
+    console.log('History section:', historySection);
+    console.log('Booking history:', bookingHistory);
+
+    if (!form || !result || !previewBtn || !agreeBtn || !cancelBtn || !confirmationModal || !cancelModal ||
+        !loginPrompt || !authModal || !authBtn || !signoutBtn || !signinForm || !signupForm ||
+        !signinBtn || !googleSigninBtn || !signupBtn || !historySection || !bookingHistory) {
+        console.error('One or more elements not found');
+        return;
+    }
+
+    // Firebase Services
+    const { auth, db, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signOut, onAuthStateChanged, collection, addDoc, query, where, orderBy, getDocs } = window.firebaseServices || {};
+
+    if (!auth || !db) {
+        console.error('Firebase services not initialized');
+        signinResult.textContent = 'Error: Firebase not initialized. Please try again later.';
+        signinResult.style.color = '#dc2626';
+        return;
+    }
+
+    // Auth Modal Functions
+    window.openAuthModal = function(mode = 'signin') {
+        signinForm.classList.toggle('hidden', mode !== 'signin');
+        signupForm.classList.toggle('hidden', mode !== 'signup');
+        authModal.classList.add('active');
+        signinResult.textContent = '';
+        signupResult.textContent = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+        console.log('Auth modal opened in', mode, 'mode');
+    };
+
+    window.closeAuthModal = function() {
+        authModal.classList.remove('active');
+        signinEmail.value = '';
+        signinPassword.value = '';
+        signupEmail.value = '';
+        signupPassword.value = '';
+        console.log('Auth modal closed');
+    };
+
+    window.toggleAuthForm = function(mode) {
+        signinForm.classList.toggle('hidden', mode !== 'signin');
+        signupForm.classList.toggle('hidden', mode !== 'signup');
+        signinResult.textContent = '';
+        signupResult.textContent = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+        console.log('Toggled to', mode, 'form');
+    };
+
+    // Cancel Modal Functions
+    window.closeCancelModal = function() {
+        cancelModal.classList.remove('active');
+        console.log('Cancel modal closed');
+    };
+
+    // Firebase Authentication State
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            console.log('User signed in:', user.email);
+            authBtn.classList.add('hidden');
+            signoutBtn.classList.remove('hidden');
+            userEmail.textContent = user.email;
+            historySection.classList.remove('hidden');
+            form.classList.remove('hidden');
+            loginPrompt.classList.add('hidden');
+            loadBookingHistory(user.uid);
+        } else {
+            console.log('No user signed in');
+            authBtn.classList.remove('hidden');
+            signoutBtn.classList.add('hidden');
+            userEmail.textContent = '';
+            historySection.classList.add('hidden');
+            form.classList.add('hidden');
+            loginPrompt.classList.remove('hidden');
+            bookingHistory.innerHTML = '';
+        }
+    });
+
+    // Open Sign-In Modal
+    authBtn.addEventListener('click', () => openAuthModal('signin'));
+
+    // Sign In
+    signinBtn.addEventListener('click', () => {
+        const email = signinEmail.value.trim();
+        const password = signinPassword.value.trim();
+        signinResult.textContent = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+        if (!email) {
+            document.getElementById('signin-email-error').classList.add('active');
+            return;
+        }
+        if (!password) {
+            document.getElementById('signin-password-error').classList.add('active');
+            return;
+        }
+
+        signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                signinResult.textContent = 'Signed in successfully!';
+                signinResult.style.color = '#16a34a';
+                closeAuthModal();
+            })
+            .catch(error => {
+                console.error('Sign-in error:', error.code, error.message);
+                signinResult.textContent = error.message;
+                signinResult.style.color = '#dc2626';
+            });
+    });
+
+    // Google Sign In
+    googleSigninBtn.addEventListener('click', () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+            .then(() => {
+                signinResult.textContent = 'Signed in with Google successfully!';
+                signinResult.style.color = '#16a34a';
+                closeAuthModal();
+            })
+            .catch(error => {
+                console.error('Google Sign-in error:', error.code, error.message);
+                signinResult.textContent = error.message;
+                signinResult.style.color = '#dc2626';
+            });
+    });
+
+    // Sign Up
+    signupBtn.addEventListener('click', () => {
+        const email = signupEmail.value.trim();
+        const password = signupPassword.value.trim();
+        signupResult.textContent = '';
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+
+        if (!email) {
+            document.getElementById('signup-email-error').classList.add('active');
+            return;
+        }
+        if (!password || password.length < 6) {
+            document.getElementById('signup-password-error').classList.add('active');
+            return;
+        }
+
+        createUserWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                signupResult.textContent = 'Account created successfully!';
+                signupResult.style.color = '#16a34a';
+                closeAuthModal();
+            })
+            .catch(error => {
+                console.error('Sign-up error:', error.code, error.message);
+                signupResult.textContent = error.message;
+                signupResult.style.color = '#dc2626';
+            });
+    });
+
+    // Sign Out
+    signoutBtn.addEventListener('click', () => {
+        signOut(auth)
+            .then(() => {
+                console.log('User signed out');
+            })
+            .catch(error => {
+                console.error('Sign-out error:', error.code, error.message);
+                alert('Error signing out: ' + error.message);
+            });
+    });
+
+    // Load Booking History
+    function loadBookingHistory(uid) {
+        console.log('Loading installation booking history for user:', uid);
+        if (!uid) {
+            console.error('No user ID provided');
+            bookingHistory.innerHTML = '<tr><td colspan="8" class="text-center text-red-600">Error: Please sign in to view history.</td></tr>';
+            return;
+        }
+
+        const q = query(collection(db, 'installations'), where('userId', '==', uid), orderBy('timestamp', 'desc'));
+        getDocs(q)
+            .then(querySnapshot => {
+                console.log('Firestore query returned', querySnapshot.size, 'documents');
+                bookingHistory.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Installation Type</th>
+                            <th>No. of Cameras</th>
+                            <th>Preferred Date</th>
+                            <th>Comments</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                `;
+                if (querySnapshot.empty) {
+                    bookingHistory.innerHTML += '<tr><td colspan="8" class="text-center text-gray-700">No installation bookings found.</td></tr>';
+                    return;
+                }
+                querySnapshot.forEach(doc => {
+                    const booking = doc.data();
+                    console.log('Installation booking document:', booking);
+                    const date = booking.timestamp?.toDate()?.toLocaleString() || 'N/A';
+                    const preferredDate = booking.preferredDate ? new Date(booking.preferredDate).toLocaleDateString() : 'N/A';
+                    const statusClass = booking.status === 'Completed' ? 'status-completed' :
+                                       booking.status === 'Pending' ? 'status-pending' :
+                                       booking.status === 'Cancelled' ? 'status-cancelled' : '';
+                    bookingHistory.innerHTML += `
+                        <tr class="${statusClass}">
+                            <td>${date}</td>
+                            <td>${booking.name || 'N/A'}</td>
+                            <td>${booking.phone || 'N/A'}</td>
+                            <td>${booking.installationType || 'N/A'}</td>
+                            <td>${booking.numCameras || 'N/A'}</td>
+                            <td>${preferredDate}</td>
+                            <td>${booking.comments || 'N/A'}</td>
+                            <td>${booking.status || 'Pending'}</td>
+                        </tr>
+                    `;
+                });
+                bookingHistory.innerHTML += '</tbody>';
+            })
+            .catch(error => {
+                console.error('Firestore query error:', error.code, error.message);
+                bookingHistory.innerHTML = `<tr><td colspan="8" class="text-center text-red-600">Error loading history: ${error.message}</td></tr>`;
+            });
+    }
+
+    // Preview button
+    previewBtn.addEventListener('click', () => {
+        console.log('Preview button clicked');
+        document.querySelectorAll('.error-message').forEach(el => el.classList.remove('active'));
+        result.classList.remove('active');
+
+        // Validate inputs
+        let hasError = false;
+        const name = document.getElementById('name').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const installationType = document.getElementById('installationType').value;
+        const numCameras = document.getElementById('numCameras').value;
+        const preferredDate = document.getElementById('preferredDate').value;
+        const comments = document.getElementById('comments').value.trim();
+
+        if (!name) {
+            document.getElementById('name-error').classList.add('active');
+            hasError = true;
+        }
+        if (!phone || !/^[0-9]{10}$/.test(phone)) {
+            document.getElementById('phone-error').classList.add('active');
+            hasError = true;
+        }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            document.getElementById('email-error').classList.add('active');
+            hasError = true;
+        }
+        if (!address) {
+            document.getElementById('address-error').classList.add('active');
+            hasError = true;
+        }
+        if (!installationType) {
+            document.getElementById('installationType-error').classList.add('active');
+            hasError = true;
+        }
+        if (!numCameras || numCameras < 1) {
+            document.getElementById('numCameras-error').classList.add('active');
+            hasError = true;
+        }
+        if (!preferredDate) {
+            document.getElementById('preferredDate-error').classList.add('active');
+            hasError = true;
+        }
+        if (!comments) {
+            document.getElementById('comments-error').classList.add('active');
+            hasError = true;
+        }
+
+        if (hasError) {
+            console.log('Validation errors detected');
+            return;
+        }
+
+        // Show confirmation modal
+        confirmationModal.classList.add('active');
+        console.log('Confirmation modal displayed');
+    });
+
+    // Agree button (Firestore storage and email notification)
+    agreeBtn.addEventListener('click', async () => {
+        console.log('Agree & Proceed button clicked');
+        const user = auth.currentUser;
+        if (!user) {
+            console.error('No user signed in');
+            result.textContent = 'Error: Please sign in to submit a booking.';
+            result.style.color = '#dc2626';
+            result.classList.add('active');
+            confirmationModal.classList.remove('active');
+            openAuthModal('signin');
+            return;
+        }
+
+        const bookingData = {
+            name: document.getElementById('name').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            address: document.getElementById('address').value.trim(),
+            installationType: document.getElementById('installationType').value,
+            numCameras: parseInt(document.getElementById('numCameras').value),
+            preferredDate: document.getElementById('preferredDate').value,
+            comments: document.getElementById('comments').value.trim(),
+            status: 'Pending'
+        };
+        console.log('Form data:', bookingData);
+
+        try {
+            // Store in Firestore
+            const docRef = await addDoc(collection(db, 'installations'), {
+                userId: user.uid,
+                ...bookingData,
+                timestamp: new Date()
+            });
+            console.log('Booking stored in Firestore for user:', user.uid, 'Doc ID:', docRef.id);
+
+            // Send email notification to admin
+            const response = await fetch('/api/send-installation-booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bookingData)
+            });
+
+            const emailResult = await response.json();
+            if (!response.ok) {
+                throw new Error(emailResult.error || 'Failed to send booking notification email');
+            }
+            console.log('Booking notification email sent to: eyetechsecurities@gmail.com');
+
+            // Complete booking process
+            result.textContent = 'Booking submitted successfully!';
+            result.classList.add('active');
+            form.reset();
+            confirmationModal.classList.remove('active');
+            setTimeout(() => {
+                window.location.href = 'thankyou.html';
+                console.log('Redirecting to thankyou.html');
+            }, 500);
+        } catch (error) {
+            console.error('Submission error:', error.message);
+            result.textContent = `Error: ${error.message}`;
+            result.style.color = '#dc2626';
+            result.classList.add('active');
+            confirmationModal.classList.remove('active');
+        }
+    });
+
+    // Cancel button
+    cancelBtn.addEventListener('click', () => {
+        console.log('Cancel button clicked');
+        confirmationModal.classList.remove('active');
+        cancelModal.classList.add('active');
+        console.log('Cancel modal displayed');
+    });
+});
     </script>
 </body>
 </html>
