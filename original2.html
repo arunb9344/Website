@@ -1095,8 +1095,8 @@ const ADMIN_UIDS = ['DbA2QGMEIZOovdBhIy001ZGHiIs1', 'nxUm95BAJiVhbU75pZFoKNVYt3o
 let serviceBookings = [];
 let installationBookings = [];
 let currentMainTab = localStorage.getItem('currentMainTab') || 'service';
-let currentSubTabService = 'pending'; // Always default to pending on refresh
-let currentSubTabInstallation = 'pending'; // Always default to pending on refresh
+let currentSubTabService = 'pending';
+let currentSubTabInstallation = 'pending';
 let currentSearchService = '';
 let currentSearchInstallation = '';
 
@@ -1266,7 +1266,10 @@ async function sendServiceInvoiceEmail(booking) {
 
 // Send Installation Invoice Email
 async function sendInstallationInvoiceEmail(booking) {
-    console.log('Attempting to send installation invoice email for booking:', booking);
+    console.log('Attempting to send installation invoice email for booking:', {
+        ...booking,
+        passwords: booking.passwords || 'N/A' // Log passwords for debugging
+    });
     if (!booking.email) {
         console.warn('No email provided for booking:', booking.id);
         errorMessage.textContent = 'Cannot send installation invoice: No email provided.';
@@ -1298,7 +1301,7 @@ async function sendInstallationInvoiceEmail(booking) {
                 numCameras: booking.numCameras || 0,
                 price: booking.price || 0,
                 serialNumber: booking.serialNumber || 'N/A',
-                passwords: booking.passwords || 'N/A',
+                passwords: booking.passwords || '', // Avoid client-side N/A fallback
                 address: booking.address || 'N/A',
                 installationType: booking.installationType || 'N/A',
                 preferredDate: booking.preferredDate || 'N/A',
